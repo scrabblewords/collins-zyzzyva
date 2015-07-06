@@ -3,7 +3,8 @@
 //
 // A form for specifying a search condition.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -41,7 +42,7 @@ class SearchConditionForm : public QWidget
 {
     Q_OBJECT
     public:
-    SearchConditionForm(QWidget* parent = 0, Qt::WFlags f = 0);
+    SearchConditionForm(QWidget* parent = 0, Qt::WindowFlags f = 0);
 
     SearchCondition getSearchCondition() const;
     void setSearchCondition(const SearchCondition& condition);

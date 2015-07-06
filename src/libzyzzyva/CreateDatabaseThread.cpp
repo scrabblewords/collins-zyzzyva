@@ -3,7 +3,8 @@
 //
 // A class for creating a database in the background.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -28,6 +29,7 @@
 #include "WordEngine.h"
 #include "Auxil.h"
 #include "Defs.h"
+#include "../simplecrypt/simplecrypt.h"
 #include <QtSql>
 
 const int MAX_DEFINITION_LINKS = 3;
@@ -244,7 +246,7 @@ CreateDatabaseThread::insertWords(QSqlDatabase& db, int& stepNum)
 
     QMap<QString, qint64> playabilityMap;
     QString playabilityFile = Auxil::getWordsDir() +
-        Auxil::getLexiconPrefix(lexiconName) + "-Playability.txt";
+        Auxil::getLexiconPrefix(lexiconName) + (lexiconName == LEXICON_CSW15 ? "-Playability.bin" : "-Playability.txt");
     importPlayability(playabilityFile, playabilityMap);
 
     QSqlQuery transactionQuery ("BEGIN TRANSACTION", db);
@@ -498,7 +500,16 @@ CreateDatabaseThread::updateProbabilityOrder(QSqlDatabase& db, int& stepNum)
 //---------------------------------------------------------------------------
 //  updateDefinitions
 //
-//! Update definitions of words in the database.
+//! Update definitions of words in the database, from either an encrypted/
+//! obfuscated binary file, or a text file.
+//!
+//! (JGM) Assumes:
+//!     * An encrypted .bin associated with a db has CRLF line endings. *
+//!     The file has a single header line if the lexicon is not Custom.
+//!
+//! ** IMPORTANT ** For encrypted lexicon files, this is very weak security,
+//! since the key is hardcoded here and this project is open source.
+//! Prevents only casual snooping of the binary file.
 //
 //! @param db the database
 //! @param stepNum the current step number
@@ -513,25 +524,68 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
 
     QMap<QString, QString> definitionMap;
     QFile definitionFile (definitionFilename);
-    if (definitionFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+
+      // (JGM)
+//    QFile debugFile (definitionFilename + "-debug.txt");
+//    debugFile.open(QIODevice::WriteOnly);
+
+      if (lexiconName == LEXICON_CSW15) {   // (JGM) definitionFile is encrypted.
+        if (!definitionFile.open(QIODevice::ReadOnly)) {
+            return;
+        }
+        QByteArray *fileBlob = new QByteArray(definitionFile.readAll());
+        definitionFile.close();
+
+        // (JGM) Discard header line if appropriate.
+        if (lexiconName != LEXICON_CUSTOM)
+            fileBlob->remove(0, fileBlob->indexOf('\n') + 1);
+
+        SimpleCrypt crypto(Q_UINT64_C(0x0000000000000000));
+        QByteArray *plaintextBlob = new QByteArray(crypto.decryptToByteArray(*fileBlob));
+        delete fileBlob; fileBlob = 0;
+
+        char *plaintext = new char[plaintextBlob->size() + 1];
+        strcpy(plaintext, plaintextBlob->constData());
+        delete plaintextBlob; plaintextBlob = 0;
+
+        char buffer[MAX_INPUT_LINE_LEN * 2 + 1];
+        int lineLength;
+        char *nextNewline;
         bool readNewline = true;
-        char* buffer = new char[MAX_INPUT_LINE_LEN * 2 + 1];
-        while (definitionFile.readLine(buffer, MAX_INPUT_LINE_LEN) > 0) {
-            QString line (buffer);
+        while (1) {
+            nextNewline = strchr(plaintext, '\n');
+            if (!nextNewline) break;
+
+            lineLength = nextNewline - plaintext + 1;
+            if (lineLength <= MAX_INPUT_LINE_LEN - 1) {
+                //buffer = new char[lineLength + 1];
+                memcpy(buffer, plaintext, (lineLength) * sizeof(char));
+                buffer[lineLength] = '\0';
+                plaintext = nextNewline + 1;
+            }
+            else {
+                //buffer = new char[MAX_INPUT_LINE_LEN];
+                memcpy(buffer, plaintext, (MAX_INPUT_LINE_LEN - 1) * sizeof(char));
+                buffer[MAX_INPUT_LINE_LEN - 1] = '\0';
+                plaintext += (MAX_INPUT_LINE_LEN - 1);
+            }
+            QString line(buffer);
 
             // If first line didn't contain newline, skip subsequent reads
             // until we see a newline (effectively truncating long lines)
             bool skip = !readNewline;
-            readNewline = (line.right(1) == QString("\n"));
-            if (skip)
+            readNewline = line.endsWith("\n");
+            if (skip) {
                 continue;
+            }
 
             line = line.simplified();
             if (!line.length() || (line.at(0) == '#')) {
                 if ((stepNum % PROGRESS_STEP) == 0) {
                     if (cancelled) {
                         transactionQuery.exec("END TRANSACTION");
-                        delete buffer;
+                        //delete[] plaintext; plaintext = 0;           // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
+                        definitionFile.close();
                         return;
                     }
                     emit progress(stepNum);
@@ -549,16 +603,69 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
             if ((stepNum % PROGRESS_STEP) == 0) {
                 if (cancelled) {
                     transactionQuery.exec("END TRANSACTION");
-                    delete buffer;
+                    //delete[] plaintext; plaintext = 0;            // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
+                    definitionFile.close();
                     return;
                 }
                 emit progress(stepNum);
             }
             ++stepNum;
         }
-        delete buffer;
+        //delete[] plaintext; plaintext = 0;           // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
     }
+    else {   // (JGM) definitionFile is in plain text.
+        if (!definitionFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+            return;
+        }
 
+        // (JGM) Discard header line if appropriate.
+        if (lexiconName != LEXICON_CUSTOM)
+            definitionFile.readLine();
+
+        bool readNewline = true;
+        char buffer[MAX_INPUT_LINE_LEN * 2 + 1];
+        while (definitionFile.readLine(buffer, MAX_INPUT_LINE_LEN) > 0) {
+            QString line (buffer);
+
+            // If first line didn't contain newline, skip subsequent reads
+            // until we see a newline (effectively truncating long lines)
+            bool skip = !readNewline;
+            readNewline = (line.right(1) == QString("\n"));
+            if (skip)
+                continue;
+
+            line = line.simplified();
+            if (!line.length() || (line.at(0) == '#')) {
+                if ((stepNum % PROGRESS_STEP) == 0) {
+                    if (cancelled) {
+                        transactionQuery.exec("END TRANSACTION");
+                        definitionFile.close();
+                        return;
+                    }
+                    emit progress(stepNum);
+                }
+                ++stepNum;
+                continue;
+            }
+            QString word = line.section(' ', 0, 0).toUpper();
+            QString definition = line.section(' ', 1);
+
+            query.bindValue(0, definition);
+            query.bindValue(1, word);
+            query.exec();
+
+            if ((stepNum % PROGRESS_STEP) == 0) {
+                if (cancelled) {
+                    transactionQuery.exec("END TRANSACTION");
+                    definitionFile.close();
+                    return;
+                }
+                emit progress(stepNum);
+            }
+            ++stepNum;
+        }
+        definitionFile.close();
+    }
     transactionQuery.exec("END TRANSACTION");
 }
 
@@ -803,9 +910,16 @@ CreateDatabaseThread::getSubDefinition(const QString& word, const QString&
 //---------------------------------------------------------------------------
 //  importPlayability
 //
-//! Import playability values for a lexicon from a file.  The file is assumed
-//! to be in plain text format, containing one playability value and word per
-//! line.
+//! Import playability values for a lexicon from a file, from either an
+//! encrypted/obfuscated binary file, or a text file.
+//!
+//! (JGM) Assumes:
+//!     * An encrypted .bin associated with a db has CRLF line endings. *
+//!     The file has a single header line if the lexicon is not Custom.
+//!
+//! ** IMPORTANT ** For encrypted lexicon files, this is very weak security,
+//! since the key is hardcoded here and this project is open source.
+//! Prevents only casual snooping of the binary file.
 //
 //! @param lexicon the name of the lexicon
 //! @param filename the name of the file to import
@@ -819,39 +933,115 @@ CreateDatabaseThread::importPlayability(const QString& filename,
     playabilityMap.clear();
 
     QFile file (filename);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-        return 0;
 
-    QStringList words;
-    QSet<QString> alphagrams;
-    int imported = 0;
-    bool readNewline = true;
-    char* buffer = new char[MAX_INPUT_LINE_LEN * 2 + 1];
-    while (file.readLine(buffer, MAX_INPUT_LINE_LEN) > 0) {
-        QString line (buffer);
+    if (lexiconName == LEXICON_CSW15) {   // (JGM) Playability file is encrypted.
+      if (!file.open(QIODevice::ReadOnly)) {
+          return 0;
+      }
+      QByteArray *fileBlob = new QByteArray(file.readAll());
+      file.close();
 
-        // If first line didn't contain newline, skip subsequent reads
-        // until we see a newline (effectively truncating long lines)
-        bool skip = !readNewline;
-        readNewline = (line.right(1) == QString("\n"));
-        if (skip)
-            continue;
+      // (JGM) Discard header line if appropriate.
+      if (lexiconName != LEXICON_CUSTOM)
+          fileBlob->remove(0, fileBlob->indexOf('\n') + 1);
 
-        line = line.simplified();
-        if (line.isEmpty() || (line.at(0) == '#'))
-            continue;
-        bool ok = false;
-        qint64 playability = line.section(' ', 0, 0).toLongLong(&ok);
-        if (!ok)
-            continue;
-        QString word = line.section(' ', 1, 1);
-        if (word.isEmpty())
-            continue;
+      SimpleCrypt crypto(Q_UINT64_C(0x0000000000000000));
+      QByteArray *plaintextBlob = new QByteArray(crypto.decryptToByteArray(*fileBlob));
+      delete fileBlob; fileBlob = 0;
 
-        playabilityMap[word] = playability;
-        ++imported;
+      char *plaintext = new char[plaintextBlob->size() + 1];
+      //char plaintext[plaintextBlob->size() + 1];   // (JGM) Started attempt to fix plaintext memory release error!
+      strcpy(plaintext, plaintextBlob->constData());
+      delete plaintextBlob; plaintextBlob = 0;
+
+      int imported = 0;
+      char buffer[MAX_INPUT_LINE_LEN * 2 + 1];
+      int lineLength;
+      char *nextNewline;
+      bool readNewline = true;
+      while (1) {
+          nextNewline = strchr(plaintext, '\n');
+          if (!nextNewline) break;
+
+          lineLength = nextNewline - plaintext + 1;
+          if (lineLength <= MAX_INPUT_LINE_LEN - 1) {
+              //buffer = new char[lineLength + 1];
+              memcpy(buffer, plaintext, (lineLength) * sizeof(char));
+              buffer[lineLength] = '\0';
+              plaintext = nextNewline + 1;
+          }
+          else {
+              //buffer = new char[MAX_INPUT_LINE_LEN];
+              memcpy(buffer, plaintext, (MAX_INPUT_LINE_LEN - 1) * sizeof(char));
+              buffer[MAX_INPUT_LINE_LEN - 1] = '\0';
+              plaintext += (MAX_INPUT_LINE_LEN - 1);
+          }
+          QString line (buffer);
+
+          // If first line didn't contain newline, skip subsequent reads
+          // until we see a newline (effectively truncating long lines)
+          bool skip = !readNewline;
+          readNewline = line.endsWith("\n");
+          if (skip) {
+              continue;
+          }
+          line = line.simplified();
+          if (line.isEmpty() || (line.at(0) == '#')) {
+              continue;
+          }
+          bool ok = false;
+          qint64 playability = line.section(' ', 0, 0).toLongLong(&ok);
+          if (!ok) {
+              continue;
+          }
+          QString word = line.section(' ', 1, 1);
+          if (word.isEmpty()) {
+              continue;
+          }
+
+          playabilityMap[word] = playability;
+          ++imported;
+
+      }
+      //delete[] plaintext; plaintext = 0;          // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
+      return imported;
     }
-    delete[] buffer;
+    else {   // (JGM) Playability file is in plain text.
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return 0;
 
-    return imported;
+        // (JGM) Discard header line if appropriate.
+        if (lexiconName != LEXICON_CUSTOM)
+            file.readLine();
+
+        int imported = 0;
+        bool readNewline = true;
+        char buffer[MAX_INPUT_LINE_LEN * 2 + 1];
+        while (file.readLine(buffer, MAX_INPUT_LINE_LEN) > 0) {
+            QString line (buffer);
+
+            // If first line didn't contain newline, skip subsequent reads
+            // until we see a newline (effectively truncating long lines)
+            bool skip = !readNewline;
+            readNewline = (line.right(1) == QString("\n"));
+            if (skip)
+                continue;
+
+            line = line.simplified();
+            if (line.isEmpty() || (line.at(0) == '#'))
+                continue;
+            bool ok = false;
+            qint64 playability = line.section(' ', 0, 0).toLongLong(&ok);
+            if (!ok)
+                continue;
+            QString word = line.section(' ', 1, 1);
+            if (word.isEmpty())
+                continue;
+
+            playabilityMap[word] = playability;
+            ++imported;
+        }
+        file.close();
+        return imported;
+    }
 }

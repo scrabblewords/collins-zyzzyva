@@ -4,7 +4,8 @@
 // A full-screen dialog for Word Judge functionality, in which the user can
 // very easily judge the validity of one or more words.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -42,7 +43,7 @@ class JudgeDialog : public QDialog
     Q_OBJECT
     public:
     JudgeDialog(WordEngine* e, const QString& lex, const QString& pass =
-        QString(), QWidget* parent = 0, Qt::WFlags f = 0);
+        QString(), QWidget* parent = 0, Qt::WindowFlags f = 0);
 
     public slots:
     void textChanged();

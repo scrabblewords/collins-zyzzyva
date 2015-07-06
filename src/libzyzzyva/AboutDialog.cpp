@@ -3,7 +3,8 @@
 //
 // The about dialog.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -31,7 +32,7 @@
 #include <QTabWidget>
 #include <QVBoxLayout>
 
-const QString DIALOG_CAPTION = "About Zyzzyva";
+const QString DIALOG_CAPTION = "About Collins Zyzzyva";
 
 using namespace Defs;
 
@@ -43,7 +44,7 @@ using namespace Defs;
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-AboutDialog::AboutDialog(QWidget* parent, Qt::WFlags f)
+AboutDialog::AboutDialog(QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f)
 {
     QVBoxLayout* mainVlay = new QVBoxLayout(this);
@@ -65,7 +66,7 @@ AboutDialog::AboutDialog(QWidget* parent, Qt::WFlags f)
     aboutLabel->setAlignment(Qt::AlignHCenter);
     aboutLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     aboutLabel->setText(Auxil::getAboutString());
-    tabStack->addTab(aboutLabel, "Zyzzyva");
+    tabStack->addTab(aboutLabel, "Collins Zyzzyva");
 
     QLabel* thanksLabel = new QLabel;
     Q_CHECK_PTR(thanksLabel);

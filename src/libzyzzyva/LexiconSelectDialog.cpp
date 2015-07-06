@@ -3,7 +3,8 @@
 //
 // A dialog for selecting the lexicons to be loaded and used.
 //
-// Copyright 2008-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -33,7 +34,7 @@
 
 const QString DIALOG_CAPTION = "Select Lexicons";
 const QString INSTRUCTION_TEXT = "Select the lexicons to be loaded each time "
-    "the program is started, and the default lexicon to be used.";
+    "the programme is started, and the default lexicon to be used.";
 
 using namespace Defs;
 
@@ -45,7 +46,7 @@ using namespace Defs;
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-LexiconSelectDialog::LexiconSelectDialog(QWidget* parent, Qt::WFlags f)
+LexiconSelectDialog::LexiconSelectDialog(QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f)
 {
     QVBoxLayout* mainVlay = new QVBoxLayout(this);
@@ -87,21 +88,9 @@ LexiconSelectDialog::LexiconSelectDialog(QWidget* parent, Qt::WFlags f)
     mainGlay->addWidget(dateHeaderLabel, 0, 4, Qt::AlignHCenter);
 
     QStringList validLexicons;
-    validLexicons.append(LEXICON_OWL2);
-    validLexicons.append(LEXICON_OWL2_1);
-    validLexicons.append(LEXICON_OSPD4);
-    validLexicons.append(LEXICON_OSPD4_1);
     validLexicons.append(LEXICON_CSW12);
-    validLexicons.append(LEXICON_CSW07);
-    validLexicons.append(LEXICON_WWF);
-    validLexicons.append(LEXICON_CD);
-    validLexicons.append(LEXICON_ODS5);
-    validLexicons.append(LEXICON_FISE2009);
-    validLexicons.append(LEXICON_ZINGA);
+    validLexicons.append(LEXICON_CSW15);
     validLexicons.append(LEXICON_VOLOST);
-    validLexicons.append(LEXICON_ODS4);
-    validLexicons.append(LEXICON_OWL);
-    validLexicons.append(LEXICON_OSWI);
     validLexicons.append(LEXICON_CUSTOM);
 
     QStringListIterator it (validLexicons);
@@ -157,6 +146,9 @@ LexiconSelectDialog::LexiconSelectDialog(QWidget* parent, Qt::WFlags f)
                 QLabel* originLabel = new QLabel;
                 Q_CHECK_PTR(originLabel);
                 originLabel->setText(lexiconOrigin);
+                originLabel->setTextFormat(Qt::RichText);
+                originLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+                originLabel->setOpenExternalLinks(true);
                 mainGlay->addWidget(originLabel, row, 3);
             }
 

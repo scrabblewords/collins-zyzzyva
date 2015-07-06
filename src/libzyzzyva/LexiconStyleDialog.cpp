@@ -4,7 +4,8 @@
 // A dialog for selecting specialized display styles for words that belong to
 // a particular combination of lexicons.
 //
-// Copyright 2008-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -48,7 +49,7 @@ using namespace Defs;
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-LexiconStyleDialog::LexiconStyleDialog(QWidget* parent, Qt::WFlags f)
+LexiconStyleDialog::LexiconStyleDialog(QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f)
 {
     QVBoxLayout* mainVlay = new QVBoxLayout(this);

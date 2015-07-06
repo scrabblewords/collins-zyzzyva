@@ -3,7 +3,8 @@
 //
 // The dialog for saving a list of words.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -37,7 +38,7 @@ class WordListSaveDialog : public QDialog
 {
     Q_OBJECT
     public:
-    WordListSaveDialog(QWidget* parent = 0, Qt::WFlags f = 0);
+    WordListSaveDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~WordListSaveDialog();
 
     QList<WordAttribute> getSelectedAttributes() const;

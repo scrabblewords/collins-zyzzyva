@@ -3,7 +3,8 @@
 //
 // A widget for specifying a lexicon style.
 //
-// Copyright 2008-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -46,7 +47,7 @@ const int MAX_SYMBOL_LENGTH = 3;
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-LexiconStyleWidget::LexiconStyleWidget(QWidget* parent, Qt::WFlags f)
+LexiconStyleWidget::LexiconStyleWidget(QWidget* parent, Qt::WindowFlags f)
     : QWidget(parent, f)
 {
     QHBoxLayout* mainHlay = new QHBoxLayout(this);
@@ -59,21 +60,9 @@ LexiconStyleWidget::LexiconStyleWidget(QWidget* parent, Qt::WFlags f)
     mainHlay->addWidget(lexiconLabel);
 
     QStringList validLexicons;
-    validLexicons.append(LEXICON_CD);
-    validLexicons.append(LEXICON_CSW07);
     validLexicons.append(LEXICON_CSW12);
+    validLexicons.append(LEXICON_CSW15);
     validLexicons.append(LEXICON_CUSTOM);
-    validLexicons.append(LEXICON_ODS4);
-    validLexicons.append(LEXICON_ODS5);
-    validLexicons.append(LEXICON_FISE2009);
-    validLexicons.append(LEXICON_ZINGA);
-    validLexicons.append(LEXICON_OSPD4);
-    validLexicons.append(LEXICON_OSPD4_1);
-    validLexicons.append(LEXICON_OSWI);
-    validLexicons.append(LEXICON_OWL);
-    validLexicons.append(LEXICON_OWL2);
-    validLexicons.append(LEXICON_OWL2_1);
-    validLexicons.append(LEXICON_WWF);
     validLexicons.append(LEXICON_VOLOST);
     qSort(validLexicons.begin(), validLexicons.end(),
           Auxil::localeAwareLessThanQString);
@@ -81,7 +70,7 @@ LexiconStyleWidget::LexiconStyleWidget(QWidget* parent, Qt::WFlags f)
     QString defaultLexicon = MainSettings::getDefaultLexicon();
     int defaultIndex = validLexicons.indexOf(defaultLexicon);
     if (defaultIndex < 0)
-        defaultIndex = validLexicons.indexOf(LEXICON_OWL2);
+        defaultIndex = validLexicons.indexOf(LEXICON_CSW15);
 
     lexiconCombo = new QComboBox;
     Q_CHECK_PTR(lexiconCombo);

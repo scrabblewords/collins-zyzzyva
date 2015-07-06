@@ -4,7 +4,8 @@
 #
 # Create a Linux directory for the installer to use.
 #
-# Copyright 2006-2012 Boshvark Software, LLC.
+# Copyright 2015 Twilight Century Computing.
+# Copyright 2006-2012 North American SCRABBLE Players Association.
 #
 # This file is part of Zyzzyva.
 #
@@ -25,8 +26,10 @@
 
 set -e
 
-QTVER=4.3.2
+#QTVER=4.3.2
+QTVER=5.4\mingw491_32
 INSTDIR=installer
+QTDIR=E:\Qt\$QTVER
 
 if [ "$QTDIR" = "" ]; then
     QTDIR=/usr/local/Trolltech/Qt-$QTVER

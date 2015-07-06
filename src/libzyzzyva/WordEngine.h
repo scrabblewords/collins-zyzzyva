@@ -3,7 +3,8 @@
 //
 // A class to handle the loading and searching of words.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -100,6 +101,8 @@ class WordEngine : public QObject
     bool disconnectFromDatabase(const QString& lexicon);
     bool databaseIsConnected(const QString& lexicon) const;
     int importTextFile(const QString& lexicon, const QString& filename, bool
+                       loadDefinitions = true, QString* errString = 0);
+    int importBinaryFile(const QString& lexicon, const QString& filename, bool
                        loadDefinitions = true, QString* errString = 0);
     bool importDawgFile(const QString& lexicon, const QString& filename, bool
                         reverse = false, QString* errString = 0, quint16*

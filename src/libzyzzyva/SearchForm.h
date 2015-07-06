@@ -3,7 +3,8 @@
 //
 // A form for searching for words, patterns, anagrams, etc.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -41,7 +42,7 @@ class SearchForm : public ActionForm
 {
     Q_OBJECT
     public:
-    SearchForm(WordEngine* e, QWidget* parent = 0, Qt::WFlags f = 0);
+    SearchForm(WordEngine* e, QWidget* parent = 0, Qt::WindowFlags f = 0);
     QIcon getIcon() const;
     QString getTitle() const;
     QString getStatusString() const;

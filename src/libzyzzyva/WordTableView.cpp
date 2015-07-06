@@ -3,7 +3,8 @@
 //
 // A class derived from QTableView, used to display word lists.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -80,7 +81,8 @@ WordTableView::WordTableView(WordEngine* e, QWidget* parent)
     header()->setSortIndicatorShown(true);
     header()->setSortIndicator(WordTableModel::WORD_COLUMN,
         Qt::AscendingOrder);
-    header()->setClickable(true);
+    //header()->setClickable(true);
+    header()->setSectionsClickable(true);
     connect(header(), SIGNAL(sectionClicked(int)),
         SLOT(headerSectionClicked(int)));
 }

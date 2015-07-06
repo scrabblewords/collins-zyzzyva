@@ -3,7 +3,8 @@
 //
 // A form for displaying introductory help material.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -33,7 +34,7 @@ class IntroForm : public ActionForm
 {
     Q_OBJECT
     public:
-    IntroForm(QWidget* parent = 0, Qt::WFlags f = 0);
+    IntroForm(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~IntroForm() { }
     QIcon getIcon() const;
     QString getTitle() const;

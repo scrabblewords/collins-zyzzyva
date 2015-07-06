@@ -3,7 +3,8 @@
 //
 // A Directed Acyclic Word Graph class.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -744,7 +745,7 @@ WordGraph::addWordOld(const QString& w, bool reverse)
 
         // Empty node, so create a new node and link from its parent
         if (!node) {
-            node = new Node(c.toAscii());
+            node = new Node(c.toLatin1());
             (parentNode ? parentNode->child : (reverse ? rtop : top)) = node;
         }
 
@@ -752,7 +753,7 @@ WordGraph::addWordOld(const QString& w, bool reverse)
         else {
             while (node->letter != c) {
                 if (!node->next) {
-                    node->next = new Node(c.toAscii());
+                    node->next = new Node(c.toLatin1());
                 }
                 node = node->next;
             }

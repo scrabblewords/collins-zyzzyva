@@ -3,7 +3,8 @@
 //
 // A base class for main action forms.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -45,7 +46,7 @@ class ActionForm : public QFrame
     };
 
     public:
-    ActionForm(ActionFormType t, QWidget* parent = 0, Qt::WFlags f = 0)
+    ActionForm(ActionFormType t, QWidget* parent = 0, Qt::WindowFlags f = 0)
         : QFrame(parent, f), type(t) { }
     virtual ~ActionForm() { }
     virtual ActionFormType getType() const { return type; }

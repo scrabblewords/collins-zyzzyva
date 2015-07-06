@@ -3,7 +3,8 @@
 //
 // A dialog for displaying variations of a word, such as hooks, anagrams, etc.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -52,7 +53,7 @@ using namespace Defs;
 //---------------------------------------------------------------------------
 WordVariationDialog::WordVariationDialog(WordEngine* we, const QString& lex,
     const QString& word, WordVariationType variation, QWidget* parent,
-    Qt::WFlags f)
+    Qt::WindowFlags f)
     : QDialog(parent, f), wordEngine(we), lexicon(lex), topView(0), topModel(0),
     middleView(0), middleModel(0), bottomView(0), bottomModel(0)
 {

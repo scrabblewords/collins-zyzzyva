@@ -3,7 +3,8 @@
 //
 // A widget for displaying and manipulating a crossword game rack.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -35,7 +36,7 @@ class CrosswordGameRackWidget : public QFrame
     Q_OBJECT
 
     public:
-    CrosswordGameRackWidget(int player, QWidget* parent = 0, Qt::WFlags f = 0);
+    CrosswordGameRackWidget(int player, QWidget* parent = 0, Qt::WindowFlags f = 0);
 
     QSize minimumSizeHint() const;
     QSize sizeHint() const;

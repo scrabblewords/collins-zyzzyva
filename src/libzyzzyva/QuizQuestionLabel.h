@@ -5,7 +5,8 @@
 // currently does nothing special.  It only exists so objects of this class
 // can be distinguished from other QLabel objects when applying font settings.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -33,10 +34,10 @@ class QuizQuestionLabel : public QLabel
 {
     Q_OBJECT
     public:
-    QuizQuestionLabel(QWidget* parent = 0, Qt::WFlags f = 0)
+    QuizQuestionLabel(QWidget* parent = 0, Qt::WindowFlags f = 0)
         : QLabel(parent, f) { }
     QuizQuestionLabel(const QString& text, QWidget* parent = 0,
-                      Qt::WFlags f = 0)
+                      Qt::WindowFlags f = 0)
         : QLabel(text, parent, f) { }
 
     virtual ~QuizQuestionLabel() { }

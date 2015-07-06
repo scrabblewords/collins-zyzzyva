@@ -3,7 +3,8 @@
 //
 // The main settings for the word study application.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -42,7 +43,7 @@ const QString MainSettings::JUDGE_PREFS_GROUP = "Word Judge";
 const QString MainSettings::FONT_PREFS_GROUP = "Fonts";
 const QString MainSettings::WORD_LIST_PREFS_GROUP = "Word Tables";
 
-const QString SETTINGS_MAIN = "Zyzzyva";
+const QString SETTINGS_MAIN = "Collins Zyzzyva";
 const QString SETTINGS_PROGRAM_VERSION = "program_version";
 const QString SETTINGS_MAIN_WINDOW_POS = "main_window_pos";
 const QString SETTINGS_MAIN_WINDOW_SIZE = "main_window_size";
@@ -102,9 +103,9 @@ const QString SETTINGS_LETTER_DISTRIBUTION = "letter_distribution";
 const QString SETTINGS_JUDGE_SAVE_LOG = "judge_save_log";
 
 const bool    DEFAULT_AUTO_IMPORT = true;
-const QString DEFAULT_DEFAULT_LEXICON = Defs::LEXICON_OWL2;
+const QString DEFAULT_DEFAULT_LEXICON = Defs::LEXICON_CSW15;
 const bool    DEFAULT_DISPLAY_WELCOME = true;
-const QString DEFAULT_USER_DATA_DIR = Auxil::getHomeDir() + "/Zyzzyva";
+const QString DEFAULT_USER_DATA_DIR = Auxil::getHomeDir() + "/.collinszyzzyva";
 const bool    DEFAULT_USE_TILE_THEME = true;
 const QString DEFAULT_TILE_THEME = "tan-with-border";
 const bool    DEFAULT_SEARCH_SELECT_INPUT = true;
@@ -138,26 +139,8 @@ const bool    DEFAULT_SHOW_DEFINITIONS = true;
 const bool    DEFAULT_LOWER_CASE_WILDCARDS = false;
 const bool    DEFAULT_USE_LEXICON_STYLES = true;
 const QString DEFAULT_LEXICON_STYLES = QString(
-    "%1 and not %2: symbol +\n"
-    "%3 and not %4: symbol !\n"
-    "%5 and not %6: symbol +\n"
-    "%7 and not %8: symbol !\n"
-    "%9 and not %10: symbol #\n"
-    "%11 and not %12: symbol #\n"
-    "%13 and not %14: symbol +\n"
-    "%15 and not %16: symbol ^\n"
-    "%17 and not %18: symbol +\n"
-    "%19 and not %20: symbol +")
-    .arg(Defs::LEXICON_OWL2).arg(Defs::LEXICON_OWL)
-    .arg(Defs::LEXICON_OWL2).arg(Defs::LEXICON_OSPD4)
-    .arg(Defs::LEXICON_OWL2_1).arg(Defs::LEXICON_OWL)
-    .arg(Defs::LEXICON_OWL2_1).arg(Defs::LEXICON_OSPD4_1)
-    .arg(Defs::LEXICON_CSW07).arg(Defs::LEXICON_OWL2)
-    .arg(Defs::LEXICON_CSW12).arg(Defs::LEXICON_OWL2)
-    .arg(Defs::LEXICON_CSW12).arg(Defs::LEXICON_CSW07)
-    .arg(Defs::LEXICON_CSW07).arg(Defs::LEXICON_CSW12)
-    .arg(Defs::LEXICON_CSW07).arg(Defs::LEXICON_OSWI)
-    .arg(Defs::LEXICON_ODS5).arg(Defs::LEXICON_ODS4);
+    "%1 and not %2: symbol +")
+    .arg(Defs::LEXICON_CSW15).arg(Defs::LEXICON_CSW12);
 const QString DEFAULT_LETTER_DISTRIBUTION = "A:9 B:2 C:2 D:4 E:12 F:2 G:3 "
     "H:2 I:9 J:1 K:1 L:4 M:2 N:6 O:8 P:2 Q:1 R:6 S:4 T:6 U:4 V:2 W:2 X:1 "
     "Y:2 Z:1 _:2";

@@ -3,7 +3,8 @@
 //
 // A class to represent a crossword game move.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -213,10 +214,10 @@ CrosswordGameMove::setPlacement(const QString& placement)
 
     if (orientation == Horizontal) {
         row = aMatch.toInt() - 1;
-        column = bMatch[0].toUpper().toAscii() - 'A';
+        column = bMatch[0].toUpper().toLatin1() - 'A';
     }
     else {
         row = bMatch.toInt() - 1;
-        column = aMatch[0].toUpper().toAscii() - 'A';
+        column = aMatch[0].toUpper().toLatin1() - 'A';
     }
 }

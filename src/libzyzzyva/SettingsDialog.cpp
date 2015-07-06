@@ -3,7 +3,8 @@
 //
 // The settings dialog for the word study application.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -65,7 +66,7 @@ using namespace Defs;
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-SettingsDialog::SettingsDialog(QWidget* parent, Qt::WFlags f)
+SettingsDialog::SettingsDialog(QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f)
 {
     QVBoxLayout* mainVlay = new QVBoxLayout(this);

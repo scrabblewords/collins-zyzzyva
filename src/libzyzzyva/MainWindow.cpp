@@ -3,7 +3,8 @@
 //
 // The main window for the word study application.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -31,7 +32,7 @@
 #include "DatabaseRebuildDialog.h"
 #include "DefinitionDialog.h"
 #include "DefineForm.h"
-#include "HelpDialog.h"
+//#include "HelpDialog.h"
 #include "IntroForm.h"
 #include "JudgeDialog.h"
 #include "JudgeSelectDialog.h"
@@ -55,6 +56,7 @@
 #include <QLabel>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QProcess>
 #include <QProgressDialog>
 #include <QSignalMapper>
 #include <QStatusBar>
@@ -66,12 +68,12 @@
 
 MainWindow* MainWindow::instance = 0;
 
-const QString APPLICATION_TITLE = "Zyzzyva";
+const QString APPLICATION_TITLE = "Collins Zyzzyva";
 
 const QString IMPORT_FAILURE_TITLE = "Load Failed";
 const QString IMPORT_COMPLETE_TITLE = "Load Complete";
 
-const QString SETTINGS_MAIN = "/Zyzzyva";
+const QString SETTINGS_MAIN = "/Collins Zyzzyva";
 const QString SETTINGS_GEOMETRY = "/geometry";
 const QString SETTINGS_GEOMETRY_X = "/x";
 const QString SETTINGS_GEOMETRY_Y = "/y";
@@ -90,13 +92,20 @@ using namespace Defs;
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WFlags f)
+MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f)
     : QMainWindow(parent, f), splashScreen(splash),
       wordEngine(new WordEngine()), settingsDialog(new SettingsDialog(this)),
-      aboutDialog(new AboutDialog(this)),
-      helpDialog(new HelpDialog(QString(), this))
+      aboutDialog(new AboutDialog(this))//,
+      //helpDialog(new HelpDialog(QString(), this))
 {
     setSplashMessage("Creating interface...");
+    //printf("%d\n", qApp->cursorFlashTime());
+    // (JGM) Hack to properly display the cursor on Windows (7-specific?) when cursor blink is turned
+    // off.  Qt 5.4/5.5 thinks the value is -2ms instead of 0ms, causing inconsistent cursor display
+    // across different GUI events.  Blinkophiles won't notice a 2ms difference in the blink rate when
+    // using this application.
+    qApp->setCursorFlashTime(qApp->cursorFlashTime() + 2);
+    //printf("%d\n", qApp->cursorFlashTime());
 
     // File Menu
     QMenu* fileMenu = menuBar()->addMenu("&File");
@@ -361,6 +370,9 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WFlags f)
     detailsLabel = new QLabel;
     Q_CHECK_PTR(detailsLabel);
     detailsLabel->setFont(detailsFont);
+    detailsLabel->setTextFormat(Qt::RichText);
+    detailsLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    detailsLabel->setOpenExternalLinks(true);
     statusBar()->addWidget(detailsLabel);
 
     fixTrolltechConfig();
@@ -381,8 +393,8 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WFlags f)
     if (MainSettings::getDisplayWelcome())
         newIntroForm();
 
-    connect(helpDialog, SIGNAL(error(const QString&)),
-            SLOT(helpDialogError(const QString&)));
+//    connect(helpDialog, SIGNAL(error(const QString&)),
+//            SLOT(helpDialogError(const QString&)));
 
     splashScreen = 0;
     QTimer::singleShot(0, this, SLOT(displayLexiconError()));
@@ -507,7 +519,7 @@ MainWindow::processDatabaseErrors()
 
     QString caption = "Build databases?";
     QString message =
-        "For certain searches and quizzes to work correctly, Zyzzyva "
+        "For certain searches and quizzes to work correctly, Collins Zyzzyva "
         "must have a database of information about each lexicon in use.  "
         "Creating or updating these databases may take several minutes, "
         "but it will only need to be done once.  Here are the steps that "
@@ -1006,7 +1018,17 @@ MainWindow::displayAbout()
 void
 MainWindow::displayHelp()
 {
-    helpDialog->showPage(Auxil::getHelpDir() + "/index.html");
+//    helpDialog->showPage(Auxil::getHelpDir() + "/index.html");
+    QProcess *process = new QProcess;
+    QStringList args;
+    args << QLatin1String("-collectionFile")
+        << (Auxil::getHelpDir() + QLatin1String("/zyzzyva.qhc"))
+        << QLatin1String("-showUrl")
+        << QLatin1String("qthelp://twilightcenturycomputing.com/5.0.0/index.html")
+        << QLatin1String("-enableRemoteControl");
+    process->start(QLatin1String("assistant"), args);
+    if (!process->waitForStarted())
+        return;
 }
 
 //---------------------------------------------------------------------------
@@ -1038,12 +1060,12 @@ MainWindow::displayLexiconError()
 //
 //! @param message the error message
 //---------------------------------------------------------------------------
-void
-MainWindow::helpDialogError(const QString& message)
-{
-    QString caption = "Help Display Error";
-    QMessageBox::warning(this, caption, Auxil::dialogWordWrap(message));
-}
+//void
+//MainWindow::helpDialogError(const QString& message)
+//{
+//    QString caption = "Help Display Error";
+//    QMessageBox::warning(this, caption, Auxil::dialogWordWrap(message));
+//}
 
 //---------------------------------------------------------------------------
 //  closeCurrentTab
@@ -1356,7 +1378,7 @@ MainWindow::rebuildDatabase(const QString& lexicon)
     }
     else {
         definitionFilename = Auxil::getWordsDir() +
-            Auxil::getLexiconPrefix(lexicon) + ".txt";
+            Auxil::getLexiconPrefix(lexicon) + (lexicon == LEXICON_CSW15 ? ".bin" : ".txt");
     }
 
     QFileInfo fileInfo (dbFilename);
@@ -1372,8 +1394,8 @@ MainWindow::rebuildDatabase(const QString& lexicon)
     if (!ok) {
         QString caption = "Cannot remove database backup file";
         QString message = "Cannot remove database backup file: " +
-            tmpDbFilename + ".\nPlease close Zyzzyva, remove or rename the "
-            "file, then restart Zyzzyva.";
+            tmpDbFilename + ".\nPlease close Collins Zyzzyva, remove or rename the "
+            "file, then restart Collins Zyzzyva.";
         message = Auxil::dialogWordWrap(message);
         QMessageBox::warning(this, caption, message);
         return false;
@@ -1383,8 +1405,8 @@ MainWindow::rebuildDatabase(const QString& lexicon)
     if (!ok) {
         QString caption = "Cannot remove database file";
         QString message = "Cannot remove original database file: " +
-            dbFilename + ".\nPlease close Zyzzyva, remove or rename the "
-            "file, then restart Zyzzyva.";
+            dbFilename + ".\nPlease close Collins Zyzzyva, remove or rename the "
+            "file, then restart Collins Zyzzyva.";
         message = Auxil::dialogWordWrap(message);
         QMessageBox::warning(this, caption, message);
         tmpDbFile.rename(dbFilename);
@@ -1880,7 +1902,7 @@ MainWindow::updateSettings()
     if (prevVersion == currVersion)
         return;
 
-    // Add default CSW12 lexicon styles in 2.1.3
+    // Add default CSW15 lexicon styles in 2.1.3
     if (Auxil::lessThanVersion(prevVersion, "2.1.3") &&
        ((currVersion == "2.1.3") ||
         Auxil::lessThanVersion("2.1.3", currVersion)))
@@ -1889,22 +1911,10 @@ MainWindow::updateSettings()
         LexiconStyle addStyle;
         QList<LexiconStyle> addStyles;
 
-        addStyle.lexicon = Defs::LEXICON_CSW12;
-        addStyle.compareLexicon = Defs::LEXICON_OWL2;
-        addStyle.inCompareLexicon = false;
-        addStyle.symbol = "#";
-        addStyles.append(addStyle);
-
-        addStyle.lexicon = Defs::LEXICON_CSW12;
-        addStyle.compareLexicon = Defs::LEXICON_CSW07;
-        addStyle.inCompareLexicon = false;
-        addStyle.symbol = "+";
-        addStyles.append(addStyle);
-
-        addStyle.lexicon = Defs::LEXICON_CSW07;
+        addStyle.lexicon = Defs::LEXICON_CSW15;
         addStyle.compareLexicon = Defs::LEXICON_CSW12;
         addStyle.inCompareLexicon = false;
-        addStyle.symbol = "^";
+        addStyle.symbol = "+";
         addStyles.append(addStyle);
 
         // ### Create addStyleToList(bool overwrite) or something similar
@@ -1954,12 +1964,12 @@ MainWindow::makeUserDirs()
                        Auxil::getSearchDir() + "/predefined");
     }
 
-    renameLexicon(LEXICON_OLD_OWL, LEXICON_OWL);
-    renameLexicon(LEXICON_OLD_OWL2, LEXICON_OWL2);
-    renameLexicon(LEXICON_OLD_OSPD4, LEXICON_OSPD4);
-    renameLexicon(LEXICON_OLD_SOWPODS, LEXICON_OSWI);
-    renameLexicon(LEXICON_OLD_ODS, LEXICON_ODS4);
-    renameLexicon(LEXICON_OLD_CSW, LEXICON_CSW07);
+//    renameLexicon(LEXICON_OLD_OWL, LEXICON_OWL);
+//    renameLexicon(LEXICON_OLD_OWL2, LEXICON_OWL2);
+//    renameLexicon(LEXICON_OLD_OSPD4, LEXICON_OSPD4);
+//    renameLexicon(LEXICON_OLD_SOWPODS, LEXICON_OSWI);
+//    renameLexicon(LEXICON_OLD_ODS, LEXICON_ODS4);
+//    renameLexicon(LEXICON_OLD_CSW, LEXICON_CSW07);
 
     dir.mkpath(Auxil::getQuizDir() + "/saved");
     dir.mkpath(Auxil::getSearchDir() + "/saved");
@@ -2075,28 +2085,16 @@ MainWindow::importLexicon(const QString& lexicon)
             return true;
 
         QMap<QString, QString> prefixMap;
-        prefixMap[LEXICON_OWL] = "/North-American/OWL";
-        prefixMap[LEXICON_OWL2] = "/North-American/OWL2";
-        prefixMap[LEXICON_OWL2_1] = "/North-American/OWL2.1";
-        prefixMap[LEXICON_OSPD4] = "/North-American/OSPD4";
-        prefixMap[LEXICON_OSPD4_1] = "/North-American/OSPD4.1";
-        prefixMap[LEXICON_WWF] = "/North-American/WWF";
         prefixMap[LEXICON_VOLOST] = "/Antarctic/Volost";
-        prefixMap[LEXICON_OSWI] = "/British/OSWI";
-        prefixMap[LEXICON_CSW07] = "/British/CSW07";
         prefixMap[LEXICON_CSW12] = "/British/CSW12";
-        prefixMap[LEXICON_CD] = "/British/CD";
-        prefixMap[LEXICON_ODS4] = "/French/ODS4";
-        prefixMap[LEXICON_ODS5] = "/French/ODS5";
-        prefixMap[LEXICON_FISE2009] = "/Spanish/FISE2009";
-        prefixMap[LEXICON_ZINGA] = "/Italian/ZINGA";
+        prefixMap[LEXICON_CSW15] = "/British/CSW15";
 
         if (prefixMap.contains(lexicon)) {
             QString prefix = Auxil::getWordsDir() + prefixMap.value(lexicon);
             importFile =        prefix + ".dwg";
             reverseImportFile = prefix + "-R.dwg";
             checksumFile =      prefix + "-Checksums.txt";
-            playabilityFile =   prefix + "-Playability.txt";
+            playabilityFile =   prefix + (lexicon == LEXICON_CSW15 ? "-Playability.bin" : "-Playability.txt");
         }
     }
 
@@ -2134,6 +2132,7 @@ MainWindow::importLexicon(const QString& lexicon)
         ok = ok && importDawg(lexicon, reverseImportFile, true, &lexiconError,
                               &expectedReverseChecksum);
     }
+    // (JGM) ??? importFile = a custom lexicon's autoimportFile - what is that?
     else
         ok = importText(lexicon, importFile);
 
@@ -2154,8 +2153,14 @@ MainWindow::importLexicon(const QString& lexicon)
 int
 MainWindow::importText(const QString& lexicon, const QString& file)
 {
+    int imported;
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    int imported = wordEngine->importTextFile(lexicon, file, true);
+
+    if (lexicon == LEXICON_CSW15)
+        imported = wordEngine->importBinaryFile(lexicon, file, true);
+    else
+        imported = wordEngine->importTextFile(lexicon, file, true);
     QApplication::restoreOverrideCursor();
     return imported;
 }
@@ -2173,8 +2178,8 @@ int
 MainWindow::importStems(const QString& lexicon)
 {
     QStringList stemFiles;
-    stemFiles << (Auxil::getWordsDir() + "/North-American/6-letter-stems.txt");
-    stemFiles << (Auxil::getWordsDir() + "/North-American/7-letter-stems.txt");
+    stemFiles << (Auxil::getWordsDir() + "/British/6-letter-stems.txt");
+    stemFiles << (Auxil::getWordsDir() + "/British/7-letter-stems.txt");
 
     QString err;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));

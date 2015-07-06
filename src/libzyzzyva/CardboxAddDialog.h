@@ -3,7 +3,8 @@
 //
 // A dialog for adding words to the cardbox system.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -35,7 +36,7 @@ class CardboxAddDialog : public QDialog
 {
     Q_OBJECT
     public:
-    CardboxAddDialog(QWidget* parent = 0, Qt::WFlags f = 0);
+    CardboxAddDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~CardboxAddDialog() { }
 
     public:

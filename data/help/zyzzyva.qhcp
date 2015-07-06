@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QHelpCollectionProject version="1.0">
+    <assistant>
+        <title>Collins Zyzzyva Help</title>
+        <startPage>qthelp://twilightcenturycomputing.com/5.0.0/index.html</startPage>
+        <aboutMenuText>
+            <text>About Collins Zyzzyva</text>
+        </aboutMenuText>
+        <aboutDialog>
+            <file>./about.html</file>
+        </aboutDialog>
+        <cacheDirectory>.CollinsZyzzyva</cacheDirectory>
+    </assistant>
+    <docFiles>
+        <generate>
+            <file>
+                <input>zyzzyva.qhp</input>
+                <output>zyzzyva.qch</output>
+            </file>
+        </generate>
+        <register>
+            <file>zyzzyva.qch</file>
+        </register>
+    </docFiles>
+</QHelpCollectionProject>

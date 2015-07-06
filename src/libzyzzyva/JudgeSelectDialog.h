@@ -3,7 +3,8 @@
 //
 // A dialog for selecting a word judge lexicon.
 //
-// Copyright 2008-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -37,7 +38,7 @@ class JudgeSelectDialog : public QDialog
 {
     Q_OBJECT
     public:
-    JudgeSelectDialog(QWidget* parent = 0, Qt::WFlags f = 0);
+    JudgeSelectDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~JudgeSelectDialog();
 
     QString getLexicon() const;

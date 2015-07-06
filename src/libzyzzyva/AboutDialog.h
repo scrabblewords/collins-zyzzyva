@@ -3,7 +3,8 @@
 //
 // The about dialog.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -31,7 +32,7 @@ class AboutDialog : public QDialog
 {
     Q_OBJECT
     public:
-    AboutDialog(QWidget* parent = 0, Qt::WFlags f = 0);
+    AboutDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~AboutDialog();
 };
 

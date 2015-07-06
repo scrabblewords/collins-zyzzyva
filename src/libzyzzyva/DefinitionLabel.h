@@ -5,7 +5,8 @@
 // currently does nothing special.  It only exists so objects of this class
 // can be distinguished from other QLabel objects when applying font settings.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -33,10 +34,10 @@ class DefinitionLabel : public QLabel
 {
     Q_OBJECT
     public:
-    DefinitionLabel(QWidget* parent = 0, Qt::WFlags f = 0)
+    DefinitionLabel(QWidget* parent = 0, Qt::WindowFlags f = 0)
         : QLabel(parent, f) { }
     DefinitionLabel(const QString& text, QWidget* parent = 0,
-                    Qt::WFlags f = 0)
+                    Qt::WindowFlags f = 0)
         : QLabel(text, parent, f) { }
 
     virtual ~DefinitionLabel() { }

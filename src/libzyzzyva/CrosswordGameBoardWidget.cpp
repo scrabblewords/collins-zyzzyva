@@ -3,7 +3,8 @@
 //
 // A widget for displaying and manipulating a crossword game board.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -24,6 +25,7 @@
 #include "CrosswordGameGame.h"
 #include "Defs.h"
 #include <QPainter>
+#include <qdrawutil.h>
 
 using namespace Defs;
 
@@ -58,7 +60,7 @@ const QColor PLAYER2_LETTER_COLOR = QColor(0xb0, 0x00, 0x00);
 //! @param f widget flags
 //---------------------------------------------------------------------------
 CrosswordGameBoardWidget::CrosswordGameBoardWidget(CrosswordGameGame* g,
-    QWidget* parent, Qt::WFlags f)
+    QWidget* parent, Qt::WindowFlags f)
     : QFrame(parent, f), game(g)
 {
     setFrameStyle(QFrame::StyledPanel | QFrame::Raised);

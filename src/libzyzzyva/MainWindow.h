@@ -3,7 +3,8 @@
 //
 // The main window for the word study application.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -37,7 +38,7 @@
 
 class AboutDialog;
 class ActionForm;
-class HelpDialog;
+//class HelpDialog;
 class QuizSpec;
 class QuizEngine;
 class WordEngine;
@@ -48,7 +49,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     public:
     MainWindow(QWidget* parent = 0, QSplashScreen* splash = 0,
-               Qt::WFlags f = 0);
+               Qt::WindowFlags f = 0);
     ~MainWindow() { }
 
     static MainWindow* getInstance() { return instance; }
@@ -79,7 +80,7 @@ class MainWindow : public QMainWindow
     void displayAbout();
     void displayHelp();
     void displayLexiconError();
-    void helpDialogError(const QString& message);
+    //void helpDialogError(const QString& message);
     void closeCurrentTab();
     void currentTabChanged(int index);
     void tabTitleChanged(const QString& title);
@@ -148,7 +149,7 @@ class MainWindow : public QMainWindow
 
     SettingsDialog* settingsDialog;
     AboutDialog*    aboutDialog;
-    HelpDialog*     helpDialog;
+    //HelpDialog*     helpDialog;
 
     QString lexiconError;
     QMap<QString, int> dbErrors;

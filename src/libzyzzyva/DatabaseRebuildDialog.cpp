@@ -3,7 +3,8 @@
 //
 // A dialog for specifying lexicon databases to be rebuilt.
 //
-// Copyright 2008-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -42,7 +43,7 @@ using namespace Defs;
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-DatabaseRebuildDialog::DatabaseRebuildDialog(QWidget* parent, Qt::WFlags f)
+DatabaseRebuildDialog::DatabaseRebuildDialog(QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f)
 {
     QVBoxLayout* mainVlay = new QVBoxLayout(this);

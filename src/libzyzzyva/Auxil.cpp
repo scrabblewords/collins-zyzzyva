@@ -3,7 +3,8 @@
 //
 // Auxiliary functions.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -432,21 +433,9 @@ Auxil::getLexiconPrefix(const QString& lexicon)
 {
     static QMap<QString, QString> pmap;
     if (pmap.isEmpty()) {
-        pmap[LEXICON_OWL] = "/North-American/OWL";
-        pmap[LEXICON_OWL2] = "/North-American/OWL2";
-        pmap[LEXICON_OWL2_1] = "/North-American/OWL2.1";
-        pmap[LEXICON_OSPD4] = "/North-American/OSPD4";
-        pmap[LEXICON_OSPD4_1] = "/North-American/OSPD4.1";
-        pmap[LEXICON_WWF] = "/North-American/WWF";
         pmap[LEXICON_VOLOST] = "/Antarctic/Volost";
-        pmap[LEXICON_OSWI] = "/British/OSWI";
-        pmap[LEXICON_CSW07] = "/British/CSW07";
         pmap[LEXICON_CSW12] = "/British/CSW12";
-        pmap[LEXICON_CD] = "/British/CD";
-        pmap[LEXICON_ODS4] = "/French/ODS4";
-        pmap[LEXICON_ODS5] = "/French/ODS5";
-        pmap[LEXICON_FISE2009] = "/Spanish/FISE2009";
-        pmap[LEXICON_ZINGA] = "/Italian/ZINGA";
+        pmap[LEXICON_CSW15] = "/British/CSW15";
     }
     return pmap.value(lexicon);
 }
@@ -1337,34 +1326,10 @@ Auxil::stringToLexiconStyle(const QString& s)
 QString
 Auxil::lexiconToOrigin(const QString& lexicon)
 {
-    if (lexicon == LEXICON_OWL)
-        return "North American";
-    if (lexicon == LEXICON_OWL2)
-        return "North American";
-    if (lexicon == LEXICON_OWL2_1)
-        return "North American";
-    if (lexicon == LEXICON_OSPD4)
-        return "North American (School)";
-    if (lexicon == LEXICON_OSPD4_1)
-        return "North American (School)";
-    if (lexicon == LEXICON_WWF)
-        return "Words With Friends";
-    if (lexicon == LEXICON_OSWI)
-        return "British";
-    if (lexicon == LEXICON_CSW07)
-        return "British (WESPA HarperCollins copyright 2007)";
     if (lexicon == LEXICON_CSW12)
-        return "British (WESPA HarperCollins copyright 2011)";
-    if (lexicon == LEXICON_CD)
-        return "British (Contest)";
-    if (lexicon == LEXICON_ODS4)
-        return "French";
-    if (lexicon == LEXICON_ODS5)
-        return "French";
-    if (lexicon == LEXICON_FISE2009)
-        return "Spanish";
-    if (lexicon == LEXICON_ZINGA)
-        return "Italian";
+        return "<a href=\"http://www.collinsdictionary.com/word-games/scrabble-tools#terms\">British (© HarperCollins 2015, see T&Cs)</a>";
+    if (lexicon == LEXICON_CSW15)
+        return "<a href=\"http://www.collinsdictionary.com/word-games/scrabble-tools#terms\">British (© HarperCollins 2015, see T&Cs)</a>";
     if (lexicon == LEXICON_VOLOST)
         return "Antarctic";
     return QString();
@@ -1381,34 +1346,10 @@ Auxil::lexiconToOrigin(const QString& lexicon)
 QDate
 Auxil::lexiconToDate(const QString& lexicon)
 {
-    if (lexicon == LEXICON_OWL)
-        return QDate(2003, 7, 1);
-    if (lexicon == LEXICON_OWL2)
-        return QDate(2006, 3, 1);
-    if (lexicon == LEXICON_OWL2_1)
-        return QDate(2014, 8, 9);
-    if (lexicon == LEXICON_OSPD4)
-        return QDate(2006, 3, 1);
-    if (lexicon == LEXICON_OSPD4_1)
-        return QDate(2014, 4, 10);
-    if (lexicon == LEXICON_WWF)
-        return QDate(2011, 2, 1);
-    if (lexicon == LEXICON_OSWI)
-        return QDate(2002, 1, 14);
-    if (lexicon == LEXICON_CSW07)
-        return QDate(2007, 5, 15);
     if (lexicon == LEXICON_CSW12)
         return QDate(2012, 1, 1);
-    if (lexicon == LEXICON_CD)
-        return QDate(2010, 1, 1);
-    if (lexicon == LEXICON_ODS4)
-        return QDate(2004, 1, 1);
-    if (lexicon == LEXICON_ODS5)
-        return QDate(2008, 1, 1);
-    if (lexicon == LEXICON_FISE2009)
-        return QDate(2009, 4, 1);
-    if (lexicon == LEXICON_ZINGA)
-        return QDate(2010, 1, 1);
+    if (lexicon == LEXICON_CSW15)
+        return QDate(2015, 9, 1);
     if (lexicon == LEXICON_VOLOST)
         return QDate(2007, 4, 1);
     return QDate();
@@ -1425,13 +1366,13 @@ Auxil::lexiconToDate(const QString& lexicon)
 QString
 Auxil::lexiconToDetails(const QString& lexicon)
 {
-    if (lexicon == LEXICON_CSW07) {
-        return "The WESPA HarperCollins copyright 2007 word list (CSW07) "
-            "is copyright of HarperCollins and used with permission.";
-    }
     if (lexicon == LEXICON_CSW12) {
-        return "The WESPA HarperCollins copyright 2011 word list (CSW12) "
-            "is copyright of HarperCollins and used with permission.";
+        return "<a href=\"http://www.collinsdictionary.com/word-games/scrabble-tools#terms\">The © HarperCollins 2012 word list (CSW12) "
+            "is copyright of HarperCollins 2015 and used with permission.</a>";
+    }
+    if (lexicon == LEXICON_CSW15) {
+        return "<a href=\"http://www.collinsdictionary.com/word-games/scrabble-tools#terms\">The © HarperCollins 2015 word list (CSW15) "
+            "is copyright of HarperCollins 2015 and used with permission.</a>";
     }
     return QString();
 }
@@ -1448,7 +1389,7 @@ Auxil::lexiconToDetails(const QString& lexicon)
 QString
 Auxil::getUpdatedLexiconName(const QString& oldLexiconName)
 {
-    if (oldLexiconName == LEXICON_OLD_OWL)
+/*    if (oldLexiconName == LEXICON_OLD_OWL)
         return LEXICON_OWL;
     else if (oldLexiconName == LEXICON_OLD_OWL2)
         return LEXICON_OWL2;
@@ -1460,21 +1401,9 @@ Auxil::getUpdatedLexiconName(const QString& oldLexiconName)
         return LEXICON_ODS4;
     else if (oldLexiconName == LEXICON_OLD_CSW)
         return LEXICON_CSW07;
-    else if ((oldLexiconName == LEXICON_CUSTOM) ||
-             (oldLexiconName == LEXICON_OWL) ||
-             (oldLexiconName == LEXICON_OWL2) ||
-             (oldLexiconName == LEXICON_OWL2_1) ||
-             (oldLexiconName == LEXICON_WWF) ||
-             (oldLexiconName == LEXICON_CSW07) ||
+    else */if ((oldLexiconName == LEXICON_CUSTOM) ||
              (oldLexiconName == LEXICON_CSW12) ||
-             (oldLexiconName == LEXICON_CD) ||
-             (oldLexiconName == LEXICON_OSPD4) ||
-             (oldLexiconName == LEXICON_OSPD4_1) ||
-             (oldLexiconName == LEXICON_OSWI) ||
-             (oldLexiconName == LEXICON_ODS4) ||
-             (oldLexiconName == LEXICON_ODS5) ||
-             (oldLexiconName == LEXICON_FISE2009) ||
-             (oldLexiconName == LEXICON_ZINGA) ||
+             (oldLexiconName == LEXICON_CSW15) ||
              (oldLexiconName == LEXICON_VOLOST))
     {
         return oldLexiconName;

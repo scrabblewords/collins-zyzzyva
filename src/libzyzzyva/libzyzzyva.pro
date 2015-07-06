@@ -3,7 +3,8 @@
 #
 # Build configuration file for Zyzzyva using qmake.
 #
-# Copyright 2005-2012 Boshvark Software, LLC.
+# Copyright 2015 Twilight Century Computing.
+# Copyright 2005-2012 North American SCRABBLE Players Association.
 #
 # This file is part of Zyzzyva.
 #
@@ -25,7 +26,7 @@
 TEMPLATE = lib
 TARGET = zyzzyva
 CONFIG += qt thread warn_on assistant
-QT += sql xml network
+QT += sql xml network widgets gui webkit webkitwidgets
 
 ROOT = ../..
 DESTDIR = $$ROOT/bin
@@ -64,7 +65,7 @@ SOURCES = \
     DefineForm.cpp \
     DefinitionBox.cpp \
     DefinitionDialog.cpp \
-    HelpDialog.cpp \
+#    HelpDialog.cpp \
     IntroForm.cpp \
     IscConnectionThread.cpp \
     IscConverter.cpp \
@@ -102,7 +103,8 @@ SOURCES = \
     WordValidator.cpp \
     WordVariationDialog.cpp \
     ZApplication.cpp \
-    ZPushButton.cpp
+    ZPushButton.cpp \
+    ../simplecrypt/simplecrypt.cpp
 
 # Header files that must be run through moc
 HEADERS = \
@@ -125,7 +127,7 @@ HEADERS = \
     DefinitionDialog.h \
     DefinitionLabel.h \
     DefinitionTextEdit.h \
-    HelpDialog.h \
+#    HelpDialog.h \
     IntroForm.h \
     IscConnectionThread.h \
     JudgeDialog.h \
@@ -154,4 +156,7 @@ HEADERS = \
     WordValidator.h \
     WordVariationDialog.h \
     ZApplication.h \
-    ZPushButton.h
+    ZPushButton.h \
+    ../simplecrypt/simplecrypt.h
+
+FORMS +=

@@ -3,7 +3,8 @@
 //
 // A dialog for prompting the user for a quiz.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -46,7 +47,7 @@ class NewQuizDialog : public QDialog
 {
     Q_OBJECT
     public:
-    NewQuizDialog(QWidget* parent = 0, Qt::WFlags f = 0);
+    NewQuizDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~NewQuizDialog() { }
 
     QuizSpec getQuizSpec();

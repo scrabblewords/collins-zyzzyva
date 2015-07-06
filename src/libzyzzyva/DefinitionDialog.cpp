@@ -3,7 +3,8 @@
 //
 // The dialog for word definitions.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -48,7 +49,7 @@ using namespace Defs;
 //---------------------------------------------------------------------------
 DefinitionDialog::DefinitionDialog(WordEngine* e, const QString& lexicon,
                                    const QString& word, QWidget* parent,
-                                   Qt::WFlags f)
+                                   Qt::WindowFlags f)
     : QDialog(parent, f), engine(e)
 {
     QVBoxLayout* mainVlay = new QVBoxLayout(this);

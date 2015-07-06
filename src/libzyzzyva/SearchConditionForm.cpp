@@ -3,7 +3,8 @@
 //
 // A form for specifying a search condition.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -74,7 +75,7 @@ using namespace Defs;
 //! @param name the name of this widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-SearchConditionForm::SearchConditionForm(QWidget* parent, Qt::WFlags f)
+SearchConditionForm::SearchConditionForm(QWidget* parent, Qt::WindowFlags f)
     : QWidget(parent, f),
     letterValidator(new WordValidator(this)),
     patternValidator(new WordValidator(this)), legacy(false)

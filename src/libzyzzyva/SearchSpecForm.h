@@ -3,7 +3,8 @@
 //
 // A form for specifying a search specification.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -39,7 +40,7 @@ class SearchSpecForm : public QFrame
 {
     Q_OBJECT
     public:
-    SearchSpecForm(QWidget* parent = 0, Qt::WFlags f = 0);
+    SearchSpecForm(QWidget* parent = 0, Qt::WindowFlags f = 0);
     SearchSpec getSearchSpec() const;
     void setSearchSpec(const SearchSpec& spec);
     bool isValid() const;

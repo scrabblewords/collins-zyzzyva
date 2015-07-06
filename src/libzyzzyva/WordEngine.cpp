@@ -3,7 +3,8 @@
 //
 // A class to handle the loading and searching of words.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -26,11 +27,13 @@
 #include "LetterBag.h"
 #include "Auxil.h"
 #include "Defs.h"
+#include "../simplecrypt/simplecrypt.h"
 #include <QApplication>
 #include <QFile>
 #include <QRegExp>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QTextStream>
 #include <QVariant>
 #include <QVector>
 
@@ -141,7 +144,10 @@ WordEngine::databaseIsConnected(const QString& lexicon) const
 //
 //! Import words from a text file.  The file is assumed to be in plain text
 //! format, containing one word per line.
-//
+//!
+//! (JGM) Assumes:
+//!     The file has a single header line if the lexicon is not Custom.
+//!
 //! @param lexicon the name of the lexicon
 //! @param filename the name of the file to import
 //! @param loadDefinitions whether to load word definitions
@@ -171,6 +177,10 @@ WordEngine::importTextFile(const QString& lexicon, const QString& filename,
         return 0;
     }
 
+    // (JGM) Discard header line if appropriate.
+    if (lexicon != LEXICON_CUSTOM)
+        file.readLine();
+
     int imported = 0;
     char* buffer = new char[MAX_INPUT_LINE_LEN];
     while (file.readLine(buffer, MAX_INPUT_LINE_LEN) > 0) {
@@ -194,6 +204,125 @@ WordEngine::importTextFile(const QString& lexicon, const QString& filename,
     }
 
     delete[] buffer;
+    return imported;
+}
+
+//---------------------------------------------------------------------------
+//  importBinaryFile
+//
+//! (JGM)
+//! Import words from an encrypted/obfuscated binary file.  The file, once
+//! converted, is assumed to be in plain text format, containing one word per
+//! line.
+//! ** IMPORTANT ** This is very weak security, since the key is hardcoded
+//! here and this project is open source.  Prevents only casual snooping of
+//! binary file.
+//!
+//! //! Assumes:
+//!     * The encrypted .bin associated with the db has CRLF line endings. *
+//!     The file has a single header line if the lexicon is not Custom.
+//!
+//! @param lexicon the name of the lexicon
+//! @param filename the name of the file to import
+//! @param loadDefinitions whether to load word definitions
+//! @param errString returns the error string in case of error
+//! @return the number of words imported
+//---------------------------------------------------------------------------
+int
+WordEngine::importBinaryFile(const QString& lexicon, const QString& filename,
+                           bool loadDefinitions, QString* errString)
+{
+    // Delete old word graph if it exists
+    if (lexiconData.contains(lexicon))
+        delete lexiconData[lexicon]->graph;
+    else
+        lexiconData[lexicon] = new LexiconData;
+
+    WordGraph* graph = new WordGraph;
+    lexiconData[lexicon]->graph = graph;
+    lexiconData[lexicon]->lexiconFile = filename;
+
+    QFile file (filename);
+    if (!file.open(QIODevice::ReadOnly)) {
+        if (errString) {
+            *errString = "Can't open file '" + filename + "': " +
+                file.errorString();
+        }
+        return 0;
+    }
+
+    QByteArray *fileBlob = new QByteArray(file.readAll());
+    file.close();
+
+    // (JGM) Discard header line if appropriate.
+    if (lexicon != LEXICON_CUSTOM)
+        fileBlob->remove(0, fileBlob->indexOf('\n') + 1);
+
+    SimpleCrypt crypto(Q_UINT64_C(0x0000000000000000));
+    QByteArray *plaintextBlob = new QByteArray(crypto.decryptToByteArray(*fileBlob));
+    delete fileBlob; fileBlob = 0;
+//    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
+//      // check why we have an error, use the error code from crypto.lastError() for that.
+//      delete plaintextData;
+//      return;
+//    }
+
+    int imported = 0;
+    char *plaintext = new char[plaintextBlob->size() + 1];
+    strcpy(plaintext, plaintextBlob->constData());
+    delete plaintextBlob; plaintextBlob = 0;
+
+    char *nextNewline;
+    char buffer[MAX_INPUT_LINE_LEN * 2 + 1];
+    int lineLength;
+    bool readNewline = true;
+    while (1) {
+        nextNewline = strchr(plaintext, '\n');
+        if (!nextNewline) break;
+
+        lineLength = nextNewline - plaintext + 1;
+        if (lineLength <= MAX_INPUT_LINE_LEN - 1) {
+            //buffer = new char[lineLength + 1];
+            memcpy(buffer, plaintext, (lineLength) * sizeof(char));
+            buffer[lineLength] = '\0';
+            plaintext = nextNewline + 1;
+        }
+        else {
+            //buffer = new char[MAX_INPUT_LINE_LEN];
+            memcpy(buffer, plaintext, (MAX_INPUT_LINE_LEN - 1) * sizeof(char));
+            buffer[MAX_INPUT_LINE_LEN - 1] = '\0';
+            plaintext += (MAX_INPUT_LINE_LEN - 1);
+        }
+        QString line (buffer);
+
+        // If first line didn't contain newline, skip subsequent reads
+        // until we see a newline (effectively truncating long lines)
+        bool skip = !readNewline;
+        readNewline = line.endsWith("\n");
+        if (skip) {
+            continue;
+        }
+
+        line = line.simplified();
+        if (!line.length() || (line.at(0) == '#')) {
+            continue;
+        }
+        QString word = line.section(' ', 0, 0).toUpper();
+
+        if (!graph->containsWord(word)) {
+            QString alpha = Auxil::getAlphagram(word);
+            ++lexiconData[lexicon]->numAnagramsMap[alpha];
+        }
+
+        graph->addWord(word);
+        if (loadDefinitions) {
+            QString definition = line.section(' ', 1);
+            addDefinition(lexicon, word, definition);
+        }
+        ++imported;
+    }
+
+    //delete[] plaintext; plaintext = 0;            // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
     return imported;
 }
 

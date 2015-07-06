@@ -3,7 +3,8 @@
 #
 # Build configuration file for Zyzzyva tests using qmake.
 #
-# Copyright 2006-2012 Boshvark Software, LLC.
+# Copyright 2015 Twilight Century Computing.
+# Copyright 2006-2012 North American SCRABBLE Players Association.
 #
 # This file is part of Zyzzyva.
 #
@@ -25,7 +26,9 @@
 TEMPLATE = app
 TARGET = zyzzyva
 CONFIG += qt thread warn_on assistant
-QT += xml
+QT += sql xml network widgets gui
+#CONFIG += qt thread warn_on assistant
+#QT += xml gui
 
 ROOT = ../..
 DESTDIR = $$ROOT/bin
@@ -46,7 +49,7 @@ unix {
     LIBS = -lzyzzyva -L$$ROOT/bin
 }
 win32 {
-    LIBS = -lzyzzyva2 -L$$ROOT/bin
+    LIBS = -lzyzzyva5 -L$$ROOT/bin
 }
 
 # Source files

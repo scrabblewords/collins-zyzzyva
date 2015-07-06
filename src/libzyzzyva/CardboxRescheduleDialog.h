@@ -3,7 +3,8 @@
 //
 // A dialog for rescheduling words within the cardbox system.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -43,7 +44,7 @@ class CardboxRescheduleDialog : public QDialog
 {
     Q_OBJECT
     public:
-    CardboxRescheduleDialog(QWidget* parent = 0, Qt::WFlags f = 0);
+    CardboxRescheduleDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~CardboxRescheduleDialog() { }
 
     public:

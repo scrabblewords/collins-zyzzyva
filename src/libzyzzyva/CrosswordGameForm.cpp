@@ -3,7 +3,8 @@
 //
 // A form for playing a crossword game.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,7 +57,7 @@ const int SCORE_FONT_PIXEL_SIZE = 20;
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-CrosswordGameForm::CrosswordGameForm(QWidget* parent, Qt::WFlags f)
+CrosswordGameForm::CrosswordGameForm(QWidget* parent, Qt::WindowFlags f)
     : ActionForm(CrosswordGameFormType, parent, f),
       aSeconds(0), bSeconds(0), aOvertime(false), bOvertime(false),
       myPlayerNum(0), gameStatus(NoGame), game(new CrosswordGameGame()),
@@ -991,7 +992,9 @@ CrosswordGameForm::processLogin(const QString& string)
     // VOID     v
     // 5-POINTS f
 
-    char challnum = moreVars[1].toAscii();
+    //QByteArray moreVars_ba = moreVars.toLatin1();
+    char challnum = moreVars[1].toLatin1();
+    //char challnum = moreVars_ba[1];
     QString challenge;
     switch (challnum) {
         case '0': challenge = "SINGLE"; break;

@@ -3,7 +3,8 @@
 //
 // Definitions.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -29,7 +30,7 @@
 #include <QString>
 
 namespace Defs {
-    const QString ZYZZYVA_VERSION = "2.2.3";
+    const QString ZYZZYVA_VERSION = "5.0.0";
     const int CURRENT_DATABASE_VERSION = 4;
     const QString IMPORT_CHOOSER_TITLE = "Choose a Word List";
     const QString EMPTY_DEFINITION = "(no definition)";
@@ -46,22 +47,10 @@ namespace Defs {
     const QString QUIZ_LETTERS_RANDOM = "Random";
     const QString QUIZ_LETTERS_VOWELS_FIRST = "Vowels First";
     const QString QUIZ_LETTERS_CONSONANTS_FIRST = "Consonants First";
-    const QString LEXICON_CD = "CD";
-    const QString LEXICON_CSW07 = "CSW07";
     const QString LEXICON_CSW12 = "CSW12";
+    const QString LEXICON_CSW15 = "CSW15";
     const QString LEXICON_CUSTOM = "Custom";
-    const QString LEXICON_FISE2009 = "FISE2009";
-    const QString LEXICON_ODS4 = "ODS4";
-    const QString LEXICON_ODS5 = "ODS5";
-    const QString LEXICON_OSPD4 = "OSPD4";
-    const QString LEXICON_OSPD4_1 = "OSPD4.1";
-    const QString LEXICON_OSWI = "OSWI";
-    const QString LEXICON_OWL = "OWL";
-    const QString LEXICON_OWL2 = "OWL2";
-    const QString LEXICON_OWL2_1 = "OWL2.1";
-    const QString LEXICON_WWF = "WWF";
     const QString LEXICON_VOLOST = "Volost";
-    const QString LEXICON_ZINGA = "ZINGA";
     const QString LEXICON_OLD_SOWPODS = "SOWPODS";
     const QString LEXICON_OLD_OWL = "OWL+LWL";
     const QString LEXICON_OLD_OWL2 = "OWL2+LWL";

@@ -3,7 +3,8 @@
 //
 // A form for looking up and displaying word definitions.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -48,7 +49,7 @@ const QString NONE_STR = "(none)";
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-DefineForm::DefineForm(WordEngine* e, QWidget* parent, Qt::WFlags f)
+DefineForm::DefineForm(WordEngine* e, QWidget* parent, Qt::WindowFlags f)
     : ActionForm(DefineFormType, parent, f), engine(e)
 {
     QVBoxLayout* mainVlay = new QVBoxLayout(this);

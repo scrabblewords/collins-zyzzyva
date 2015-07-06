@@ -3,7 +3,8 @@
 //
 // A class to represent a word search condition.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -250,28 +251,28 @@ SearchCondition::fromDomElement(const QDomElement& element)
                 tmpCondition.negated = n ? true : false;
         }
 
-        // Translate obsolete New in OWL2 condition to In Lexicon condition
-        if ((tmpCondition.type == BelongToGroup) &&
-            (tmpCondition.stringValue ==
-             Auxil::searchSetToString(SetOldNewInOwl2)))
-        {
-            tmpCondition.type = InLexicon;
-            tmpCondition.stringValue = Defs::LEXICON_OWL;
-            tmpCondition.negated = !tmpCondition.negated;
-        }
+//        // Translate obsolete New in OWL2 condition to In Lexicon condition
+//        if ((tmpCondition.type == BelongToGroup) &&
+//            (tmpCondition.stringValue ==
+//             Auxil::searchSetToString(SetOldNewInOwl2)))
+//        {
+//            tmpCondition.type = InLexicon;
+//            tmpCondition.stringValue = Defs::LEXICON_OWL;
+//            tmpCondition.negated = !tmpCondition.negated;
+//        }
 
-        // Translate obsolete New in CSW condition to In Lexicon condition
-        else if ((tmpCondition.type == BelongToGroup) &&
-            (tmpCondition.stringValue ==
-             Auxil::searchSetToString(SetOldNewInCsw)))
-        {
-            tmpCondition.type = InLexicon;
-            tmpCondition.stringValue = Defs::LEXICON_OSWI;
-            tmpCondition.negated = !tmpCondition.negated;
-        }
+//        // Translate obsolete New in CSW condition to In Lexicon condition
+//        else if ((tmpCondition.type == BelongToGroup) &&
+//            (tmpCondition.stringValue ==
+//             Auxil::searchSetToString(SetOldNewInCsw)))
+//        {
+//            tmpCondition.type = InLexicon;
+//            tmpCondition.stringValue = Defs::LEXICON_OSWI;
+//            tmpCondition.negated = !tmpCondition.negated;
+//        }
 
         // Translate old lexicon names
-        else if (tmpCondition.type == InLexicon) {
+        if (tmpCondition.type == InLexicon) {
             tmpCondition.stringValue =
                 Auxil::getUpdatedLexiconName(tmpCondition.stringValue);
         }

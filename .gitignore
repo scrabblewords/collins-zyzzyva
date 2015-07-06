@@ -1,3 +1,4 @@
+/.DS_Store
 /Makefile
 /Zyzzyva.app
 /bin/
@@ -11,3 +12,8 @@
 /src/zyzzyva/Makefile
 /src/zyzzyva/qrc_zyzzyva.cpp
 /src/zyzzyva/*.o
+/installer/windows/
+/installer/linux/
+/src/libzyzzyva/build/
+/src/zyzzyva/build/
+/src/tests/build/

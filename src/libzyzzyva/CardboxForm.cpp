@@ -3,7 +3,8 @@
 //
 // A form for querying and editing the contents of the cardbox system.
 //
-// Copyright 2007-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2007-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -45,7 +46,7 @@ const int REFRESH_MSECS = 120000;
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-CardboxForm::CardboxForm(WordEngine* e, QWidget* parent, Qt::WFlags f)
+CardboxForm::CardboxForm(WordEngine* e, QWidget* parent, Qt::WindowFlags f)
     : ActionForm(CardboxFormType, parent, f), wordEngine(e)
     //cardboxCountModel(0), cardboxDaysModel(0), cardboxContentsModel(0)
 {

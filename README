@@ -1,16 +1,16 @@
-Zyzzyva is free software, released under the GNU General Public License.
-Please see COPYING and LICENSE for details.  Zyzzyva is written by Michael W
-Thelen <mthelen@gmail.com>.
+Collins Zyzzyva is free software, released under the GNU General Public License.
+Please see COPYING and LICENSE for details.  Collins Zyzzyva is written by
+Michael W Thelen <mthelen@gmail.com> and Jim Miller <jg.millirem@gmail.com>.
 
-The Zyzzyva home page is http://zyzzyva.net/, and the latest version can
-always be found there.  Zyzzyva also has a user mailing list, which you can
-join at http://groups.yahoo.com/group/zyzzyva-users/.
+The latest version of Collins Zyzzyva can always be found at
+http://www.collinsdictionary.com/word-games/scrabble-tools
+and the source code for Collins Zyzzyva is found at https://goo.gl/8queyr
 
-If you are building Zyzzyva from source code, you will need the Qt4 library,
-available from http://www.trolltech.com/download/opensource.html.
+If you are building Collins Zyzzyva from source code, you will need the Qt5 library,
+available from https://www.qt.io/download-open-source
 
-After Qt4 is installed, the following steps should be sufficient to
-build Zyzzyva:
+After Qt5 is installed, the following steps should be sufficient to
+build Collins Zyzzyva:
 
     qmake
     make
@@ -18,6 +18,3 @@ build Zyzzyva:
 On Mac OS X, instead of running qmake and make directly, you should run
 installer/create-macx-bundle.sh instead.  This will create an executable
 bundle under installer/macosx.
-
-Please email Michael Thelen with questions, comments, patches, or large cash
-donations.  Happy hacking!

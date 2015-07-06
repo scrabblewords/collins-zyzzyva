@@ -3,7 +3,8 @@
 //
 // A class derived from QApplication.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -43,8 +44,8 @@ class ZApplication : public QApplication
         : QApplication(argc, argv) { }
     ZApplication(int& argc, char** argv, bool GUIenabled)
         : QApplication(argc, argv, GUIenabled) { }
-    ZApplication(int& argc, char** argv, Type type)
-        : QApplication(argc, argv, type) { }
+//    ZApplication(int& argc, char** argv, Type type)
+//        : QApplication(argc, argv, type) { }
 
 #if defined Z_LINUX
     // Only available on X11

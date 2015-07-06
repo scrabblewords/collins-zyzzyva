@@ -3,7 +3,8 @@
 //
 // A form for querying and editing the contents of the cardbox system.
 //
-// Copyright 2007-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2007-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -40,7 +41,7 @@ class CardboxForm : public ActionForm
 {
     Q_OBJECT
     public:
-    CardboxForm(WordEngine* e, QWidget* parent = 0, Qt::WFlags f = 0);
+    CardboxForm(WordEngine* e, QWidget* parent = 0, Qt::WindowFlags f = 0);
     QIcon getIcon() const;
     QString getTitle() const;
     QString getStatusString() const;

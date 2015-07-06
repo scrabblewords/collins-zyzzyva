@@ -3,7 +3,8 @@
 //
 // A widget for specifying a lexicon style.
 //
-// Copyright 2008-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -33,7 +34,7 @@ class LexiconStyle;
 class LexiconStyleWidget : public QWidget {
     Q_OBJECT
     public:
-    LexiconStyleWidget(QWidget* parent = 0, Qt::WFlags f = 0);
+    LexiconStyleWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
     bool setLexiconStyle(const LexiconStyle& style);
     LexiconStyle getLexiconStyle() const;
 

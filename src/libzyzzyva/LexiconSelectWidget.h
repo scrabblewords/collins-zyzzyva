@@ -3,7 +3,8 @@
 //
 // A simple widget for selecting a lexicon from the available lexicons.
 //
-// Copyright 2008-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -33,7 +34,7 @@ class LexiconSelectWidget : public QWidget
 {
     Q_OBJECT
     public:
-    LexiconSelectWidget(QWidget* parent = 0, Qt::WFlags f = 0);
+    LexiconSelectWidget(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~LexiconSelectWidget();
 
     void setFont(const QFont& font);

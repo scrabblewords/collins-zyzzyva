@@ -3,7 +3,8 @@
 //
 // A dialog for getting a word from the user.
 //
-// Copyright 2005-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -45,7 +46,7 @@ using namespace Defs;
 //! @param modal whether the dialog is modal
 //! @param f widget flags
 //---------------------------------------------------------------------------
-WordEntryDialog::WordEntryDialog(QWidget* parent, Qt::WFlags f)
+WordEntryDialog::WordEntryDialog(QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f),
     wordValidator(new WordValidator(this))
 {

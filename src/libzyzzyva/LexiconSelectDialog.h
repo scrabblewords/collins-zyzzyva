@@ -3,7 +3,8 @@
 //
 // A dialog for selecting the lexicons to be loaded and used.
 //
-// Copyright 2008-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -37,7 +38,7 @@ class LexiconSelectDialog : public QDialog
 {
     Q_OBJECT
     public:
-    LexiconSelectDialog(QWidget* parent = 0, Qt::WFlags f = 0);
+    LexiconSelectDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~LexiconSelectDialog();
 
     QStringList getImportLexicons() const;

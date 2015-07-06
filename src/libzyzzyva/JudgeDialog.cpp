@@ -4,7 +4,8 @@
 // A full-screen dialog for Word Judge functionality, in which the user can
 // very easily judge the validity of one or more words.
 //
-// Copyright 2006-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -101,7 +102,7 @@ using namespace Defs;
 //! @param f widget flags
 //---------------------------------------------------------------------------
 JudgeDialog::JudgeDialog(WordEngine* e, const QString& lex,
-    const QString& pass, QWidget* parent, Qt::WFlags f)
+    const QString& pass, QWidget* parent, Qt::WindowFlags f)
     : QDialog(parent, f), engine(e), lexicon(lex), password(pass),
     altPressed(false), count(0), clearResultsHold(0), fontMultiplier(0)
 {
@@ -842,13 +843,13 @@ JudgeDialog::createTitleWidget()
     QHBoxLayout* titleHlay = new QHBoxLayout(widget);
     Q_CHECK_PTR(titleHlay);
 
-#if defined Z_NSSC
-	QString programName = "NSSC Word Judge";
-	QString pixmapName = ":/nssc-128x128";
-#else
-	QString programName = "Zyzzyva Word Judge";
+//#if defined Z_NSSC
+//	QString programName = "NSSC Word Judge";
+//	QString pixmapName = ":/nssc-128x128";
+//#else
+    QString programName = "Collins Zyzzyva Word Judge";
 	QString pixmapName = ":/zyzzyva-128x128";
-#endif
+//#endif
 
     QLabel* programLabel = new QLabel(programName + "\n"
                                       "Version " + ZYZZYVA_VERSION);

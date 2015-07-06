@@ -3,7 +3,8 @@
 //
 // A form for quizzing the user.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -125,7 +126,7 @@ consonantsFirstCmp(const QChar& a, const QChar& b)
 //! @param parent the parent widget
 //! @param f widget flags
 //---------------------------------------------------------------------------
-QuizForm::QuizForm(WordEngine* we, QWidget* parent, Qt::WFlags f)
+QuizForm::QuizForm(WordEngine* we, QWidget* parent, Qt::WindowFlags f)
     : ActionForm(QuizFormType, parent, f), wordEngine(we),
     quizEngine(new QuizEngine(wordEngine)), timerId(0), timerPaused(0),
     checkBringsJudgment(true), recordStatsBlocked(false),
@@ -1400,7 +1401,7 @@ QuizForm::setQuestionLabel(const QString& question, const QString& order)
             int i = 0;
             QListIterator<QChar> it (qchars);
             while (it.hasNext()) {
-                chars[i] = it.next().toAscii();
+                chars[i] = it.next().toLatin1();
                 ++i;
             }
             chars[i] = 0;

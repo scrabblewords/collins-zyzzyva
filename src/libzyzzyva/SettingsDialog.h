@@ -3,7 +3,8 @@
 //
 // The settings dialog for the word study application.
 //
-// Copyright 2004-2012 Boshvark Software, LLC.
+// Copyright 2015 Twilight Century Computing.
+// Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
 //
@@ -43,7 +44,7 @@ class SettingsDialog : public QDialog
 {
     Q_OBJECT
     public:
-    SettingsDialog(QWidget* parent = 0, Qt::WFlags f = 0);
+    SettingsDialog(QWidget* parent = 0, Qt::WindowFlags f = 0);
     ~SettingsDialog();
 
     void readSettings();
