@@ -2,16 +2,7 @@
     <qresource prefix="/">
         <file alias="zyzzyva-32x32">images/zyzzyva-32x32.png</file>
         <file alias="zyzzyva-128x128">images/zyzzyva-128x128.png</file>
-        <file alias="search-icon">images/search-icon-medium.png</file>
-        <file alias="judge-icon">images/judge-icon-medium.png</file>
-        <file alias="quiz-icon">images/quiz-icon-medium.png</file>
-        <file alias="define-icon">images/define-icon-medium.png</file>
-        <file alias="cardbox-icon">images/cardbox-icon-medium.png</file>
-        <file alias="save-icon">images/save-icon-medium.png</file>
-        <file alias="save-as-icon">images/save-as-icon-medium.png</file>
         <file alias="close-tab-icon">images/close-tab-icon-small.png</file>
-        <file alias="help-icon">images/help-icon-medium.png</file>
-        <file alias="preferences-icon">images/preferences-icon-medium.png</file>
         <file alias="left-arrow-icon">images/left-arrow-large.png</file>
         <file alias="right-arrow-icon">images/right-arrow-large.png</file>
         <file alias="judge-acceptable">images/judge-acceptable.png</file>
@@ -19,5 +10,14 @@
         <file alias="plus-icon">images/plus-icon-small.png</file>
         <file alias="minus-icon">images/minus-icon-small.png</file>
         <file alias="zyzzyva-splash">images/zyzzyva-splash.png</file>
+        <file alias="cardbox-icon">images/cardbox-icon-large.png</file>
+        <file alias="define-icon">images/define-icon-large.png</file>
+        <file alias="help-icon">images/help-icon-large.png</file>
+        <file alias="judge-icon">images/judge-icon-large.png</file>
+        <file alias="preferences-icon">images/preferences-icon-large.png</file>
+        <file alias="quiz-icon">images/quiz-icon-large.png</file>
+        <file alias="save-as-icon">images/save-as-icon-large.png</file>
+        <file alias="save-icon">images/save-icon-large.png</file>
+        <file alias="search-icon">images/search-icon-large.png</file>
     </qresource>
 </RCC>

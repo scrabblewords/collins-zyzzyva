@@ -1,10 +1,10 @@
 <project>
     <shortName>CollinsZyzzyva</shortName>
     <fullName>Zyzzyva</fullName>
-    <version>5.0.0</version>
+    <version>5.0.1</version>
     <installerFilename>Collins-Zyzzyva-${product_version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
-    <readmeFile>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/README</readmeFile>
-    <licenseFile>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/LICENSE</licenseFile>
+    <readmeFile>F:\Programming_projects\boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac\boshvark-zyzzyva-pc-9ddd4ac\README</readmeFile>
+    <licenseFile>F:\Programming_projects\boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac\boshvark-zyzzyva-pc-9ddd4ac\LICENSE</licenseFile>
     <componentList>
         <component>
             <name>default</name>
@@ -58,34 +58,34 @@
                     <platforms>linux</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/zyzzyva.top</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/AUTHORS</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux/zyzzyva</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/CHANGES</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux/README</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/COPYING</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux/LICENSE</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/LICENSE</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux/COPYING</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/README</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux/CHANGES</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/zyzzyva</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux/AUTHORS</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/zyzzyva.top</origin>
                         </distributionFile>
                         <distributionDirectory>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux/bin</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/bin</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux/data</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/data</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux/images</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/images</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -96,34 +96,34 @@
                     <platforms>linux-x64</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/zyzzyva.top</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/AUTHORS</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/zyzzyva</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/CHANGES</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/README</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/COPYING</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/LICENSE</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/LICENSE</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/COPYING</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/README</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/CHANGES</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/zyzzyva</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/AUTHORS</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/zyzzyva.top</origin>
                         </distributionFile>
                         <distributionDirectory>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/bin</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/bin</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/data</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/data</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/linux-x64/images</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/images</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -292,7 +292,7 @@
                     <platforms>osx</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>C:/Users/jim/Boshvark/Zyzzyva/Installer/macosx/Zyzzyva.app</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/C:/Users/jim/Boshvark/Zyzzyva/Installer/macosx/Zyzzyva.app</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -377,6 +377,12 @@
         <platformOptions>
             <installerFilename>Collins-Zyzzyva-${product_version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
             <platform>windows</platform>
+        </platformOptions>
+        <platformOptions>
+            <platform>linux-x64</platform>
+        </platformOptions>
+        <platformOptions>
+            <platform>linux</platform>
         </platformOptions>
     </platformOptionsList>
 </project>

@@ -25,8 +25,8 @@
 
 TEMPLATE = app
 TARGET = test_zyzzyva
-CONFIG += qt thread warn_on qtestlib
-QT += sql xml gui
+CONFIG += qt thread warn_on
+QT += sql xml gui testlib
 
 ROOT = ../..
 DESTDIR = $$ROOT/bin

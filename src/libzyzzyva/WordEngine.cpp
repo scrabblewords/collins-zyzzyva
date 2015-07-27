@@ -258,6 +258,7 @@ WordEngine::importBinaryFile(const QString& lexicon, const QString& filename,
     if (lexicon != LEXICON_CUSTOM)
         fileBlob->remove(0, fileBlob->indexOf('\n') + 1);
 
+    //TODO (JGM) Comment out decryption key when copying to published source zip.
     SimpleCrypt crypto(Q_UINT64_C(0x0000000000000000));
     QByteArray *plaintextBlob = new QByteArray(crypto.decryptToByteArray(*fileBlob));
     delete fileBlob; fileBlob = 0;

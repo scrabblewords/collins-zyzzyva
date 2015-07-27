@@ -52,6 +52,7 @@ int main(int argc, char** argv)
     window->tryConnectToDatabases();
 
     window->show();
+    //TODO (JGM) Following line causes display problem for OSX, according to Anand.
     window->setWindowState(Qt::WindowMaximized);
     splash->finish(window);
     delete splash;

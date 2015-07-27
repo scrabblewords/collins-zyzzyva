@@ -17,3 +17,4 @@
 /src/libzyzzyva/build/
 /src/zyzzyva/build/
 /src/tests/build/
+*.pro.user*

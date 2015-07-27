@@ -3,6 +3,7 @@ rem create-windows.sh
 rem
 rem Create a Windows directory for the installer to use.
 rem
+rem Copyright 2015 Twilight Century Computing.
 rem Copyright 2006-2012 North American SCRABBLE Players Association.
 rem
 rem This file is part of Zyzzyva.
@@ -26,7 +27,7 @@ setlocal
 
 cd ..
 
-set QTVER=5.4\mingw491_32
+set QTVER=Qt5.5.0\5.5\mingw492_32
 set QTDIR=E:\Qt\%QTVER%
 set INSTDIR=installer
 set PLATFORM=windows
@@ -88,9 +89,9 @@ rem ** FIX THIS **  File not being copied for some reason. (JGM)
 copy %QTDIR%\bin\libstdc++-6.dll %OUTDIR%
 
 copy %QTDIR%\bin\libwinpthread-1.dll %OUTDIR%
-copy %QTDIR%\bin\icuuc53.dll %OUTDIR%
-copy %QTDIR%\bin\icuin53.dll %OUTDIR%
-copy %QTDIR%\bin\icudt53.dll %OUTDIR%
+copy %QTDIR%\bin\icuuc54.dll %OUTDIR%
+copy %QTDIR%\bin\icuin54.dll %OUTDIR%
+copy %QTDIR%\bin\icudt54.dll %OUTDIR%
 
 mkdir %OUTDIR%\platforms
 copy %QTDIR%\plugins\platforms\qwindows.dll %OUTDIR%\platforms
