@@ -529,7 +529,7 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
 //    QFile debugFile (definitionFilename + "-debug.txt");
 //    debugFile.open(QIODevice::WriteOnly);
 
-      if (lexiconName == LEXICON_CSW15) {   // (JGM) definitionFile is encrypted.
+    if (lexiconName == LEXICON_CSW15) {   // (JGM) definitionFile is encrypted.
         if (!definitionFile.open(QIODevice::ReadOnly)) {
             return;
         }
@@ -542,11 +542,12 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
 
         SimpleCrypt crypto(Q_UINT64_C(0x0000000000000000));
         QByteArray *plaintextBlob = new QByteArray(crypto.decryptToByteArray(*fileBlob));
-        delete fileBlob; fileBlob = 0;
+        delete fileBlob;
 
         char *plaintext = new char[plaintextBlob->size() + 1];
+        char *plaintextAllocation = plaintext;
         strcpy(plaintext, plaintextBlob->constData());
-        delete plaintextBlob; plaintextBlob = 0;
+        delete plaintextBlob;
 
         char buffer[MAX_INPUT_LINE_LEN * 2 + 1];
         int lineLength;
@@ -558,13 +559,11 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
 
             lineLength = nextNewline - plaintext + 1;
             if (lineLength <= MAX_INPUT_LINE_LEN - 1) {
-                //buffer = new char[lineLength + 1];
                 memcpy(buffer, plaintext, (lineLength) * sizeof(char));
                 buffer[lineLength] = '\0';
                 plaintext = nextNewline + 1;
             }
             else {
-                //buffer = new char[MAX_INPUT_LINE_LEN];
                 memcpy(buffer, plaintext, (MAX_INPUT_LINE_LEN - 1) * sizeof(char));
                 buffer[MAX_INPUT_LINE_LEN - 1] = '\0';
                 plaintext += (MAX_INPUT_LINE_LEN - 1);
@@ -584,7 +583,7 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
                 if ((stepNum % PROGRESS_STEP) == 0) {
                     if (cancelled) {
                         transactionQuery.exec("END TRANSACTION");
-                        //delete[] plaintext; plaintext = 0;           // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
+                        delete[] plaintextAllocation;
                         definitionFile.close();
                         return;
                     }
@@ -603,7 +602,7 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
             if ((stepNum % PROGRESS_STEP) == 0) {
                 if (cancelled) {
                     transactionQuery.exec("END TRANSACTION");
-                    //delete[] plaintext; plaintext = 0;            // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
+                    delete[] plaintextAllocation;
                     definitionFile.close();
                     return;
                 }
@@ -611,7 +610,7 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
             }
             ++stepNum;
         }
-        //delete[] plaintext; plaintext = 0;           // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
+        delete[] plaintextAllocation;
     }
     else {   // (JGM) definitionFile is in plain text.
         if (!definitionFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
@@ -935,11 +934,11 @@ CreateDatabaseThread::importPlayability(const QString& filename,
     QFile file (filename);
 
     if (lexiconName == LEXICON_CSW15) {   // (JGM) Playability file is encrypted.
-      if (!file.open(QIODevice::ReadOnly)) {
-          return 0;
-      }
-      QByteArray *fileBlob = new QByteArray(file.readAll());
-      file.close();
+        if (!file.open(QIODevice::ReadOnly)) {
+            return 0;
+        }
+        QByteArray *fileBlob = new QByteArray(file.readAll());
+        file.close();
 
       // (JGM) Discard header line if appropriate.
       if (lexiconName != LEXICON_CUSTOM)
@@ -947,12 +946,12 @@ CreateDatabaseThread::importPlayability(const QString& filename,
       //TODO (JGM) Comment out decryption key when copying to published source zip.
       SimpleCrypt crypto(Q_UINT64_C(0x0000000000000000));
       QByteArray *plaintextBlob = new QByteArray(crypto.decryptToByteArray(*fileBlob));
-      delete fileBlob; fileBlob = 0;
+      delete fileBlob;
 
       char *plaintext = new char[plaintextBlob->size() + 1];
-      //char plaintext[plaintextBlob->size() + 1];   // (JGM) Started attempt to fix plaintext memory release error!
+      char *plaintextAllocation = plaintext;
       strcpy(plaintext, plaintextBlob->constData());
-      delete plaintextBlob; plaintextBlob = 0;
+      delete plaintextBlob;
 
       int imported = 0;
       char buffer[MAX_INPUT_LINE_LEN * 2 + 1];
@@ -965,13 +964,11 @@ CreateDatabaseThread::importPlayability(const QString& filename,
 
           lineLength = nextNewline - plaintext + 1;
           if (lineLength <= MAX_INPUT_LINE_LEN - 1) {
-              //buffer = new char[lineLength + 1];
               memcpy(buffer, plaintext, (lineLength) * sizeof(char));
               buffer[lineLength] = '\0';
               plaintext = nextNewline + 1;
           }
           else {
-              //buffer = new char[MAX_INPUT_LINE_LEN];
               memcpy(buffer, plaintext, (MAX_INPUT_LINE_LEN - 1) * sizeof(char));
               buffer[MAX_INPUT_LINE_LEN - 1] = '\0';
               plaintext += (MAX_INPUT_LINE_LEN - 1);
@@ -1003,7 +1000,7 @@ CreateDatabaseThread::importPlayability(const QString& filename,
           ++imported;
 
       }
-      //delete[] plaintext; plaintext = 0;          // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
+      delete[] plaintextAllocation;
       return imported;
     }
     else {   // (JGM) Playability file is in plain text.

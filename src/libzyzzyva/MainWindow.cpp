@@ -25,6 +25,7 @@
 
 #include "MainWindow.h"
 #include "AboutDialog.h"
+#include "AnalyzeQuizDialog.h"
 #include "CardboxForm.h"
 #include "CardboxRescheduleDialog.h"
 #include "CreateDatabaseThread.h"
@@ -45,11 +46,11 @@
 #include "SettingsDialog.h"
 #include "WordEngine.h"
 #include "WordEntryDialog.h"
+#include "WordTableView.h"
 #include "WordVariationDialog.h"
 #include "WordVariationType.h"
 #include "Auxil.h"
 #include "Defs.h"
-#include <QAction>
 #include <QApplication>
 #include <QDir>
 #include <QFileDialog>
@@ -68,7 +69,7 @@
 
 MainWindow* MainWindow::instance = 0;
 
-const QString APPLICATION_TITLE = "Collins Zyzzyva";
+const QString APPLICATION_TITLE = "Collins Zyzzyva 5.0.2";
 
 const QString IMPORT_FAILURE_TITLE = "Load Failed";
 const QString IMPORT_COMPLETE_TITLE = "Load Complete";
@@ -189,7 +190,18 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
 
     fileMenu->addSeparator();
 
-    // Close Table
+    // Print
+    printAction = new QAction("&Print...", this);
+    Q_CHECK_PTR(printAction);
+    printAction->setIcon(QIcon(":/print-icon"));
+    printAction->setEnabled(false);
+    printAction->setShortcut(QString("Ctrl+P"));
+    connect(printAction, SIGNAL(triggered()), SLOT(doPrintAction()));
+    fileMenu->addAction(printAction);
+
+    fileMenu->addSeparator();
+
+    // Close Tab
     QAction* closeTabAction = new QAction("&Close Tab", this);
     Q_CHECK_PTR(closeTabAction);
     closeTabAction->setShortcut(tr("Ctrl+W"));
@@ -330,17 +342,50 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
     QToolBar* toolbar = new QToolBar;
     Q_CHECK_PTR(toolbar);
     toolbar->setIconSize(QSize(36, 36));
-    toolbar->addAction(saveAction);
-    toolbar->addAction(saveAsAction);
+    // (JGM) Hacky, for disallowing the toolbar QActions' mnemonics to interfere with form mnemonics in Qt5.
+    toolbarSaveAction = new QAction("Save", this);
+    copyQActionPartial(saveAction, toolbarSaveAction);
+    connect(toolbarSaveAction, SIGNAL(triggered()), SLOT(doSaveAction()));
+    toolbar->addAction(toolbarSaveAction);
+    toolbarSaveAsAction = new QAction("Save As...", this);
+    copyQActionPartial(saveAsAction, toolbarSaveAsAction);
+    connect(toolbarSaveAsAction, SIGNAL(triggered()), SLOT(doSaveAction()));
+    toolbar->addAction(toolbarSaveAsAction);
     toolbar->addSeparator();
-    toolbar->addAction(newQuizAction);
-    toolbar->addAction(newSearchAction);
-    toolbar->addAction(newCardboxAction);
-    toolbar->addAction(newDefinitionAction);
-    toolbar->addAction(newJudgeAction);
+    QAction* toolbarQuizAction = new QAction("Quiz", this);
+    copyQActionPartial(newQuizAction, toolbarQuizAction);
+    connect(toolbarQuizAction, SIGNAL(triggered()), SLOT(newQuizFormInteractive()));
+    toolbar->addAction(toolbarQuizAction);
+    QAction* toolbarSearchAction = new QAction("Search", this);
+    copyQActionPartial(newSearchAction, toolbarSearchAction);
+    connect(toolbarSearchAction, SIGNAL(triggered()), SLOT(newSearchForm()));
+    toolbar->addAction(toolbarSearchAction);
+    QAction* toolbarCardboxAction = new QAction("Cardbox", this);
+    copyQActionPartial(newCardboxAction, toolbarCardboxAction);
+    connect(toolbarCardboxAction, SIGNAL(triggered()), SLOT(newCardboxForm()));
+    toolbar->addAction(toolbarCardboxAction);
+    QAction* toolbarDefinitionAction = new QAction("Definition", this);
+    copyQActionPartial(newDefinitionAction, toolbarDefinitionAction);
+    connect(toolbarDefinitionAction, SIGNAL(triggered()), SLOT(newDefineForm()));
+    toolbar->addAction(toolbarDefinitionAction);
+    QAction* toolbarJudgeAction = new QAction("Word Judge", this);
+    copyQActionPartial(newJudgeAction, toolbarJudgeAction);
+    connect(toolbarJudgeAction, SIGNAL(triggered()), SLOT(doJudgeAction()));
+    toolbar->addAction(toolbarJudgeAction);
     toolbar->addSeparator();
-    toolbar->addAction(editPrefsAction);
-    toolbar->addAction(helpAction);
+    toolbarPrintAction = new QAction("Print...", this);
+    copyQActionPartial(printAction, toolbarPrintAction);
+    connect(toolbarPrintAction, SIGNAL(triggered()), SLOT(doPrintAction()));
+    toolbar->addAction(toolbarPrintAction);
+    toolbar->addSeparator();
+    QAction* toolbarEditPrefsAction = new QAction("Preferences", this);
+    copyQActionPartial(editPrefsAction, toolbarEditPrefsAction);
+    connect(toolbarEditPrefsAction, SIGNAL(triggered()), SLOT(editSettings()));
+    toolbar->addAction(toolbarEditPrefsAction);
+    QAction* toolbarHelpAction = new QAction("Help", this);
+    copyQActionPartial(helpAction, toolbarHelpAction);
+    connect(toolbarHelpAction, SIGNAL(triggered()), SLOT(displayHelp()));
+    toolbar->addAction(toolbarHelpAction);
     addToolBar(toolbar);
 
     tabStack = new QTabWidget(this);
@@ -385,16 +430,13 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
     makeUserDirs();
 
     setWindowTitle(APPLICATION_TITLE);
-    setWindowIcon(QIcon(":/zyzzyva-32x32"));
+    setWindowIcon(QIcon(":/zyzzyva-128x128"));
 
     if (!instance)
         instance = this;
 
     if (MainSettings::getDisplayWelcome())
         newIntroForm();
-
-//    connect(helpDialog, SIGNAL(error(const QString&)),
-//            SLOT(helpDialogError(const QString&)));
 
     splashScreen = 0;
     QTimer::singleShot(0, this, SLOT(displayLexiconError()));
@@ -733,6 +775,22 @@ MainWindow::doSaveAsAction()
 }
 
 //---------------------------------------------------------------------------
+//  doPrintAction
+//
+//! Open a print dialog for the current tab.
+//---------------------------------------------------------------------------
+void
+MainWindow::doPrintAction()
+{
+    QWidget* w = tabStack->currentWidget();
+    if (!w)
+        return;
+
+    ActionForm* form = static_cast<ActionForm*>(w);
+    form->printRequested();
+}
+
+//---------------------------------------------------------------------------
 //  doJudgeAction
 //
 //! Open a word judge window.
@@ -923,6 +981,9 @@ MainWindow::viewVariation(int variation)
                                                           word, type, this);
     Q_CHECK_PTR(dialog);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
+    wordVariationDialogs.insert(wordVariationDialogs.size(), dialog);
+    //NOTE (JGM) WordVariationDialog* does not work as arguments!
+    connect(dialog, SIGNAL(destroyed(QObject*)), this, SLOT(clearDialogFromList(QObject*)));
     dialog->show();
 }
 
@@ -1024,7 +1085,7 @@ MainWindow::displayHelp()
     args << QLatin1String("-collectionFile")
         << (Auxil::getHelpDir() + QLatin1String("/zyzzyva.qhc"))
         << QLatin1String("-showUrl")
-        << QLatin1String("qthelp://twilightcenturycomputing.com/5.0.1/index.html")
+        << QLatin1String("qthelp://twilightcenturycomputing.com/5.0.2/index.html")
         << QLatin1String("-enableRemoteControl");
     process->start(QLatin1String("assistant"), args);
     if (!process->waitForStarted())
@@ -1115,6 +1176,7 @@ MainWindow::currentTabChanged(int)
     QString details;
     bool saveEnabled = false;
     bool saveCapable = false;
+    bool printEnabled = false;
     if (w) {
         ActionForm* form = static_cast<ActionForm*>(w);
         form->selectInputArea();
@@ -1122,11 +1184,16 @@ MainWindow::currentTabChanged(int)
         details = form->getDetailsString();
         saveEnabled = form->isSaveEnabled();
         saveCapable = form->isSaveCapable();
+        printEnabled = form->isPrintEnabled();
     }
     messageLabel->setText(status);
     detailsLabel->setText(details);
     saveAction->setEnabled(saveEnabled);
+    toolbarSaveAction->setEnabled(saveEnabled);
     saveAsAction->setEnabled(saveCapable);
+    toolbarSaveAsAction->setEnabled(saveCapable);
+    printAction->setEnabled(printEnabled);
+    toolbarPrintAction->setEnabled(printEnabled);
 }
 
 //---------------------------------------------------------------------------
@@ -1206,6 +1273,28 @@ MainWindow::tabSaveEnabledChanged(bool saveEnabled)
     int index = tabStack->indexOf(form);
     if (index == tabStack->currentIndex()) {
         saveAction->setEnabled(saveEnabled);
+        toolbarSaveAction->setEnabled(saveEnabled);
+    }
+}
+
+//---------------------------------------------------------------------------
+//  tabPrintEnabledChanged
+//
+//! Called when the print enabled status for a tab changes.
+//
+//! @param the new print enabled status
+//---------------------------------------------------------------------------
+void
+MainWindow::tabPrintEnabledChanged(bool printEnabled)
+{
+    QObject* object = sender();
+    if (!object)
+        return;
+    ActionForm* form = static_cast<ActionForm*>(object);
+    int index = tabStack->indexOf(form);
+    if (index == tabStack->currentIndex()) {
+        printAction->setEnabled(printEnabled);
+        toolbarPrintAction->setEnabled(printEnabled);
     }
 }
 
@@ -1574,31 +1663,29 @@ MainWindow::readSettings(bool useGeometry)
     // Main font
     QFont mainFont;
     QString fontStr = MainSettings::getMainFont();
-    bool mainFontOk = true;
-    if (fontStr.isEmpty())
-        ; // do nothing
+    if (fontStr.isEmpty()) {
+        //(JGM) Attempt to dynamically reload fonts.
+        qApp->setFont(QGuiApplication::font());
+        qApp->setFont(QGuiApplication::font(), "QHeaderView");
+    }
     else if (mainFont.fromString(fontStr)) {
         qApp->setFont(mainFont);
+        qApp->setFont(mainFont, "QHeaderView");
     }
     else {
         //qWarning("Cannot set font: " + fontStr);
-        mainFontOk = false;
     }
 
     // Word list font
     QFont font;
     fontStr = MainSettings::getWordListFont();
     if (fontStr.isEmpty())
-        ; // do nothing
+        qApp->setFont(qApp->font(), "WordTableView");
     else if (font.fromString(fontStr))
         qApp->setFont(font, "WordTableView");
     else {
         //qWarning("Cannot set font: " + fontStr);
     }
-
-    // Set word list headers back to main font
-    if (mainFontOk)
-        qApp->setFont(mainFont, "QHeaderView");
 
     // Quiz label font
     fontStr = MainSettings::getQuizLabelFont();
@@ -1615,8 +1702,10 @@ MainWindow::readSettings(bool useGeometry)
 
     // Word input font
     fontStr = MainSettings::getWordInputFont();
-    if (fontStr.isEmpty())
-        ; // do nothing
+    if (fontStr.isEmpty()) {
+        qApp->setFont(qApp->font(), "WordLineEdit");
+        qApp->setFont(qApp->font(), "WordTextEdit");
+    }
     else if (font.fromString(fontStr)) {
         qApp->setFont(font, "WordLineEdit");
         qApp->setFont(font, "WordTextEdit");
@@ -1627,13 +1716,26 @@ MainWindow::readSettings(bool useGeometry)
 
     // Definition font
     fontStr = MainSettings::getDefinitionFont();
-    if (fontStr.isEmpty())
-        ; // do nothing
+    if (fontStr.isEmpty()) {
+        qApp->setFont(qApp->font(), "DefinitionBox");
+        qApp->setFont(qApp->font(), "DefinitionLabel");
+        qApp->setFont(qApp->font(), "DefinitionTextEdit");
+    }
     else if (font.fromString(fontStr)) {
         qApp->setFont(font, "DefinitionBox");
         qApp->setFont(font, "DefinitionLabel");
         qApp->setFont(font, "DefinitionTextEdit");
     }
+    else {
+        //qWarning("Cannot set font: " + fontStr);
+    }
+
+    // Printing font
+    fontStr = MainSettings::getPrintingFont();
+    if (fontStr.isEmpty())
+        ;
+    else if (font.fromString(fontStr))
+        ;
     else {
         //qWarning("Cannot set font: " + fontStr);
     }
@@ -1655,6 +1757,34 @@ MainWindow::readSettings(bool useGeometry)
             // ### update details string here?
             //quizForm->updateDetailsString();
             quizForm->setTileTheme(tileTheme);
+            quizForm->getView()->resizeItemsRecursively();
+            AnalyzeQuizDialog* analyzeDialog = quizForm->getAnalyzeDialog();
+            if (analyzeDialog) {
+                analyzeDialog->getMissedView()->resizeItemsRecursively();
+                analyzeDialog->getIncorrectView()->resizeItemsRecursively();
+            }
+        }
+        else if (type == ActionForm::SearchFormType) {
+            SearchForm* searchForm = static_cast<SearchForm*> (form);
+            searchForm->getView()->resizeItemsRecursively();
+        }
+    }
+    //! TODO (JGM) Add an interface to combine this with the same function in
+    //! WordTableView::resizeItemsRecursively.
+    QListIterator<WordVariationDialog*> it(wordVariationDialogs);
+    WordVariationDialog* current;
+    while (it.hasNext()) {
+        current = it.next();
+        if (current) {
+            if (current->getTopView()) {
+                current->getTopView()->resizeItemsRecursively();
+            }
+            if (current->getMiddleView()) {
+                current->getMiddleView()->resizeItemsRecursively();
+            }
+            if (current->getBottomView()) {
+                current->getBottomView()->resizeItemsRecursively();
+            }
         }
     }
 }
@@ -1691,6 +1821,8 @@ MainWindow::newTab(ActionForm* form)
             SLOT(tabDetailsChanged(const QString&)));
     connect(form, SIGNAL(saveEnabledChanged(bool)),
             SLOT(tabSaveEnabledChanged(bool)));
+    connect(form, SIGNAL(printEnabledChanged(bool)),
+            SLOT(tabPrintEnabledChanged(bool)));
 
     tabStack->addTab(form, form->getIcon(), form->getTitle());
     tabStack->setCurrentWidget(form);
@@ -1835,6 +1967,7 @@ MainWindow::importChecksums(const QString& filename)
         QString line (buffer);
         checksums.append(line.toUShort());
     }
+    delete [] buffer;
     return checksums;
 }
 
@@ -2204,4 +2337,35 @@ MainWindow::doTest()
 {
     LetterBag letterBag;
     qDebug("*** doTest!");
+}
+
+//---------------------------------------------------------------------------
+//  copyQActionPartial
+//
+//! Copy selected properties of a QAction (for toolbar) (JGM)
+//
+//! @param orig Source QAction
+//! @param dest Target QAction
+//---------------------------------------------------------------------------
+void
+MainWindow::copyQActionPartial(const QAction* orig, QAction* dest)
+{
+    dest->setIcon(orig->icon());
+    dest->setEnabled(orig->isEnabled());
+}
+
+//---------------------------------------------------------------------------
+//  clearDialogFromList
+//
+//! Remove pointer to this dialog from the list of child WordVariationDialogs.
+//! TODO (JGM) Add an interface to combine this with the same function in
+//! WordTableView.
+//
+//! @param obj pointer to the child WVD object.
+//---------------------------------------------------------------------------
+void
+MainWindow::clearDialogFromList(QObject* obj)
+{
+    WordVariationDialog *wvd = static_cast<WordVariationDialog*>(obj);
+    wordVariationDialogs.removeOne(wvd);
 }

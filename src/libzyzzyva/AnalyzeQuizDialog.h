@@ -47,6 +47,8 @@ class AnalyzeQuizDialog : public QDialog
                       Qt::WindowFlags f = 0);
 
     ~AnalyzeQuizDialog() { }
+    WordTableView* getMissedView() { return missedView; }
+    WordTableView* getIncorrectView() { return incorrectView; }
 
     public slots:
     void newQuiz(const QuizSpec& spec);

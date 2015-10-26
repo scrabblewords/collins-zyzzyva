@@ -3,8 +3,8 @@
     <fullName>Zyzzyva</fullName>
     <version>5.0.1</version>
     <installerFilename>Collins-Zyzzyva-${product_version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
-    <readmeFile>/home/jim/projects/Collins-Zyzzyva/README</readmeFile>
-    <licenseFile>/home/jim/projects/Collins-Zyzzyva/LICENSE</licenseFile>
+    <readmeFile>E:/home/jim/projects/Collins-Zyzzyva/README</readmeFile>
+    <licenseFile>E:/home/jim/projects/Collins-Zyzzyva/LICENSE</licenseFile>
     <componentList>
         <component>
             <name>default</name>
@@ -58,34 +58,34 @@
                     <platforms>linux</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/AUTHORS</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/AUTHORS</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/CHANGES</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/CHANGES</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/COPYING</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/COPYING</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/LICENSE</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/LICENSE</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/README</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/README</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/zyzzyva</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/zyzzyva</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/zyzzyva.top</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/zyzzyva.top</origin>
                         </distributionFile>
                         <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/bin</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/bin</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/data</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/data</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux/images</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux/images</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -96,34 +96,34 @@
                     <platforms>linux-x64</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/AUTHORS</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/AUTHORS</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/CHANGES</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/CHANGES</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/COPYING</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/COPYING</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/LICENSE</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/LICENSE</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/README</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/README</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/zyzzyva</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/zyzzyva</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/zyzzyva.top</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/zyzzyva.top</origin>
                         </distributionFile>
                         <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/bin</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/bin</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/data</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/data</origin>
                         </distributionDirectory>
                         <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/images</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/linux-x64/images</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -134,154 +134,154 @@
                     <platforms>windows</platforms>
                     <distributionFileList>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/CHANGES.txt</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/CHANGES.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/AUTHORS.txt</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/AUTHORS.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/zyzzyva5.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/zyzzyva5.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/zyzzyva.top</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/zyzzyva.top</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/zyzzyva.exe</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/zyzzyva.exe</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/README.txt</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/README.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Xml.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Xml.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Sql.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Sql.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Network.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Network.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Gui.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Gui.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Core.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Core.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/LICENSE.txt</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/LICENSE.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/COPYING.txt</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/COPYING.txt</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/assistant.exe</origin>
-                        </distributionFile>
-                        <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/data</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/sqldrivers</origin>
-                        </distributionDirectory>
-                        <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/images</origin>
-                        </distributionDirectory>
-                        <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Widgets.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/libgcc_s_dw2-1.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/libstdc++-6.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/libwinpthread-1.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icuuc53.dll</origin>
-                        </distributionFile>
-                        <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icuin53.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/assistant.exe</origin>
                         </distributionFile>
                         <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/platforms</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/data</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/sqldrivers</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/images</origin>
                         </distributionDirectory>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icudt53.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Widgets.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5PrintSupport.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/libgcc_s_dw2-1.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Help.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/libstdc++-6.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5WebKit.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/libwinpthread-1.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5WebKitWidgets.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icuuc53.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5CLucene.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icuin53.dll</origin>
+                        </distributionFile>
+                        <distributionDirectory>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/platforms</origin>
+                        </distributionDirectory>
+                        <distributionFile>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icudt53.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Qml.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5PrintSupport.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Quick.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Help.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5QuickWidgets.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5WebKit.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Positioning.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5WebKitWidgets.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5MultimediaWidgets.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5CLucene.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Multimedia.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Qml.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5MultimediaQuick_p.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Quick.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5XmlPatterns.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5QuickWidgets.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Concurrent.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Positioning.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5DBus.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5MultimediaWidgets.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Declarative.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Multimedia.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Designer.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5MultimediaQuick_p.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5DesignerComponents.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5XmlPatterns.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Location.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Concurrent.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5OpenGL.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5DBus.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Script.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Declarative.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5ScriptTools.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Designer.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5WinExtras.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5DesignerComponents.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Sensors.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Location.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5WebChannel.dll</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5OpenGL.dll</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Script.dll</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5ScriptTools.dll</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5WinExtras.dll</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5Sensors.dll</origin>
+                        </distributionFile>
+                        <distributionFile>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5WebChannel.dll</origin>
                         </distributionFile>
                     </distributionFileList>
                 </folder>
@@ -292,7 +292,7 @@
                     <platforms>osx</platforms>
                     <distributionFileList>
                         <distributionDirectory>
-                            <origin>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/C:/Users/jim/Boshvark/Zyzzyva/Installer/macosx/Zyzzyva.app</origin>
+                            <origin>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/C:/Users/jim/Boshvark/Zyzzyva/Installer/macosx/Zyzzyva.app</origin>
                         </distributionDirectory>
                     </distributionFileList>
                 </folder>
@@ -353,7 +353,7 @@
     <description></description>
     <enableRollback>1</enableRollback>
     <enableTimestamp>1</enableTimestamp>
-    <outputDirectory>/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/jim/Desktop/!!DESKTOPSAVE</outputDirectory>
+    <outputDirectory>E:/home/jim/projects/Collins-Zyzzyva/installer/InstallBuilder project/F:/jim/Desktop/!!DESKTOPSAVE</outputDirectory>
     <startMenuGroupName>Collins Zyzzyva ${product_version}</startMenuGroupName>
     <summary>${product_fullname} is a word study program written by Michael Thelen and Jim Miller.</summary>
     <uninstallerName></uninstallerName>

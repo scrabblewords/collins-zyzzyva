@@ -166,6 +166,9 @@ class MainSettings
     static QString getDefinitionFont() { return instance->definitionFont; }
     static void setDefinitionFont(const QString& str) {
         instance->definitionFont = str; }
+    static QString getPrintingFont() { return instance->printingFont; }
+    static void setPrintingFont(const QString& str) {
+        instance->printingFont = str; }
     static bool getWordListSortByLength() {
         return instance->wordListSortByLength; }
     static void setWordListSortByLength(bool b) {
@@ -186,6 +189,10 @@ class MainSettings
         return instance->wordListGroupByAnagrams; }
     static void setWordListGroupByAnagrams(bool b) {
         instance->wordListGroupByAnagrams = b; }
+    static bool getWordListShowWildcardMatches() {
+        return instance->wordListShowWildcardMatches; }
+    static void setWordListShowWildcardMatches(bool b) {
+        instance->wordListShowWildcardMatches = b; }
     static bool getWordListShowProbabilityOrder() {
         return instance->wordListShowProbabilityOrder; }
     static void setWordListShowProbabilityOrder(bool b) {
@@ -235,6 +242,7 @@ class MainSettings
                      wordListSortByReverseLength(false),
                      wordListSortByProbabilityOrder(false),
                      wordListSortByPlayabilityOrder(false),
+                     wordListShowWildcardMatches(false),
                      wordListShowHooks(false),
                      wordListShowHookParents(false),
                      wordListUseHookParentHyphens(false),
@@ -287,11 +295,13 @@ class MainSettings
     QString quizLabelFont;
     QString wordInputFont;
     QString definitionFont;
+    QString printingFont;
     bool wordListSortByLength;
     bool wordListSortByReverseLength;
     bool wordListSortByProbabilityOrder;
     bool wordListSortByPlayabilityOrder;
     bool wordListGroupByAnagrams;
+    bool wordListShowWildcardMatches;
     bool wordListShowProbabilityOrder;
     bool wordListShowPlayabilityOrder;
     bool wordListShowHooks;

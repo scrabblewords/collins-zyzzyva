@@ -27,6 +27,8 @@
 #define ZYZZYVA_MAIN_WINDOW_H
 
 #include "CardboxRescheduleType.h"
+#include "WordVariationDialog.h"
+#include <QAction>
 #include <QCloseEvent>
 #include <QIcon>
 #include <QLabel>
@@ -71,6 +73,7 @@ class MainWindow : public QMainWindow
     void newCardboxForm();
     void doSaveAction();
     void doSaveAsAction();
+    void doPrintAction();
     void doJudgeAction();
     void editSettings();
     void viewDefinition();
@@ -87,6 +90,7 @@ class MainWindow : public QMainWindow
     void tabStatusChanged(const QString& status);
     void tabDetailsChanged(const QString& details);
     void tabSaveEnabledChanged(bool saveEnabled);
+    void tabPrintEnabledChanged(bool printEnabled);
 
     void doTest();
 
@@ -103,6 +107,7 @@ class MainWindow : public QMainWindow
     int rescheduleCardbox(const QStringList& words, const QString& lexicon,
         const QString& quizType, CardboxRescheduleType rescheduleType,
         int rescheduleValue = 0) const;
+    void readSettings(bool useGeometry);
 
     protected:
     virtual void closeEvent(QCloseEvent* event);
@@ -120,11 +125,14 @@ class MainWindow : public QMainWindow
                     quint16* expectedChecksum = 0);
     QList<quint16> importChecksums(const QString& file);
     int importStems(const QString& lexicon);
-    void readSettings(bool useGeometry);
     void writeSettings();
     void newTab(ActionForm* form);
     void newQuizFromQuizFile(const QString& filename);
     void newQuizFromWordFile(const QString& filename);
+    void copyQActionPartial(const QAction* orig, QAction* dest);
+
+    private slots:
+    void clearDialogFromList(QObject* obj);
 
     private:
     enum LexiconDatabaseError {
@@ -146,13 +154,17 @@ class MainWindow : public QMainWindow
 
     QAction*     saveAction;
     QAction*     saveAsAction;
+    QAction*     printAction;
+    QAction*     toolbarSaveAction;
+    QAction*     toolbarSaveAsAction;
+    QAction*     toolbarPrintAction;
 
     SettingsDialog* settingsDialog;
     AboutDialog*    aboutDialog;
-    //HelpDialog*     helpDialog;
 
     QString lexiconError;
     QMap<QString, int> dbErrors;
+    QList<WordVariationDialog*> wordVariationDialogs;
 
     static MainWindow*  instance;
 };

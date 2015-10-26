@@ -23,6 +23,7 @@ rem along with this program; if not, write to the Free Software
 rem Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 rem -------------------------------------------------------------------------
 
+
 setlocal
 
 cd ..
@@ -39,7 +40,7 @@ CALL mingw32-make
 mkdir %OUTDIR%
 
 rem Copy Qt libraries
-rem copy %QTDIR%\bin\assistant.exe %OUTDIR%
+copy %QTDIR%\bin\assistant.exe %OUTDIR%
 rem copy %QTDIR%\bin\QtAssistantClient4.dll %OUTDIR%
 rem copy %QTDIR%\bin\QtCore4.dll %OUTDIR%
 rem copy %QTDIR%\bin\QtGui4.dll %OUTDIR%
@@ -47,7 +48,6 @@ rem copy %QTDIR%\bin\QtNetwork4.dll %OUTDIR%
 rem copy %QTDIR%\bin\QtSql4.dll %OUTDIR%
 rem copy %QTDIR%\bin\QtXml4.dll %OUTDIR%
 rem copy %QTDIR%\bin\mingwm10.dll %OUTDIR%
-copy %QTDIR%\bin\assistant.exe %OUTDIR%
 rem copy %QTDIR%\bin\QtAssistantClient5.dll %OUTDIR%
 copy %QTDIR%\bin\Qt5Core.dll %OUTDIR%
 copy %QTDIR%\bin\Qt5Gui.dll %OUTDIR%
@@ -85,10 +85,10 @@ copy %QTDIR%\bin\Qt5XmlPatterns.dll %OUTDIR%
 rem copy %QTDIR%\bin\mingwm10.dll %OUTDIR%
 copy %QTDIR%\bin\libgcc_s_dw2-1.dll %OUTDIR%
 
-rem ** FIX THIS **  File not being copied for some reason. (JGM)
-copy %QTDIR%\bin\libstdc++-6.dll %OUTDIR%
+xcopy /I /E /H /R /Y %QTDIR%\bin\libstdc++-6.dll %OUTDIR%
 
 copy %QTDIR%\bin\libwinpthread-1.dll %OUTDIR%
+
 copy %QTDIR%\bin\icuuc54.dll %OUTDIR%
 copy %QTDIR%\bin\icuin54.dll %OUTDIR%
 copy %QTDIR%\bin\icudt54.dll %OUTDIR%
@@ -100,6 +100,8 @@ rem Copy Qt plugins
 mkdir %OUTDIR%\sqldrivers
 rem copy %QTDIR%\plugins\sqldrivers\qsqlite4.dll %OUTDIR%\sqldrivers
 copy %QTDIR%\plugins\sqldrivers\qsqlite.dll %OUTDIR%\sqldrivers
+mkdir %OUTDIR%\printsupport
+copy %QTDIR%\plugins\printsupport\windowsprintersupport.dll %OUTDIR%\printsupport
 
 rem Copy Zyzzyva images
 mkdir %OUTDIR%\images
@@ -115,8 +117,7 @@ copy COPYING %OUTDIR%\COPYING.txt
 copy LICENSE %OUTDIR%\LICENSE.txt
 copy README %OUTDIR%\README.txt
 
-rem (JGM) NOT WORKING if data dir already exists.  Must do manually.
 rem Copy Zyzzyva data directory
-xcopy /I /E /H data %OUTDIR%\data
+xcopy /I /E /H /R /Y data %OUTDIR%\data
 
 endlocal

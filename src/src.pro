@@ -26,4 +26,4 @@
 TEMPLATE = subdirs
 SUBDIRS = libzyzzyva zyzzyva tests
 CONFIG += qt thread warn_on assistant
-QT += sql xml network widgets gui
+QT += sql xml network widgets gui webkit webkitwidgets printsupport

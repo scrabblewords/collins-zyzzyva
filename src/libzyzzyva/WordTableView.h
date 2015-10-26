@@ -28,6 +28,7 @@
 
 #include "WordAttribute.h"
 #include "WordListFormat.h"
+#include "WordVariationDialog.h"
 #include <QString>
 #include <QTreeView>
 
@@ -39,10 +40,12 @@ class WordTableView : public QTreeView
     public:
     WordTableView(WordEngine* e, QWidget* parent = 0);
     virtual ~WordTableView() { }
+    void resizeItemsRecursively();
 
     public slots:
     virtual void resizeItemsToContents();
     void exportRequested();
+    void printRequested();
     void createQuizRequested();
     void addToCardboxRequested();
     void removeFromCardboxRequested();
@@ -57,6 +60,7 @@ class WordTableView : public QTreeView
     void viewDefinition();
     void viewVariation(int variation);
     void headerSectionClicked(int section);
+    void clearDialogFromList(QObject* obj);
 
     private:
     // XXX: Hmm, these methods probably don't belong in WordTableView
@@ -77,6 +81,11 @@ class WordTableView : public QTreeView
 
     private:
     WordEngine* wordEngine;
+    QList<WordVariationDialog*> wordVariationDialogs;
+
+    static const int ITEM_XPADDING = 5;
+    static const int ITEM_YPADDING = 0;
+    static const int TWO_COLUMN_ANAGRAM_PADDING = 3;
 
 };
 

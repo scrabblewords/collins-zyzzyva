@@ -56,9 +56,11 @@ class ActionForm : public QFrame
     virtual QString getDetailsString() const { return QString(); }
     virtual bool isSaveCapable() const { return false; }
     virtual bool isSaveEnabled() const { return false; }
+    virtual bool isPrintEnabled() const { return false; }
 
     public slots:
     virtual void saveRequested(bool saveAs) { Q_UNUSED(saveAs); }
+    virtual void printRequested() { }
     virtual void selectInputArea() { }
 
     signals:
@@ -66,6 +68,7 @@ class ActionForm : public QFrame
     void statusChanged(const QString& status);
     void detailsChanged(const QString& details);
     void saveEnabledChanged(bool saveEnabled);
+    void printEnabledChanged(bool printEnabled);
 
     private:
     ActionFormType type;

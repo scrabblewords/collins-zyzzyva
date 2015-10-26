@@ -27,6 +27,7 @@
 #define ZYZZYVA_INTRO_FORM_H
 
 #include "ActionForm.h"
+#include <QWebView>
 
 class WordEngine;
 
@@ -39,6 +40,12 @@ class IntroForm : public ActionForm
     QIcon getIcon() const;
     QString getTitle() const;
     QString getStatusString() const;
+
+    public slots:
+    void linkIsClicked(const QUrl& url);
+
+    private:
+    QWebView    *view;
 };
 
 #endif // ZYZZYVA_INTRO_FORM_H

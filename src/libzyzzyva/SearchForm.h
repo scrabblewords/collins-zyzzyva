@@ -45,14 +45,18 @@ class SearchForm : public ActionForm
     SearchForm(WordEngine* e, QWidget* parent = 0, Qt::WindowFlags f = 0);
     QIcon getIcon() const;
     QString getTitle() const;
+    WordTableModel* getResultModel() const;
     QString getStatusString() const;
     QString getDetailsString() const;
     bool isSaveCapable() const { return true; }
     bool isSaveEnabled() const;
+    bool isPrintEnabled() const;
+    WordTableView* getView() { return resultView; }
 
     // Reimplemented virtual methods
     public slots:
     void saveRequested(bool saveAs = false);
+    void printRequested();
     void selectInputArea();
 
     public slots:
@@ -60,6 +64,7 @@ class SearchForm : public ActionForm
     void updateResultTotal(int num);
     void lexiconActivated(const QString& lexicon);
     void specChanged();
+
 
     private:
     WordEngine*     wordEngine;

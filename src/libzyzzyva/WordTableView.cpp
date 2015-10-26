@@ -45,16 +45,17 @@
 #include <QHeaderView>
 #include <QMessageBox>
 #include <QMenu>
+#include <QPrintDialog>
+#include <QPrinter>
 #include <QPushButton>
 #include <QSignalMapper>
+#include <QTextDocument>
 #include <QTextStream>
 #include <QToolTip>
+#include <QDebug>
+#include <QFont>
 
 using namespace std;
-
-const int WordTableModel::ITEM_XPADDING = 5;
-const int WordTableModel::ITEM_YPADDING = 0;
-const int TWO_COLUMN_ANAGRAM_PADDING = 3;
 
 //---------------------------------------------------------------------------
 //  WordTableView
@@ -71,20 +72,73 @@ WordTableView::WordTableView(WordEngine* e, QWidget* parent)
     setSelectionMode(QAbstractItemView::SingleSelection);
     setRootIsDecorated(false);
 
+    // TODO (JGM): Revisit this code in order to completely hide desired columns.
+    // Existing view display problems:  Wildcard column in child windows only hiding/unhiding
+    // on hover or other action; and inner hook symbol likewise not changing automatically.
+    //
     // FIXME: Once Trolltech fixes the assert in QHeaderView, continue with
     // statements like these
-    //if (!MainSettings::getWordListShowHooks()) {
-    //    setColumnHidden(WordTableModel::FRONT_HOOK_COLUMN, true);
-    //    setColumnHidden(WordTableModel::BACK_HOOK_COLUMN, true);
-    //}
+    //header()->setSectionResizeMode(WordTableModel::FRONT_HOOK_COLUMN, QHeaderView::Interactive);
+    //header()->setSectionResizeMode(WordTableModel::BACK_HOOK_COLUMN, QHeaderView::Interactive);
+    header()->setSectionResizeMode(QHeaderView::Interactive);
+    //header()->setMinimumSectionSize(0);
+    //header()->setCascadingSectionResizes(true);
+    //header()->setDefaultSectionSize(0);
+    //header()->setStyleSheet("QHeaderView::down-arrow {image: none;}");
+    //header()->setStyleSheet("QHeaderView::up-arrow {image: none;}");
+//    if (!MainSettings::getWordListShowHooks()) {
+
+//        hideColumn(WordTableModel::FRONT_HOOK_COLUMN);
+//        columnCountChanged()
+//        header()->resizeSection(WordTableModel::FRONT_HOOK_COLUMN, 0);
+//        setColumnWidth(WordTableModel::FRONT_HOOK_COLUMN, 0);
+//        header()->hideSection(WordTableModel::FRONT_HOOK_COLUMN);
+//        //model()->removeColumn(WordTableModel::FRONT_HOOK_COLUMN);
+
+//        hideColumn(WordTableModel::BACK_HOOK_COLUMN);
+//        header()->resizeSection(WordTableModel::BACK_HOOK_COLUMN, 0);
+//        setColumnWidth(WordTableModel::BACK_HOOK_COLUMN, 0);
+//        header()->hideSection(WordTableModel::BACK_HOOK_COLUMN);
+//        //header()->setStyleSheet("QHeaderView::section:hidden {background-color: transparent;}");
+//    }
 
     header()->setSortIndicatorShown(true);
-    header()->setSortIndicator(WordTableModel::WORD_COLUMN,
-        Qt::AscendingOrder);
+    header()->setSortIndicator(WordTableModel::WORD_COLUMN, Qt::AscendingOrder);
     //header()->setClickable(true);
     header()->setSectionsClickable(true);
     connect(header(), SIGNAL(sectionClicked(int)),
         SLOT(headerSectionClicked(int)));
+}
+
+//---------------------------------------------------------------------------
+//  resizeItemsRecursively
+//
+//! Resize all columns to fit the model contents, for view and all views
+//! of child WordVariationDialogs.
+//!
+//! TODO (JGM) Add an interface to combine this with the same function in
+//! MainWindow::readSettings.
+//---------------------------------------------------------------------------
+void
+WordTableView::resizeItemsRecursively()
+{
+    resizeItemsToContents();
+    QListIterator<WordVariationDialog*> it(wordVariationDialogs);
+    WordVariationDialog* current;
+    while (it.hasNext()) {
+        current = it.next();
+        if (current) {
+            if (current->getTopView()) {
+                current->getTopView()->resizeItemsRecursively();
+            }
+            if (current->getMiddleView()) {
+                current->getMiddleView()->resizeItemsRecursively();
+            }
+            if (current->getBottomView()) {
+                current->getBottomView()->resizeItemsRecursively();
+            }
+        }
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -97,8 +151,26 @@ WordTableView::resizeItemsToContents()
 {
 //    for (int i = 0; i < model()->rowCount(); ++i)
 //        resizeRowToContents(i);
-    for (int i = 0; i < model()->columnCount(); ++i)
+
+    // TODO (JGM): See WordTableView::WordTableView big TODO.
+    //header()->setMinimumSectionSize(0);
+    //header()->setCascadingSectionResizes(true);
+    for (int i = 0; i < model()->columnCount(); ++i) {
+//      if (isColumnHidden(i)) {
+          //hideColumn(i);
+//          header()->resizeSection(i, 0);
+//          setColumnWidth(i, 0);
+//          header()->hideSection(i);
+          //setColumnWidth(i, 0);
+          //header()->hideSection(i);
+//      }
+//      else {
+    //model()->removeColumn(i);
+    //header()->setDefaultSectionSize(0);
+        //header()->resizeSection(i, 10);
         resizeColumnToContents(i);
+      }
+//  }
 }
 
 //---------------------------------------------------------------------------
@@ -139,8 +211,11 @@ WordTableView::viewVariation(int variation)
     WordVariationType type = static_cast<WordVariationType>(variation);
     WordVariationDialog* dialog = new WordVariationDialog(wordEngine, lexicon,
                                                           word, type, this);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
     Q_CHECK_PTR(dialog);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    wordVariationDialogs.insert(wordVariationDialogs.size(), dialog);
+    //NOTE (JGM) WordVariationDialog* does not work as arguments!
+    connect(dialog, SIGNAL(destroyed(QObject*)), this, SLOT(clearDialogFromList(QObject*)));
     dialog->show();
 }
 
@@ -248,6 +323,131 @@ WordTableView::exportRequested()
         QString message = "Cannot save word list:\n" + error + ".";
         message = Auxil::dialogWordWrap(message);
         QMessageBox::warning(this, caption, message);
+    }
+}
+
+//---------------------------------------------------------------------------
+//  printRequested
+//
+//! Called when the user indicates that the word list should be printed.
+//! Display a print dialog.
+//---------------------------------------------------------------------------
+void
+WordTableView::printRequested()
+{
+    QString html;
+    QString htmlAlignment;
+    QString alignment;
+    int wordType;
+    bool shading = false;
+    //bool ZWSPs;
+    qint8 padding = 0;
+    QString printingFontStr;
+    QFont font;
+    QString fontFamily;
+    int fontSize;
+    bool fontBold;
+    bool fontItalic;
+    bool fontUnderline;
+    bool fontOverline;
+    QString tdStyle = QString();
+
+    printingFontStr = MainSettings::getPrintingFont();
+    if (!printingFontStr.isEmpty()) {
+        font.fromString(printingFontStr);
+        fontFamily = font.family();
+        fontSize = font.pointSize();
+        fontBold = font.bold();
+        fontItalic = font.italic();
+        fontUnderline = font.underline();
+        fontOverline = font.overline();
+        tdStyle += (QString("<style> td {font-family:") + fontFamily + ";font-size:" + QString("%1").arg(fontSize) + "pt");
+        if (fontBold)
+            tdStyle += (";font-weight:bold");
+        else
+            tdStyle += (";font-weight:normal");
+        if (fontItalic)
+            tdStyle += (";font-style:italic");
+        else
+            tdStyle += (";font-style:normal");
+        if (fontUnderline)
+            tdStyle += (";text-decoration:underline");
+        else if (fontOverline)
+            tdStyle += (";text-decoration:overline");
+        else
+            tdStyle += (";text-decoration:none");
+        tdStyle += "} </style>";
+    }
+
+    html = "<html><body>" + tdStyle + "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
+    for (int row = 0; row < model()->rowCount(); row++) {
+        html += "<tr>";
+        for (int column = 0; column < model()->columnCount(); column++) {
+            wordType = (model()->data(model()->index(row, column), WordTableModel::WordTypeRole)).toInt();
+            switch (wordType) {
+                case WordTableModel::WordNormal:
+                    shading = false;
+                break;
+                case WordTableModel::WordNormalAlternate:
+                    shading = true;
+            }
+            //ZWSPs = false;
+            alignment = (model()->data(model()->index(row, column), Qt::TextAlignmentRole)).toString();
+            switch(alignment.toInt() - 128) {
+                case Qt::AlignLeft:
+                    htmlAlignment = "\"left\"";
+                break;
+                case Qt::AlignCenter:
+                    htmlAlignment = "\"center\"";
+                break;
+                case Qt::AlignRight:
+                    htmlAlignment = "\"right\"";
+            }
+            QString data = model()->data(model()->index(row, column), Qt::DisplayRole).toString();
+            if (column == WordTableModel::FRONT_HOOK_COLUMN) {
+                padding = 8;
+                //ZWSPs = true;
+            }
+            else if (column == WordTableModel::WORD_COLUMN) {
+                data.replace(' ', "&nbsp;");
+                padding = 10;
+            }
+            else if (column == WordTableModel::BACK_HOOK_COLUMN) {
+                padding = 25;
+                //ZWSPs = true;
+            }
+            else if (column == WordTableModel::DEFINITION_COLUMN)
+                padding = 0;
+            else
+                padding = 25;
+            if (!data.isNull())
+                html += "<td align=" + htmlAlignment + " style=\"padding:0 " + QString::number(padding) + "px 0 0 px;"
+                    // TODO (JGM):  Trying to get long lists of hook letters not to break prematurely after '+'
+                    // character, for example (see PA in list of anagrams of "A?").  But using ZWSPs causes the hook cells
+                    // to be placed slightly lower!  And soft hyphen leaves a hyphen character; and valign doesn't help.
+                    // Is there anything in CSS to accomplish this?
+                    // REFER TO:  http://doc.qt.io/qt-5/richtext-html-subset.html
+                    //
+                    //+ "px 0 0 px;\">" + (ZWSPs ? data.replace(QRegExp("([ -~])"), "\\1&#8203;") : data) + "</td>";
+                    //+ (ZWSPs ? ("valign=\"top\">" + data.replace(QRegExp("([ -~])"), "\\1&#8203;")) : (">" + data)) + "</td>";
+                    //+ (ZWSPs ? (">" + data.replace(QRegExp("([ -~])"), "\\1&shy;")) : (">" + data)) + "</td>";
+                    + (shading ? "background-color:rgb(228, 229, 230);\"" : "\"")
+                    + ">" + data + "</td>";
+            else
+                html += QString("<td") + (shading ? " style=\"background-color:rgb(228, 229, 230);\"" : "") + "></td>";
+        }
+        html += "</tr>";
+    }
+    html += "</table></body></html>";
+
+    QPrinter printer;
+    //printer.setOutputFormat(QPrinter::NativeFormat);
+    QPrintDialog *dialog = new QPrintDialog(&printer);
+    if (dialog->exec() == QDialog::Accepted) {
+        //QWebView document;
+        QTextDocument document;
+        document.setHtml(html);
+        document.print(&printer);
     }
 }
 
@@ -403,6 +603,22 @@ WordTableView::removeFromCardboxRequested()
     }
 
     delete dialog;
+}
+
+//---------------------------------------------------------------------------
+//  clearDialogFromList
+//
+//! Remove pointer to this dialog from the list of child WordVariationDialogs.
+//! TODO (JGM) Add an interface to combine this with the same function in
+//! MainWindow.
+//
+//! @param obj pointer to the child WVD object.
+//---------------------------------------------------------------------------
+void
+WordTableView::clearDialogFromList(QObject* obj)
+{
+    WordVariationDialog *wvd = static_cast<WordVariationDialog*>(obj);
+    wordVariationDialogs.removeOne(wvd);
 }
 
 //---------------------------------------------------------------------------
@@ -608,14 +824,15 @@ WordTableView::getExportStrings(QModelIndex& index, const
         if (column < 0)
             continue;
 
-        index = index.sibling(index.row(), column); QString str;
+        index = index.sibling(index.row(), column);
+        QString str;
 
         // XXX: inner hook and symbols should be stored under separate roles
         // in the WordTableModel, so they can be easily queried
 
         // special processing for inner hooks and symbols
         if ((column == WordTableModel::WORD_COLUMN) &&
-            (exportInnerHooks || exportSymbols))
+            (exportInnerHooks || exportSymbols) && (attribute != WordAttrAlphagram))
         {
             str = model()->data(index, Qt::DisplayRole).toString().toUpper();
             if (!exportSymbols) {
@@ -913,6 +1130,13 @@ WordTableView::contextMenuEvent(QContextMenuEvent* e)
             SLOT(removeFromCardboxRequested()));
     popupMenu->addAction(removeFromCardboxAction);
 
+    if (model()->rowCount() > 0) {
+        QAction* printAction = new QAction("Print list...", popupMenu);
+        Q_CHECK_PTR(printAction);
+        connect(printAction, SIGNAL(triggered()), SLOT(printRequested()));
+        popupMenu->addAction(printAction);
+    }
+
     popupMenu->exec(QCursor::pos());
     delete popupMenu;
 }
@@ -989,7 +1213,7 @@ int
 WordTableView::sizeHintForColumn(int column) const
 {
     return QAbstractItemView::sizeHintForColumn(column) +
-        (2 * WordTableModel::ITEM_XPADDING);
+        (2 * ITEM_XPADDING);
 }
 
 //---------------------------------------------------------------------------
@@ -1007,5 +1231,5 @@ int
 WordTableView::sizeHintForRow(int row) const
 {
     return QAbstractItemView::sizeHintForRow(row) +
-        (2 * WordTableModel::ITEM_YPADDING);
+        (2 * ITEM_YPADDING);
 }

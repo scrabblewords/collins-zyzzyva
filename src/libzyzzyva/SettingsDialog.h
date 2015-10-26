@@ -129,8 +129,10 @@ class SettingsDialog : public QDialog
     QLineEdit*   fontQuizLabelLine;
     QLineEdit*   fontDefinitionLine;
     QLineEdit*   fontWordInputLine;
+    QLineEdit*   fontPrintingLine;
     QCheckBox*   lengthSortCbox;
     QCheckBox*   anagramGroupCbox;
+    QCheckBox*   showWildcardMatchesCbox;
     QCheckBox*   showProbabilityOrderCbox;
     QCheckBox*   showPlayabilityOrderCbox;
     QCheckBox*   showHookParentsCbox;

@@ -246,7 +246,7 @@ WordEngine::importBinaryFile(const QString& lexicon, const QString& filename,
     if (!file.open(QIODevice::ReadOnly)) {
         if (errString) {
             *errString = "Can't open file '" + filename + "': " +
-                file.errorString();
+                    file.errorString();
         }
         return 0;
     }
@@ -261,7 +261,7 @@ WordEngine::importBinaryFile(const QString& lexicon, const QString& filename,
     //TODO (JGM) Comment out decryption key when copying to published source zip.
     SimpleCrypt crypto(Q_UINT64_C(0x0000000000000000));
     QByteArray *plaintextBlob = new QByteArray(crypto.decryptToByteArray(*fileBlob));
-    delete fileBlob; fileBlob = 0;
+    delete fileBlob;
 //    if (!crypto.lastError() == SimpleCrypt::ErrorNoError) {
 //      // check why we have an error, use the error code from crypto.lastError() for that.
 //      delete plaintextData;
@@ -270,8 +270,9 @@ WordEngine::importBinaryFile(const QString& lexicon, const QString& filename,
 
     int imported = 0;
     char *plaintext = new char[plaintextBlob->size() + 1];
+    char *plaintextAllocation = plaintext;
     strcpy(plaintext, plaintextBlob->constData());
-    delete plaintextBlob; plaintextBlob = 0;
+    delete plaintextBlob;
 
     char *nextNewline;
     char buffer[MAX_INPUT_LINE_LEN * 2 + 1];
@@ -283,18 +284,16 @@ WordEngine::importBinaryFile(const QString& lexicon, const QString& filename,
 
         lineLength = nextNewline - plaintext + 1;
         if (lineLength <= MAX_INPUT_LINE_LEN - 1) {
-            //buffer = new char[lineLength + 1];
             memcpy(buffer, plaintext, (lineLength) * sizeof(char));
             buffer[lineLength] = '\0';
             plaintext = nextNewline + 1;
         }
         else {
-            //buffer = new char[MAX_INPUT_LINE_LEN];
             memcpy(buffer, plaintext, (MAX_INPUT_LINE_LEN - 1) * sizeof(char));
             buffer[MAX_INPUT_LINE_LEN - 1] = '\0';
             plaintext += (MAX_INPUT_LINE_LEN - 1);
         }
-        QString line (buffer);
+        QString line(buffer);
 
         // If first line didn't contain newline, skip subsequent reads
         // until we see a newline (effectively truncating long lines)
@@ -323,7 +322,7 @@ WordEngine::importBinaryFile(const QString& lexicon, const QString& filename,
         ++imported;
     }
 
-    //delete[] plaintext; plaintext = 0;            // (JGM) FIX THIS KLUDGE!  Not releasing allocated memory.
+    delete[] plaintextAllocation;
     return imported;
 }
 

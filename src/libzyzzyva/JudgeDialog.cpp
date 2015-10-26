@@ -37,9 +37,11 @@
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QPalette>
+#include <QScreen>
 #include <QTextCursor>
 #include <QTextStream>
 #include <QVBoxLayout>
+#include <QWindow>
 
 // How many pixels to display for every 20 pixels of screen height
 const int FONT_PIXEL_DIVIDER = 20;
@@ -106,6 +108,7 @@ JudgeDialog::JudgeDialog(WordEngine* e, const QString& lex,
     : QDialog(parent, f), engine(e), lexicon(lex), password(pass),
     altPressed(false), count(0), clearResultsHold(0), fontMultiplier(0)
 {
+
     altPressedTimer = new QTimer(this);
     connect(altPressedTimer, SIGNAL(timeout()), SLOT(clearAltPressed()));
 
@@ -202,25 +205,26 @@ JudgeDialog::JudgeDialog(WordEngine* e, const QString& lex,
     passwordLabel->setAlignment(Qt::AlignHCenter);
     passwordVlay->addWidget(passwordLabel);
 
-    const int screenWidth = QApplication::desktop()->width();
+    //const int screenWidth = QApplication::desktop()->width();
     QHBoxLayout* passwordLineHlay = new QHBoxLayout;
     passwordLineHlay->setMargin(0);
     passwordVlay->addLayout(passwordLineHlay);
 
-    passwordLineHlay->addSpacing(screenWidth / 4);
+    //passwordLineHlay->addSpacing(screenWidth / 4);
 
     QFontMetrics instructionFontMetrics (instructionFont);
     passwordLine = new QLineEdit;
     passwordLine->setFont(instructionFont);
     passwordLine->setEchoMode(QLineEdit::Password);
     passwordLine->setMinimumSize(0, instructionFontMetrics.height());
+    passwordLine->setMaximumSize(instructionFontMetrics.width('W') * 20, instructionFontMetrics.height());
     connect(passwordLine, SIGNAL(textChanged(const QString&)),
         SLOT(passwordTextChanged()));
     connect(passwordLine, SIGNAL(returnPressed()),
         SLOT(passwordReturnPressed()));
     passwordLineHlay->addWidget(passwordLine);
 
-    passwordLineHlay->addSpacing(screenWidth / 4);
+    //passwordLineHlay->addSpacing(screenWidth / 4);
 
     passwordResultLabel = new QLabel;
     QFont passwordResultFont = instructionFont;
@@ -308,6 +312,8 @@ JudgeDialog::JudgeDialog(WordEngine* e, const QString& lex,
     installEventFilter(this);
 
     clearResults();
+    show();
+    windowHandle()->setScreen(parent->windowHandle()->screen());
     showFullScreen();
 }
 
@@ -848,7 +854,7 @@ JudgeDialog::createTitleWidget()
 //	QString pixmapName = ":/nssc-128x128";
 //#else
     QString programName = "Collins Zyzzyva Word Judge";
-	QString pixmapName = ":/zyzzyva-128x128";
+    QString pixmapName = ":/zyzzyva-128x128";
 //#endif
 
     QLabel* programLabel = new QLabel(programName + "\n"

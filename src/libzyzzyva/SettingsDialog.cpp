@@ -25,6 +25,7 @@
 
 #include "SettingsDialog.h"
 #include "MainSettings.h"
+#include "MainWindow.h"
 #include "LexiconSelectDialog.h"
 #include "LexiconStyle.h"
 #include "LexiconStyleDialog.h"
@@ -55,6 +56,7 @@ const int FONT_WORD_LISTS_BUTTON = 2;
 const int FONT_QUIZ_LABEL_BUTTON = 3;
 const int FONT_DEFINITIONS_BUTTON = 4;
 const int FONT_WORD_INPUT_BUTTON = 5;
+const int FONT_PRINTING_BUTTON = 6;
 
 using namespace Defs;
 
@@ -701,6 +703,29 @@ SettingsDialog::SettingsDialog(QWidget* parent, Qt::WindowFlags f)
 
     fontPrefVlay->addStretch(2);
 
+    // Printing font
+    ++row;
+    QLabel* fontPrintingLabel = new QLabel("Printing:");
+    Q_CHECK_PTR(fontPrintingLabel);
+    fontGlay->addWidget(fontPrintingLabel, row, 0, Qt::AlignLeft);
+
+    fontPrintingLine = new QLineEdit;
+    Q_CHECK_PTR(fontPrintingLine);
+    fontPrintingLine->setReadOnly(true);
+    fontPrintingLine->setText(this->font().toString());
+    fontPrintingLine->home(false);
+    fontGlay->addWidget(fontPrintingLine, row, 1);
+
+    ZPushButton* chooseFontPrintingButton = new ZPushButton("Choose...");
+    Q_CHECK_PTR(chooseFontPrintingButton);
+    connect(chooseFontPrintingButton, SIGNAL(clicked()), signalMapper,
+            SLOT(map()));
+    signalMapper->setMapping(chooseFontPrintingButton,
+                             FONT_PRINTING_BUTTON);
+    fontGlay->addWidget(chooseFontPrintingButton, row, 2);
+
+    fontPrefVlay->addStretch(2);
+
     // Word List Prefs
     wordListPrefWidget = new QWidget;
     Q_CHECK_PTR(wordListPrefWidget);
@@ -724,6 +749,10 @@ SettingsDialog::SettingsDialog(QWidget* parent, Qt::WindowFlags f)
     Q_CHECK_PTR(wordListDisplayVlay);
     wordListDisplayVlay->setMargin(MARGIN);
     wordListDisplayVlay->setSpacing(SPACING);
+
+    showWildcardMatchesCbox = new QCheckBox("Show wildcard matches");
+    Q_CHECK_PTR(showWildcardMatchesCbox);
+    wordListDisplayVlay->addWidget(showWildcardMatchesCbox);
 
     showProbabilityOrderCbox = new QCheckBox("Show probability order");
     Q_CHECK_PTR(showProbabilityOrderCbox);
@@ -987,8 +1016,14 @@ SettingsDialog::refreshSettings()
     fontDefinitionLine->setText(MainSettings::getDefinitionFont());
     fontDefinitionLine->home(false);
 
+    // Printing font
+    fontPrintingLine->setText(MainSettings::getPrintingFont());
+    fontPrintingLine->home(false);
+
     lengthSortCbox->setChecked(MainSettings::getWordListSortByLength());
     anagramGroupCbox->setChecked(MainSettings::getWordListGroupByAnagrams());
+    showWildcardMatchesCbox->setChecked(
+        MainSettings::getWordListShowWildcardMatches());
     showProbabilityOrderCbox->setChecked(
         MainSettings::getWordListShowProbabilityOrder());
     showPlayabilityOrderCbox->setChecked(
@@ -1075,8 +1110,11 @@ SettingsDialog::writeSettings()
     MainSettings::setQuizLabelFont(fontQuizLabelLine->text());
     MainSettings::setWordInputFont(fontWordInputLine->text());
     MainSettings::setDefinitionFont(fontDefinitionLine->text());
+    MainSettings::setPrintingFont(fontPrintingLine->text());
     MainSettings::setWordListSortByLength(lengthSortCbox->isChecked());
     MainSettings::setWordListGroupByAnagrams(anagramGroupCbox->isChecked());
+    MainSettings::setWordListShowWildcardMatches(
+        showWildcardMatchesCbox->isChecked());
     MainSettings::setWordListShowProbabilityOrder(
         showProbabilityOrderCbox->isChecked());
     MainSettings::setWordListShowPlayabilityOrder(
@@ -1088,6 +1126,7 @@ SettingsDialog::writeSettings()
     MainSettings::setWordListShowDefinitions(showDefinitionCbox->isChecked());
     MainSettings::setWordListLowerCaseWildcards(
         lowerCaseWildcardsCbox->isChecked());
+    MainSettings::setWordListUseLexiconStyles(lexiconStyleCbox->isChecked());
     MainSettings::setWordListLexiconStyles(getLexiconStyles());
     MainSettings::writeSettings();
 }
@@ -1131,6 +1170,9 @@ SettingsDialog::restoreDefaultsClicked()
 {
     MainSettings::restoreDefaults(navList->selectedItems().first()->text());
     refreshSettings();
+    //(JGM) Attempt to dynamically reload fonts (made MainWindow::readSettings public in the process...)
+    MainWindow::getInstance()->readSettings(false);
+    ////readSettings();
 }
 
 //---------------------------------------------------------------------------
@@ -1316,6 +1358,7 @@ SettingsDialog::chooseFontButtonClicked(int button)
         case FONT_QUIZ_LABEL_BUTTON:  lineEdit = fontQuizLabelLine; break;
         case FONT_WORD_INPUT_BUTTON:  lineEdit = fontWordInputLine; break;
         case FONT_DEFINITIONS_BUTTON: lineEdit = fontDefinitionLine; break;
+        case FONT_PRINTING_BUTTON:    lineEdit = fontPrintingLine; break;
         default: return;
     }
 

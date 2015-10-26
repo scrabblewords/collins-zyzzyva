@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file alias="zyzzyva-32x32">images/zyzzyva-32x32.png</file>
-        <file alias="zyzzyva-128x128">images/zyzzyva-128x128.png</file>
         <file alias="close-tab-icon">images/close-tab-icon-small.png</file>
         <file alias="left-arrow-icon">images/left-arrow-large.png</file>
         <file alias="right-arrow-icon">images/right-arrow-large.png</file>
@@ -19,5 +17,8 @@
         <file alias="save-as-icon">images/save-as-icon-large.png</file>
         <file alias="save-icon">images/save-icon-large.png</file>
         <file alias="search-icon">images/search-icon-large.png</file>
+        <file alias="print-icon">images/print-icon-large.png</file>
+        <file alias="zyzzyva-128x128">images/zyzzyva-128x128-red.png</file>
+        <file alias="zyzzyva-32x32">images/zyzzyva-32x32-red.png</file>
     </qresource>
 </RCC>

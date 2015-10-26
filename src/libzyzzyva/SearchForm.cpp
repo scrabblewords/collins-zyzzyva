@@ -142,6 +142,19 @@ SearchForm::getTitle() const
 }
 
 //---------------------------------------------------------------------------
+//  getresultModel
+//
+//! Returns the current resultModel.
+//
+//! @return the current resultModel
+//---------------------------------------------------------------------------
+WordTableModel*
+SearchForm::getResultModel() const
+{
+    return resultModel;
+}
+
+//---------------------------------------------------------------------------
 //  getStatusString
 //
 //! Returns the current status string.
@@ -181,6 +194,19 @@ SearchForm::isSaveEnabled() const
 }
 
 //---------------------------------------------------------------------------
+//  isPrintEnabled
+//
+//! Determine whether the print action should be enabled for this form.
+//
+//! @return true if print should be enabled, false otherwise
+//---------------------------------------------------------------------------
+bool
+SearchForm::isPrintEnabled() const
+{
+    return (resultModel->rowCount() > 0);
+}
+
+//---------------------------------------------------------------------------
 //  saveRequested
 //
 //! Called when a save action is requested.
@@ -191,6 +217,17 @@ void
 SearchForm::saveRequested(bool)
 {
     resultView->exportRequested();
+}
+
+//---------------------------------------------------------------------------
+//  printRequested
+//
+//! Called when a print action is requested.
+//---------------------------------------------------------------------------
+void
+SearchForm::printRequested()
+{
+    resultView->printRequested();
 }
 
 //---------------------------------------------------------------------------
@@ -343,6 +380,7 @@ SearchForm::search()
 
     updateResultTotal(wordList.size());
     emit saveEnabledChanged(!wordList.empty());
+    emit printEnabledChanged(!wordList.empty());
 
     QWidget* focusWidget = QApplication::focusWidget();
     QLineEdit* lineEdit = dynamic_cast<QLineEdit*>(focusWidget);

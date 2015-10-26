@@ -301,44 +301,44 @@ WordTableModel::data(const QModelIndex& index, int role) const
 
     WordItem& wordItem = wordList[index.row()];
     WordType type = (lastAddedIndex == index.row()) ? WordLastAdded
-        : wordItem.getType();
+                                                    : wordItem.getType();
 
     switch (role) {
         case WordTypeRole:
         return type;
 
         case PlayabilityValueRole:
-        if (!wordItem.playabilityOrderIsValid()) {
-            QString wordUpper = wordItem.getWord().toUpper();
-            qint64 pv = wordEngine->getPlayabilityValue(lexicon, wordUpper);
-            if (pv)
-                wordItem.setPlayabilityValue(pv);
-            int po = wordEngine->getPlayabilityOrder(lexicon, wordUpper);
-            if (po)
-                wordItem.setPlayabilityOrder(po);
-        }
+            if (!wordItem.playabilityOrderIsValid()) {
+                QString wordUpper = wordItem.getWord().toUpper();
+                qint64 pv = wordEngine->getPlayabilityValue(lexicon, wordUpper);
+                if (pv)
+                    wordItem.setPlayabilityValue(pv);
+                int po = wordEngine->getPlayabilityOrder(lexicon, wordUpper);
+                if (po)
+                    wordItem.setPlayabilityOrder(po);
+            }
         return wordItem.getPlayabilityValue();
 
         case Qt::ForegroundRole: {
             QColor color;
             switch (type) {
                 case WordTableModel::WordNormal:
-                color = VALID_NORMAL_WORD_FOREGROUND;
+                    color = VALID_NORMAL_WORD_FOREGROUND;
                 break;
                 case WordTableModel::WordNormalAlternate:
-                color = VALID_NORMAL_ALTERNATE_FOREGROUND;
+                    color = VALID_NORMAL_ALTERNATE_FOREGROUND;
                 break;
                 case WordTableModel::WordCorrect:
-                color = VALID_CORRECT_WORD_FOREGROUND;
+                    color = VALID_CORRECT_WORD_FOREGROUND;
                 break;
                 case WordTableModel::WordMissed:
-                color = VALID_MISSED_WORD_FOREGROUND;
+                    color = VALID_MISSED_WORD_FOREGROUND;
                 break;
                 case WordTableModel::WordIncorrect:
-                color = INVALID_WORD_FOREGROUND;
+                    color = INVALID_WORD_FOREGROUND;
                 break;
                 case WordTableModel::WordLastAdded:
-                color = LAST_ADDED_WORD_FOREGROUND;
+                    color = LAST_ADDED_WORD_FOREGROUND;
                 break;
                 default: break;
             }
@@ -349,22 +349,22 @@ WordTableModel::data(const QModelIndex& index, int role) const
             QColor color;
             switch (type) {
                 case WordTableModel::WordNormal:
-                color = VALID_NORMAL_WORD_BACKGROUND;
+                    color = VALID_NORMAL_WORD_BACKGROUND;
                 break;
                 case WordTableModel::WordNormalAlternate:
-                color = VALID_NORMAL_ALTERNATE_BACKGROUND;
+                    color = VALID_NORMAL_ALTERNATE_BACKGROUND;
                 break;
                 case WordTableModel::WordCorrect:
-                color = VALID_CORRECT_WORD_BACKGROUND;
+                    color = VALID_CORRECT_WORD_BACKGROUND;
                 break;
                 case WordTableModel::WordMissed:
-                color = VALID_MISSED_WORD_BACKGROUND;
+                    color = VALID_MISSED_WORD_BACKGROUND;
                 break;
                 case WordTableModel::WordIncorrect:
-                color = INVALID_WORD_BACKGROUND;
+                    color = INVALID_WORD_BACKGROUND;
                 break;
                 case WordTableModel::WordLastAdded:
-                color = LAST_ADDED_WORD_BACKGROUND;
+                    color = LAST_ADDED_WORD_BACKGROUND;
                 break;
                 default: break;
             }
@@ -377,11 +377,11 @@ WordTableModel::data(const QModelIndex& index, int role) const
                 case WordTableModel::FRONT_HOOK_COLUMN:
                 case WordTableModel::PROBABILITY_ORDER_COLUMN:
                 case WordTableModel::PLAYABILITY_ORDER_COLUMN:
-                flags |= Qt::AlignRight;
+                    flags |= Qt::AlignRight;
                 break;
 
                 default:
-                flags |= Qt::AlignLeft;
+                    flags |= Qt::AlignLeft;
                 break;
             }
             return flags;
@@ -396,7 +396,10 @@ WordTableModel::data(const QModelIndex& index, int role) const
             QString wordUpper = word.toUpper();
             switch (index.column()) {
                 case WILDCARD_MATCH_COLUMN:
-                return wordItem.getWildcard();
+                    if (!MainSettings::getWordListShowWildcardMatches()) {
+                        return QString();
+                    }
+                    return wordItem.getWildcard();
 
                 case PROBABILITY_ORDER_COLUMN: {
                     if (!MainSettings::getWordListShowProbabilityOrder()) {
@@ -405,7 +408,7 @@ WordTableModel::data(const QModelIndex& index, int role) const
 
                     if (!wordItem.probabilityOrderIsValid()) {
                         int p = wordEngine->getProbabilityOrder(
-                            lexicon, wordUpper, probNumBlanks);
+                                    lexicon, wordUpper, probNumBlanks);
                         if (p)
                             wordItem.setProbabilityOrder(p);
                     }
@@ -421,11 +424,11 @@ WordTableModel::data(const QModelIndex& index, int role) const
 
                     if (!wordItem.playabilityOrderIsValid()) {
                         qint64 pv = wordEngine->getPlayabilityValue(
-                            lexicon, wordUpper);
+                                    lexicon, wordUpper);
                         if (pv)
                             wordItem.setPlayabilityValue(pv);
                         int po = wordEngine->getPlayabilityOrder(
-                            lexicon, wordUpper);
+                                    lexicon, wordUpper);
                         if (po)
                             wordItem.setPlayabilityOrder(po);
                     }
@@ -435,65 +438,71 @@ WordTableModel::data(const QModelIndex& index, int role) const
                 }
 
                 case FRONT_HOOK_COLUMN:
-                if (!MainSettings::getWordListShowHooks()) {
-                    return QString();
-                }
-                else if (!wordItem.hooksAreValid()) {
-                    wordItem.setHooks(
-                        wordEngine->getFrontHookLetters(lexicon, wordUpper),
-                        wordEngine->getBackHookLetters(lexicon, wordUpper));
-                }
-                return wordItem.getFrontHooks();
+                    if (!MainSettings::getWordListShowHooks()) {
+                        return QString();
+                    }
+                    else if (!wordItem.hooksAreValid()) {
+                        wordItem.setHooks(
+                                    wordEngine->getFrontHookLetters(lexicon, wordUpper),
+                                    wordEngine->getBackHookLetters(lexicon, wordUpper));
+                    }
+                    if (MainSettings::getWordListUseLexiconStyles())
+                        return wordItem.getFrontHooks();
+                    else
+                        return wordItem.getFrontHooks().replace(QRegExp("[\\W_\\d]+"), QString());
 
                 case BACK_HOOK_COLUMN:
-                if (!MainSettings::getWordListShowHooks()) {
-                    return QString();
-                }
-                else if (!wordItem.hooksAreValid()) {
-                    wordItem.setHooks(
-                        wordEngine->getFrontHookLetters(lexicon, wordUpper),
-                        wordEngine->getBackHookLetters(lexicon, wordUpper));
-                }
-                return wordItem.getBackHooks();
+                    if (!MainSettings::getWordListShowHooks()) {
+                        return QString();
+                    }
+                    else if (!wordItem.hooksAreValid()) {
+                        wordItem.setHooks(
+                                    wordEngine->getFrontHookLetters(lexicon, wordUpper),
+                                    wordEngine->getBackHookLetters(lexicon, wordUpper));
+                    }
+                    if (MainSettings::getWordListUseLexiconStyles())
+                        return wordItem.getBackHooks();
+                    else
+                        return wordItem.getBackHooks().replace(QRegExp("[\\W_\\d]+"), QString());
 
                 case WORD_COLUMN:
-                if (role == Qt::EditRole) {
-                    return wordUpper;
-                }
-                else if (role == Qt::DisplayRole) {
-                    QString str (word);
-                    if (MainSettings::getWordListShowHookParents()) {
-                        if (!wordItem.parentHooksAreValid()) {
-                            wordItem.setParentHooks(
-                                wordEngine->getIsFrontHook(lexicon, wordUpper),
-                                wordEngine->getIsBackHook(lexicon, wordUpper));
-                        }
-                        QChar hookChar =
-                            (MainSettings::getWordListUseHookParentHyphens() ?
-                                PARENT_HOOK_HYPHEN_CHAR : PARENT_HOOK_CHAR);
-                        str = (wordItem.getFrontParentHook() ? hookChar
-                               : QChar(' '))
-                            + str
-                            + (wordItem.getBackParentHook() ? hookChar
-                               : QChar(' '));
+                    if (role == Qt::EditRole) {
+                        return wordUpper;
                     }
-                    if (MainSettings::getWordListUseLexiconStyles()) {
-                        if (!wordItem.lexiconSymbolsAreValid()) {
-                            wordItem.setLexiconSymbols(
-                                wordEngine->getLexiconSymbols(lexicon,
-                                                              wordUpper));
+                    else if (role == Qt::DisplayRole) {
+                        QString str (word);
+                        if (MainSettings::getWordListShowHookParents()) {
+                            if (!wordItem.parentHooksAreValid()) {
+                                wordItem.setParentHooks(
+                                            wordEngine->getIsFrontHook(lexicon, wordUpper),
+                                            wordEngine->getIsBackHook(lexicon, wordUpper));
+                            }
+                            QChar hookChar =
+                                    (MainSettings::getWordListUseHookParentHyphens() ?
+                                         PARENT_HOOK_HYPHEN_CHAR : PARENT_HOOK_CHAR);
+                            str = (wordItem.getFrontParentHook() ? hookChar
+                                                                 : QChar(' '))
+                                    + str
+                                    + (wordItem.getBackParentHook() ? hookChar
+                                                                    : QChar(' '));
                         }
-                        str += wordItem.getLexiconSymbols();
+                        if (MainSettings::getWordListUseLexiconStyles()) {
+                            if (!wordItem.lexiconSymbolsAreValid()) {
+                                wordItem.setLexiconSymbols(
+                                            wordEngine->getLexiconSymbols(lexicon,
+                                                                          wordUpper));
+                            }
+                            str += wordItem.getLexiconSymbols();
+                        }
+                        return str;
                     }
-                    return str;
-                }
-                else
-                    return word;
+                    else
+                        return word;
 
                 case DEFINITION_COLUMN:
                 return MainSettings::getWordListShowDefinitions() ?
-                    wordEngine->getDefinition(lexicon, wordUpper) :
-                    QString();
+                            wordEngine->getDefinition(lexicon, wordUpper) :
+                            QString();
 
                 default:
                 return word;
@@ -527,41 +536,60 @@ WordTableModel::headerData(int section, Qt::Orientation orientation, int
     if (orientation == Qt::Vertical)
         return QVariant();
 
-    if (role == Qt::DisplayRole) {
-        switch (section) {
-            case WILDCARD_MATCH_COLUMN:
-            return MainSettings::getWordListGroupByAnagrams() ?
-                WILDCARD_MATCH_HEADER : QString();
+    switch (role) {
+        case Qt::DisplayRole:
+            switch (section) {
+                case WILDCARD_MATCH_COLUMN:
+                return (MainSettings::getWordListShowWildcardMatches()
+                        //&& MainSettings::getWordListGroupByAnagrams()
+                        ) ? WILDCARD_MATCH_HEADER : QString();
 
-            case PROBABILITY_ORDER_COLUMN:
-            return MainSettings::getWordListShowProbabilityOrder() ?
-                PROBABILITY_ORDER_HEADER.arg(probNumBlanks) : QString();
+                case PROBABILITY_ORDER_COLUMN:
+                return MainSettings::getWordListShowProbabilityOrder() ?
+                            PROBABILITY_ORDER_HEADER.arg(probNumBlanks) : QString();
 
-            case PLAYABILITY_ORDER_COLUMN:
-            return MainSettings::getWordListShowPlayabilityOrder() ?
-                PLAYABILITY_ORDER_HEADER : QString();
+                case PLAYABILITY_ORDER_COLUMN:
+                return MainSettings::getWordListShowPlayabilityOrder() ?
+                            PLAYABILITY_ORDER_HEADER : QString();
 
-            case FRONT_HOOK_COLUMN:
-            return MainSettings::getWordListShowHooks() ?
-                FRONT_HOOK_HEADER : QString();
+                case FRONT_HOOK_COLUMN:
+                return MainSettings::getWordListShowHooks() ?
+                            FRONT_HOOK_HEADER : QString();
 
-            case BACK_HOOK_COLUMN:
-            return MainSettings::getWordListShowHooks() ?
-                BACK_HOOK_HEADER : QString();
+                case BACK_HOOK_COLUMN:
+                return MainSettings::getWordListShowHooks() ?
+                            BACK_HOOK_HEADER : QString();
 
-            case WORD_COLUMN:
-            return WORD_HEADER;
+                case WORD_COLUMN:
+                return WORD_HEADER;
 
-            case DEFINITION_COLUMN:
-            return MainSettings::getWordListShowDefinitions() ?
-                DEFINITION_HEADER : QString();
+                case DEFINITION_COLUMN:
+                return MainSettings::getWordListShowDefinitions() ?
+                            DEFINITION_HEADER : QString();
 
-            default:
-            return "Unknown";
+                default:
+                return "Unknown";
+            }
+
+        case Qt::TextAlignmentRole: {
+            int flags = Qt::AlignVCenter;
+            switch (section) {
+                case WordTableModel::FRONT_HOOK_COLUMN:
+                case WordTableModel::PROBABILITY_ORDER_COLUMN:
+                case WordTableModel::PLAYABILITY_ORDER_COLUMN:
+                    flags |= Qt::AlignRight;
+                break;
+
+                default:
+                    flags |= Qt::AlignLeft;
+                break;
+            }
+            return flags;
         }
+
+        default:
+            return QVariant();
     }
-    else
-        return QVariant();
 }
 
 //---------------------------------------------------------------------------
@@ -640,17 +668,17 @@ WordTableModel::setData(const QModelIndex& index, const QVariant& value, int
             QString wordUpper = word.getWord().toUpper();
             if (MainSettings::getWordListShowHooks()) {
                 word.setHooks(
-                    wordEngine->getFrontHookLetters(lexicon, wordUpper),
-                    wordEngine->getBackHookLetters(lexicon, wordUpper));
+                            wordEngine->getFrontHookLetters(lexicon, wordUpper),
+                            wordEngine->getBackHookLetters(lexicon, wordUpper));
             }
             if (MainSettings::getWordListShowHookParents()) {
                 word.setParentHooks(
-                    wordEngine->getIsFrontHook(lexicon, wordUpper),
-                    wordEngine->getIsBackHook(lexicon, wordUpper));
+                            wordEngine->getIsFrontHook(lexicon, wordUpper),
+                            wordEngine->getIsBackHook(lexicon, wordUpper));
             }
             if (MainSettings::getWordListUseLexiconStyles()) {
                 word.setLexiconSymbols(
-                    wordEngine->getLexiconSymbols(lexicon, wordUpper));
+                            wordEngine->getLexiconSymbols(lexicon, wordUpper));
             }
         }
         else if (index.column() == PROBABILITY_ORDER_COLUMN) {
@@ -714,7 +742,7 @@ WordTableModel::reverse()
     }
 
     emit dataChanged(index(0, 0),
-        index(wordList.size() - 1, DEFINITION_COLUMN));
+                     index(wordList.size() - 1, DEFINITION_COLUMN));
 }
 
 //---------------------------------------------------------------------------
@@ -750,7 +778,7 @@ WordTableModel::addWordPrivate(const WordItem& word, int row)
     setData(index(row, WORD_COLUMN), word.getPlayabilityValue(),
             PlayabilityValueRole);
     setData(index(row, WILDCARD_MATCH_COLUMN), word.getWildcard(),
-                  Qt::EditRole);
+            Qt::EditRole);
     if (word.probabilityOrderIsValid()) {
         setData(index(row, PROBABILITY_ORDER_COLUMN),
                 word.getProbabilityOrder(), Qt::EditRole);

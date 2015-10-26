@@ -113,6 +113,7 @@ QuizCanvas::setText(const QString& text)
         else {
             QLabel* label = new QLabel(this);
             label->setObjectName(LABEL_SHOW_STRING);
+            // (JGM testing) label->setAccessibleName("joepetreetest");
             label->setPixmap(*pixmap);
             label->move(i, QUIZ_TILE_MARGIN);
             label->setAttribute(Qt::WA_DeleteOnClose);
@@ -163,6 +164,7 @@ QuizCanvas::setTileTheme(const QString& theme)
 
             QImage image (dirStr + "/" + file);
             QPixmap pixmap = QPixmap::fromImage(image);
+            // (JGM testing) pixmap = pixmap.scaled(pixmap.size() * 4);
             tileImages.insert(letter, pixmap);
 
             if (pixmap.width() > maxTileWidth)

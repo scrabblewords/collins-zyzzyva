@@ -1,10 +1,10 @@
 <project>
     <shortName>CollinsZyzzyva</shortName>
     <fullName>Zyzzyva</fullName>
-    <version>5.0.1</version>
+    <version>5.0.2</version>
     <installerFilename>Collins-Zyzzyva-${product_version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
-    <readmeFile>F:\Programming_projects\boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac\boshvark-zyzzyva-pc-9ddd4ac\README</readmeFile>
-    <licenseFile>F:\Programming_projects\boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac\boshvark-zyzzyva-pc-9ddd4ac\LICENSE</licenseFile>
+    <readmeFile>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/README</readmeFile>
+    <licenseFile>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/LICENSE</licenseFile>
     <componentList>
         <component>
             <name>default</name>
@@ -197,16 +197,16 @@
                             <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/libwinpthread-1.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icuuc53.dll</origin>
+                            <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icuuc54.dll</origin>
                         </distributionFile>
                         <distributionFile>
-                            <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icuin53.dll</origin>
+                            <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icuin54.dll</origin>
                         </distributionFile>
                         <distributionDirectory>
                             <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/platforms</origin>
                         </distributionDirectory>
                         <distributionFile>
-                            <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icudt53.dll</origin>
+                            <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/icudt54.dll</origin>
                         </distributionFile>
                         <distributionFile>
                             <origin>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/installer/windows/Qt5PrintSupport.dll</origin>

@@ -25,6 +25,7 @@
 #include "Auxil.h"
 //#include <QTextBrowser>
 //#include <QVBoxLayout>
+#include <QDesktopServices>
 #include <QWebView>
 #include <QFormLayout>
 
@@ -45,10 +46,12 @@ IntroForm::IntroForm(QWidget* parent, Qt::WindowFlags f)
     Q_CHECK_PTR(mainLay);
     mainLay->setContentsMargins(11, 11, 0, 11);
 
-    QWebView *view = new QWebView(this);
+    view = new QWebView(this);
     Q_CHECK_PTR(view);
     QString mainPage = Auxil::getHelpDir() + "/index.html";
     view->load(QUrl::fromLocalFile(mainPage));
+    view->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
+    connect(view->page(), SIGNAL(linkClicked(const QUrl&)), SLOT(linkIsClicked(const QUrl&)));
     mainLay->addWidget(view);
 
 //    QTextBrowser* browser = new QTextBrowser(this);
@@ -58,6 +61,19 @@ IntroForm::IntroForm(QWidget* parent, Qt::WindowFlags f)
 //    QString mainPage = Auxil::getHelpDir() + "/index.html";
 //    browser->setSource(QUrl::fromLocalFile(mainPage));
 //    //QDesktopServices::openUrl(QUrl::fromLocalFile(mainPage));
+}
+
+//---------------------------------------------------------------------------
+//  linkIsClicked
+//
+//! Called when a delegated link is clicked.
+//
+//! @param  The URL of the link clicked.
+//---------------------------------------------------------------------------
+void
+IntroForm::linkIsClicked(const QUrl& url)
+{
+    QDesktopServices::openUrl(url);
 }
 
 //---------------------------------------------------------------------------

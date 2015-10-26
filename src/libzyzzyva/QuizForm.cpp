@@ -134,7 +134,7 @@ QuizForm::QuizForm(WordEngine* we, QWidget* parent, Qt::WindowFlags f)
     questionMarkedStatus(QuestionNotMarked), db(0),
     // FIXME: This dialog should be nonmodal!
     analyzeDialog(new AnalyzeQuizDialog(quizEngine, we, this,
-                                        Qt::WindowMinMaxButtonsHint))
+                                        Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint))
 {
     QFont titleFont = qApp->font();
     titleFont.setPixelSize(TITLE_FONT_PIXEL_SIZE);
@@ -190,6 +190,12 @@ QuizForm::QuizForm(WordEngine* we, QWidget* parent, Qt::WindowFlags f)
     Q_CHECK_PTR(questionCanvas);
     questionCanvas->setPalette(
         QPalette(MainSettings::getQuizBackgroundColor()));
+    // (JGM, 7/26/15) Trying to solve Win8 quiz tiles too-smallness for Jennifer Lee.
+    // Keep investigating - sizeHint and sizePolicy for the tiles themselves.
+    // This is probably a layout automatic sizing issue.
+    //questionCanvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    //printf("%d\n", questionCanvas->sizeHint());
+    //questionCanvas->setMinimumSize(QSize(400, 100));
     questionCanvas->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     questionStack->addWidget(questionCanvas);
 
@@ -484,6 +490,19 @@ QuizForm::isSaveEnabled() const
 }
 
 //---------------------------------------------------------------------------
+//  isPrintEnabled
+//
+//! Determine whether the print action should be enabled for this form.
+//
+//! @return true if print should be enabled, false otherwise
+//---------------------------------------------------------------------------
+bool
+QuizForm::isPrintEnabled() const
+{
+    return (responseModel->rowCount() > 0);
+}
+
+//---------------------------------------------------------------------------
 //  responseEntered
 //
 //! Called when a response is entered into the input line.
@@ -504,6 +523,7 @@ QuizForm::responseEntered()
         message = Auxil::dialogWordWrap(message);
         QMessageBox::warning(this, caption, message);
         unpauseTimer();
+        selectInputArea();
         return;
     }
 
@@ -527,6 +547,7 @@ QuizForm::responseEntered()
         responseModel->addWord(
             WordTableModel::WordItem(response, WordTableModel::WordCorrect),
             true);
+        emit printEnabledChanged(true);
         MainSettings::setWordListGroupByAnagrams(origGroupByAnagrams);
 
         responseView->scrollTo(responseModel->sibling(
@@ -542,7 +563,7 @@ QuizForm::responseEntered()
     }
     else if (status == QuizEngine::Duplicate) {
         statusStr = "<font color=\"purple\">Duplicate</font>";
-        inputLine->clear();
+        selectInputArea();
     }
 
     // Update the stats if the stats are already shown
@@ -772,6 +793,17 @@ QuizForm::saveRequested(bool saveAs)
 }
 
 //---------------------------------------------------------------------------
+//  printRequested
+//
+//! Called when a print action is requested.
+//---------------------------------------------------------------------------
+void
+QuizForm::printRequested()
+{
+    responseView->printRequested();
+}
+
+//---------------------------------------------------------------------------
 //  selectInputArea
 //
 //! Give focus to a text input area if possible.  Otherwise give focus to
@@ -875,6 +907,7 @@ QuizForm::markMissed()
 {
     quizEngine->markQuestionAsMissed();
     responseModel->clear();
+    emit printEnabledChanged(false);
     markMissedButton->setText(MARK_CORRECT_BUTTON);
     bool old = checkBringsJudgment;
     checkBringsJudgment = true;
@@ -1064,6 +1097,8 @@ QuizForm::checkResponseClicked()
         markMissedButton->setText(MARK_CORRECT_BUTTON);
     }
 
+    emit printEnabledChanged(true);
+
     if ((quizEngine->numQuestions() > 0) && !quizEngine->onLastQuestion()) {
         nextQuestionButton->setEnabled(true);
         nextQuestionButton->setFocus();
@@ -1215,6 +1250,7 @@ QuizForm::startQuestion()
     clearStats();
     updateQuestionDisplay();
     responseModel->clear();
+    emit printEnabledChanged(false);
     questionMarkedStatus = QuestionNotMarked;
 
     QString question = quizEngine->getQuestion();
@@ -1411,6 +1447,11 @@ QuizForm::setQuestionLabel(const QString& question, const QString& order)
     }
 
     QWidget* currentWidget = questionStack->currentWidget();
+    // (JGM) Increases spacing between quiz question letters in non-tiled mode.
+    QFont currentWidgetFont = currentWidget->font();
+    currentWidgetFont.setLetterSpacing(QFont::PercentageSpacing, 175);
+    currentWidget->setFont(currentWidgetFont);
+    //
     if (currentWidget == questionCanvas) {
         questionCanvas->setText(displayQuestion);
         questionLabel->setText(QString());

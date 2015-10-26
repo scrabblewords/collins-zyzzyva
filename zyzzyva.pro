@@ -26,4 +26,4 @@
 TEMPLATE = subdirs
 SUBDIRS = src
 CONFIG += qt thread warn_on assistant
-QT += sql xml network widgets gui webkit webkitwidgets
+QT += sql xml network widgets gui webkit webkitwidgets printsupport

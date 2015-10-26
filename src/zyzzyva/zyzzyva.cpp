@@ -30,6 +30,7 @@
 #include <QPixmap>
 #include <QSplashScreen>
 #include <QDebug>
+#include <QThread>
 
 const QString SETTINGS_ORGANIZATION_NAME = "Twilight Century Computing";
 const QString SETTINGS_DOMAIN_NAME = "twilightcenturycomputing.com";
@@ -47,6 +48,7 @@ int main(int argc, char** argv)
     splash->show();
 
     MainWindow* window = new MainWindow(0, splash);
+    QThread::sleep(2);
 
     window->tryAutoImport();
     window->tryConnectToDatabases();

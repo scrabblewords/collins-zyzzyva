@@ -46,6 +46,9 @@ class WordVariationDialog : public QDialog
                         word, WordVariationType variation, QWidget* parent =
                         0, Qt::WindowFlags f = 0);
     ~WordVariationDialog();
+    WordTableView* getTopView() { return topView; }
+    WordTableView* getMiddleView() { return middleView; }
+    WordTableView* getBottomView() { return bottomView; }
 
     private:
     void setWordVariation(const QString& word, WordVariationType variation);

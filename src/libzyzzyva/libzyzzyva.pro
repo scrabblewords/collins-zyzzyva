@@ -26,7 +26,7 @@
 TEMPLATE = lib
 TARGET = zyzzyva
 CONFIG += qt thread warn_on assistant
-QT += sql xml network widgets gui webkit webkitwidgets
+QT += sql xml network widgets gui webkit webkitwidgets printsupport
 
 ROOT = ../..
 DESTDIR = $$ROOT/bin
@@ -158,5 +158,3 @@ HEADERS = \
     ZApplication.h \
     ZPushButton.h \
     ../simplecrypt/simplecrypt.h
-
-FORMS +=
