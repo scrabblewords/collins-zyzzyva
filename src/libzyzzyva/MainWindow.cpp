@@ -3,7 +3,7 @@
 //
 // The main window for the word study application.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -69,7 +69,7 @@
 
 MainWindow* MainWindow::instance = 0;
 
-const QString APPLICATION_TITLE = "Collins Zyzzyva 5.0.2";
+const QString APPLICATION_TITLE = "Collins Zyzzyva 5.0.3";
 
 const QString IMPORT_FAILURE_TITLE = "Load Failed";
 const QString IMPORT_COMPLETE_TITLE = "Load Complete";
@@ -329,7 +329,9 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
     QAction* helpAction = new QAction("&Help", this);
     Q_CHECK_PTR(helpAction);
     helpAction->setIcon(QIcon(":/help-icon"));
-    connect(helpAction, SIGNAL(triggered()), SLOT(displayHelp()));
+    //connect(helpAction, SIGNAL(triggered()), SLOT(displayHelp()));
+    // Start using "Welcome" dialog solely for providing help!
+    connect(helpAction, SIGNAL(triggered()), SLOT(newIntroForm()));
     helpMenu->addAction(helpAction);
 
     // About
@@ -384,7 +386,9 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
     toolbar->addAction(toolbarEditPrefsAction);
     QAction* toolbarHelpAction = new QAction("Help", this);
     copyQActionPartial(helpAction, toolbarHelpAction);
-    connect(toolbarHelpAction, SIGNAL(triggered()), SLOT(displayHelp()));
+    //connect(toolbarHelpAction, SIGNAL(triggered()), SLOT(displayHelp()));
+    // Start using "Welcome" dialog solely for providing help!
+    connect(toolbarHelpAction, SIGNAL(triggered()), SLOT(newIntroForm()));
     toolbar->addAction(toolbarHelpAction);
     addToolBar(toolbar);
 
@@ -1085,7 +1089,7 @@ MainWindow::displayHelp()
     args << QLatin1String("-collectionFile")
         << (Auxil::getHelpDir() + QLatin1String("/zyzzyva.qhc"))
         << QLatin1String("-showUrl")
-        << QLatin1String("qthelp://twilightcenturycomputing.com/5.0.2/index.html")
+        << QLatin1String("qthelp://twilightcenturycomputing.com/5.0.3/index.html")
         << QLatin1String("-enableRemoteControl");
     process->start(QLatin1String("assistant"), args);
     if (!process->waitForStarted())

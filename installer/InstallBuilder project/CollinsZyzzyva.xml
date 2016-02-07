@@ -1,7 +1,7 @@
 <project>
     <shortName>CollinsZyzzyva</shortName>
     <fullName>Zyzzyva</fullName>
-    <version>5.0.2</version>
+    <version>5.0.3</version>
     <installerFilename>Collins-Zyzzyva-${product_version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/README</readmeFile>
     <licenseFile>F:/Programming_projects/boshvark-zyzzyva-pc-2.2.3-0-g9ddd4ac/boshvark-zyzzyva-pc-9ddd4ac/LICENSE</licenseFile>

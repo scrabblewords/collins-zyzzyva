@@ -3,7 +3,7 @@
 //
 // A dialog for selecting the lexicons to be loaded and used.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.

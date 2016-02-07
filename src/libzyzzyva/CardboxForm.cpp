@@ -3,7 +3,7 @@
 //
 // A form for querying and editing the contents of the cardbox system.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2007-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify

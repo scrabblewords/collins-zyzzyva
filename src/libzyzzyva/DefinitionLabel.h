@@ -5,7 +5,7 @@
 // currently does nothing special.  It only exists so objects of this class
 // can be distinguished from other QLabel objects when applying font settings.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.

@@ -1,7 +1,7 @@
 <project>
     <shortName>CollinsZyzzyva</shortName>
     <fullName>Zyzzyva</fullName>
-    <version>5.0.2</version>
+    <version>5.0.3</version>
     <installerFilename>Collins-Zyzzyva-${product_version}-${platform_name}-installer.${platform_exec_suffix}</installerFilename>
     <readmeFile>/home/jim/projects/Collins-Zyzzyva/installer/linux/README</readmeFile>
     <licenseFile>/home/jim/projects/Collins-Zyzzyva/installer/linux/LICENSE</licenseFile>

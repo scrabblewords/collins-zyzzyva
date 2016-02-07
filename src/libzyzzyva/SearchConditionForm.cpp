@@ -3,7 +3,7 @@
 //
 // A form for specifying a search condition.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -42,8 +42,6 @@ const int MAX_MAX_INT_VALUE = 999999;
 const QString POS_ADJECTIVE = "adj";
 const QString POS_ADVERB = "adv";
 const QString POS_CONJUNCTION = "conj";
-const QString POS_DEFINITE_ARTICLE = "definite_article";
-const QString POS_INDEFINITE_ARTICLE = "indefinite_article";
 const QString POS_INTERJECTION = "interj";
 const QString POS_NOUN = "n";
 const QString POS_PREPOSITION = "prep";
@@ -53,8 +51,6 @@ const QString POS_VERB = "v";
 const QString NICE_POS_ADJECTIVE = "Adjective";
 const QString NICE_POS_ADVERB = "Adverb";
 const QString NICE_POS_CONJUNCTION = "Conjunction";
-const QString NICE_POS_DEFINITE_ARTICLE = "Definite Article";
-const QString NICE_POS_INDEFINITE_ARTICLE = "Indefinite Article";
 const QString NICE_POS_INTERJECTION = "Interjection";
 const QString NICE_POS_NOUN = "Noun";
 const QString NICE_POS_PREPOSITION = "Preposition";
@@ -132,6 +128,7 @@ SearchConditionForm::SearchConditionForm(QWidget* parent, Qt::WindowFlags f)
           << Auxil::searchTypeToString(SearchCondition::NumAnagrams);
 
     typeCbox = new QComboBox;
+    typeCbox->setMaxVisibleItems(30);
     Q_CHECK_PTR(typeCbox);
     typeCbox->addItems(types);
     connect(typeCbox, SIGNAL(activated(const QString&)),
@@ -935,8 +932,6 @@ SearchConditionForm::initializePos()
         posToNicePosMap.insert(POS_ADJECTIVE, NICE_POS_ADJECTIVE);
         posToNicePosMap.insert(POS_ADVERB, NICE_POS_ADVERB);
         posToNicePosMap.insert(POS_CONJUNCTION, NICE_POS_CONJUNCTION);
-        posToNicePosMap.insert(POS_DEFINITE_ARTICLE, NICE_POS_DEFINITE_ARTICLE);
-        posToNicePosMap.insert(POS_INDEFINITE_ARTICLE, NICE_POS_INDEFINITE_ARTICLE);
         posToNicePosMap.insert(POS_INTERJECTION, NICE_POS_INTERJECTION);
         posToNicePosMap.insert(POS_NOUN, NICE_POS_NOUN);
         posToNicePosMap.insert(POS_PREPOSITION, NICE_POS_PREPOSITION);
@@ -948,8 +943,6 @@ SearchConditionForm::initializePos()
         nicePosToPosMap.insert(NICE_POS_ADJECTIVE, POS_ADJECTIVE);
         nicePosToPosMap.insert(NICE_POS_ADVERB, POS_ADVERB);
         nicePosToPosMap.insert(NICE_POS_CONJUNCTION, POS_CONJUNCTION);
-        nicePosToPosMap.insert(NICE_POS_DEFINITE_ARTICLE, POS_DEFINITE_ARTICLE);
-        nicePosToPosMap.insert(NICE_POS_INDEFINITE_ARTICLE, POS_INDEFINITE_ARTICLE);
         nicePosToPosMap.insert(NICE_POS_INTERJECTION, POS_INTERJECTION);
         nicePosToPosMap.insert(NICE_POS_NOUN, POS_NOUN);
         nicePosToPosMap.insert(NICE_POS_PREPOSITION, POS_PREPOSITION);

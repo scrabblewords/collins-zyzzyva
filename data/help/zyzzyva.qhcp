@@ -2,7 +2,7 @@
 <QHelpCollectionProject version="1.0">
     <assistant>
         <title>Collins Zyzzyva Help</title>
-        <startPage>qthelp://twilightcenturycomputing.com/5.0.2/index.html</startPage>
+        <startPage>qthelp://twilightcenturycomputing.com/5.0.3/index.html</startPage>
         <aboutMenuText>
             <text>About Collins Zyzzyva</text>
         </aboutMenuText>

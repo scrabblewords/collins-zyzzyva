@@ -3,7 +3,7 @@
 //
 // Definitions.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -30,7 +30,7 @@
 #include <QString>
 
 namespace Defs {
-    const QString ZYZZYVA_VERSION = "5.0.2";
+    const QString ZYZZYVA_VERSION = "5.0.3";
     const int CURRENT_DATABASE_VERSION = 4;
     const QString IMPORT_CHOOSER_TITLE = "Choose a Word List";
     const QString EMPTY_DEFINITION = "(no definition)";

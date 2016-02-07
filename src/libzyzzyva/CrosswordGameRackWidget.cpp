@@ -3,7 +3,7 @@
 //
 // A widget for displaying and manipulating a crossword game board.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify

@@ -3,7 +3,7 @@ rem create-windows.sh
 rem
 rem Create a Windows directory for the installer to use.
 rem
-rem Copyright 2015 Twilight Century Computing.
+rem Copyright 2016 Twilight Century Computing.
 rem Copyright 2006-2012 North American SCRABBLE Players Association.
 rem
 rem This file is part of Zyzzyva.

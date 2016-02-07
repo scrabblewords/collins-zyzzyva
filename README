@@ -3,7 +3,7 @@ Please see COPYING and LICENSE for details.  Collins Zyzzyva is written by
 Michael W Thelen <mthelen@gmail.com> and Jim Miller <jg.millirem@gmail.com>.
 
 The latest version of Collins Zyzzyva can always be found at
-http://www.collinsdictionary.com/word-games/scrabble-tools
+http://www.collinsdictionary.com/scrabble/scrabble-tools
 and the source code for Collins Zyzzyva is found at https://goo.gl/8queyr
 
 If you are building Collins Zyzzyva from source code, you will need the Qt5 library,

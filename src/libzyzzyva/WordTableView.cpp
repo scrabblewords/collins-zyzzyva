@@ -3,7 +3,7 @@
 //
 // A class derived from QTableView, used to display word lists.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -341,6 +341,8 @@ WordTableView::printRequested()
     int wordType;
     bool shading = false;
     //bool ZWSPs;
+    bool nbHyphens;
+    bool isDefCol;
     qint8 padding = 0;
     QString printingFontStr;
     QFont font;
@@ -351,6 +353,7 @@ WordTableView::printRequested()
     bool fontUnderline;
     bool fontOverline;
     QString tdStyle = QString();
+    QString unformattedData, data;
 
     printingFontStr = MainSettings::getPrintingFont();
     if (!printingFontStr.isEmpty()) {
@@ -382,6 +385,7 @@ WordTableView::printRequested()
     html = "<html><body>" + tdStyle + "<table border=\"0\" cellspacing=\"0\" cellpadding=\"0\">";
     for (int row = 0; row < model()->rowCount(); row++) {
         html += "<tr>";
+        //html += "<tr valign=\"middle\">";
         for (int column = 0; column < model()->columnCount(); column++) {
             wordType = (model()->data(model()->index(row, column), WordTableModel::WordTypeRole)).toInt();
             switch (wordType) {
@@ -392,6 +396,8 @@ WordTableView::printRequested()
                     shading = true;
             }
             //ZWSPs = false;
+            nbHyphens = false;
+            isDefCol = false;
             alignment = (model()->data(model()->index(row, column), Qt::TextAlignmentRole)).toString();
             switch(alignment.toInt() - 128) {
                 case Qt::AlignLeft:
@@ -403,25 +409,32 @@ WordTableView::printRequested()
                 case Qt::AlignRight:
                     htmlAlignment = "\"right\"";
             }
-            QString data = model()->data(model()->index(row, column), Qt::DisplayRole).toString();
+            unformattedData = model()->data(model()->index(row, column), Qt::DisplayRole).toString();
             if (column == WordTableModel::FRONT_HOOK_COLUMN) {
                 padding = 8;
                 //ZWSPs = true;
+                //nbHyphens = true;
             }
             else if (column == WordTableModel::WORD_COLUMN) {
-                data.replace(' ', "&nbsp;");
-                padding = 10;
+                unformattedData.replace(' ', "&nbsp;");
+                padding = 15;
+                //nbHyphens = true;
             }
             else if (column == WordTableModel::BACK_HOOK_COLUMN) {
                 padding = 25;
                 //ZWSPs = true;
+                nbHyphens = true;
             }
-            else if (column == WordTableModel::DEFINITION_COLUMN)
+            else if (column == WordTableModel::DEFINITION_COLUMN) {
                 padding = 0;
+                nbHyphens = true;
+                isDefCol = true;
+            }
             else
                 padding = 25;
-            if (!data.isNull())
-                html += "<td align=" + htmlAlignment + " style=\"padding:0 " + QString::number(padding) + "px 0 0 px;"
+            if (!unformattedData.isNull()) {
+                data = (nbHyphens ? unformattedData.replace(QRegExp("-"), "&#8209;") : unformattedData);
+                html += "<td align=" + htmlAlignment + " style=\""
                     // TODO (JGM):  Trying to get long lists of hook letters not to break prematurely after '+'
                     // character, for example (see PA in list of anagrams of "A?").  But using ZWSPs causes the hook cells
                     // to be placed slightly lower!  And soft hyphen leaves a hyphen character; and valign doesn't help.
@@ -431,9 +444,17 @@ WordTableView::printRequested()
                     //+ "px 0 0 px;\">" + (ZWSPs ? data.replace(QRegExp("([ -~])"), "\\1&#8203;") : data) + "</td>";
                     //+ (ZWSPs ? ("valign=\"top\">" + data.replace(QRegExp("([ -~])"), "\\1&#8203;")) : (">" + data)) + "</td>";
                     //+ (ZWSPs ? (">" + data.replace(QRegExp("([ -~])"), "\\1&shy;")) : (">" + data)) + "</td>";
-                    + (shading ? "background-color:rgb(228, 229, 230);\"" : "\"")
-                    + ">" + data + "</td>";
-            else
+                    + (shading ? "background-color:rgb(228, 229, 230);" : "")
+                    + "padding:0px " + QString::number(padding) + "px 0px 0px;"
+                    + (isDefCol ? "white-space:pre-wrap;padding-left:16px;text-indent:-16px" : "")
+                    //+ (isDefCol ? "white-space:pre-wrap;" : "")
+                    //+ "\""
+                    //+ (shading ? " bgcolor=\"#E4E5E6\">" : ">")
+                    //+ "\">" + (isDefCol ? data.replace(QRegExp("/"), "/\n") : data)
+                    + "\">" + data
+                    + "</td>";
+                    //+ (nbHyphens ? data.replace(QRegExp("-"), "&#8209;") : data) + "</td>";
+            } else
                 html += QString("<td") + (shading ? " style=\"background-color:rgb(228, 229, 230);\"" : "") + "></td>";
         }
         html += "</tr>";
@@ -446,7 +467,13 @@ WordTableView::printRequested()
     if (dialog->exec() == QDialog::Accepted) {
         //QWebView document;
         QTextDocument document;
+        //document.setDocumentMargin(6.0);
+        //printer.setFullPage(true);
         document.setHtml(html);
+        //document.setHtml(document.toPlainText());
+        //printer.setOutputFileName("test.pdf");
+        //printer.setOutputFormat(QPrinter::PdfFormat);
+        //printer.setPageMargins(QMarginsF(10.0, 10.0, 10.0, 5.0));
         document.print(&printer);
     }
 }

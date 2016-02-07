@@ -1,10 +1,10 @@
 //---------------------------------------------------------------------------
 // ZPushButton.cpp
 //
-// A class derived from ZPushButton.  This class allows buttons to be clicked
+// A class derived from QPushButton.  This class allows buttons to be clicked
 // by pressing Enter as well as the space bar.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.

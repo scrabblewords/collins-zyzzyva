@@ -3,7 +3,7 @@
 //
 // Auxiliary functions.
 //
-// Copyright 2015 Twilight Century Computing.
+// Copyright 2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -1327,9 +1327,9 @@ QString
 Auxil::lexiconToOrigin(const QString& lexicon)
 {
     if (lexicon == LEXICON_CSW12)
-        return "<a href=\"http://www.collinsdictionary.com/word-games/scrabble-tools#terms\">British (© HarperCollins 2015, see T&Cs)</a>";
+        return "<a href=\"http://www.collinsdictionary.com/scrabble/scrabble-tools#terms\">British (© HarperCollins 2015, see T&Cs)</a>";
     if (lexicon == LEXICON_CSW15)
-        return "<a href=\"http://www.collinsdictionary.com/word-games/scrabble-tools#terms\">British (© HarperCollins 2015, see T&Cs)</a>";
+        return "<a href=\"http://www.collinsdictionary.com/scrabble/scrabble-tools#terms\">British (© HarperCollins 2015, see T&Cs)</a>";
     if (lexicon == LEXICON_VOLOST)
         return "Antarctic";
     return QString();
@@ -1367,11 +1367,11 @@ QString
 Auxil::lexiconToDetails(const QString& lexicon)
 {
     if (lexicon == LEXICON_CSW12) {
-        return "<a href=\"http://www.collinsdictionary.com/word-games/scrabble-tools#terms\">The © HarperCollins 2012 word list (CSW12) "
+        return "<a href=\"http://www.collinsdictionary.com/scrabble/scrabble-tools#terms\">The © HarperCollins 2012 word list (CSW12) "
             "is copyright of HarperCollins 2015 and used with permission.</a>";
     }
     if (lexicon == LEXICON_CSW15) {
-        return "<a href=\"http://www.collinsdictionary.com/word-games/scrabble-tools#terms\">The © HarperCollins 2015 word list (CSW15) "
+        return "<a href=\"http://www.collinsdictionary.com/scrabble/scrabble-tools#terms\">The © HarperCollins 2015 word list (CSW15) "
             "is copyright of HarperCollins 2015 and used with permission.</a>";
     }
     return QString();
