@@ -3,7 +3,7 @@
 //
 // A form for displaying introductory help material.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -27,7 +27,7 @@
 #define ZYZZYVA_INTRO_FORM_H
 
 #include "ActionForm.h"
-#include <QWebView>
+#include <QTextBrowser>
 
 class WordEngine;
 
@@ -42,10 +42,13 @@ class IntroForm : public ActionForm
     QString getStatusString() const;
 
     public slots:
-    void linkIsClicked(const QUrl& url);
+    void goWelcome();
+    void goTOC();
 
     private:
-    QWebView    *view;
+    QTextBrowser*   browser;
+    QString         mainPage;
+    QString         tocPage;
 };
 
 #endif // ZYZZYVA_INTRO_FORM_H

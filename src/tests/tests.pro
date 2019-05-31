@@ -1,9 +1,9 @@
 #---------------------------------------------------------------------------
-# testts.pro
+# tests.pro
 #
 # Build configuration file for Zyzzyva tests using qmake.
 #
-# Copyright 2016 Twilight Century Computing.
+# Copyright 2015-2016 Twilight Century Computing.
 # Copyright 2006-2012 North American SCRABBLE Players Association.
 #
 # This file is part of Zyzzyva.
@@ -27,6 +27,7 @@ TEMPLATE = app
 TARGET = test_zyzzyva
 CONFIG += qt thread warn_on
 QT += sql xml gui testlib
+QT += network widgets printsupport
 
 ROOT = ../..
 DESTDIR = $$ROOT/bin
@@ -35,10 +36,10 @@ OBJECTS_DIR = build/obj
 INCLUDEPATH += build/moc $$ROOT/src/libzyzzyva
 DEPENDPATH += build/moc
 
-include($$ROOT/zyzzyva.pri)
+#include($$ROOT/zyzzyva.pri)
 
 unix {
-    LIBS = -lzyzzyva -L$$ROOT/bin
+    LIBS = -lzyzzyva5 -L$$ROOT/bin
 }
 win32 {
     LIBS = -lzyzzyva5 -L$$ROOT/bin

@@ -3,7 +3,7 @@
 //
 // A form for looking up and displaying word definitions.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -270,7 +270,7 @@ DefineForm::displayInfo(bool allInfo)
         resultStr += "<br>";
         if (allInfo)
             resultStr += "<b>Definition:</b> ";
-        definition = engine->getDefinition(lexicon, word);
+        definition = engine->getDefinition(lexicon, word, MainSettings::getWordListShowOneSensePerLine());
         if (definition.isEmpty())
             definition = EMPTY_DEFINITION;
         resultStr += definition;

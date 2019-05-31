@@ -3,7 +3,7 @@
 //
 // A class for creating a database in the background.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -73,7 +73,7 @@ class CreateDatabaseThread : public QThread
     QString replaceDefinitionLinks(const QString& definition, int maxDepth,
         QSet<QString>* alreadyReplaced = 0, bool useFollow = false) const;
     QString getSubDefinition(const QString& word, const QString& pos) const;
-    int importPlayability(const QString& filename, QMap<QString, qint64>&
+    int importPlayability(const QString& filename, QMap<QString, double>&
                           playabilityMap) const;
 
     WordEngine* wordEngine;

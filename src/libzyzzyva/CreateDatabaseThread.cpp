@@ -3,7 +3,7 @@
 //
 // A class for creating a database in the background.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -113,7 +113,7 @@ CreateDatabaseThread::createTables(QSqlDatabase& db)
     QSqlQuery query (db);
 
     query.exec("CREATE TABLE words (word text, length integer, "
-        "playability integer, playability_order integer, "
+        "playability float, playability_order integer, "
         "min_playability_order integer, max_playability_order integer, "
         "combinations0 integer, probability_order0 integer, "
         "min_probability_order0 integer, max_probability_order0 integer, "
@@ -244,9 +244,9 @@ CreateDatabaseThread::insertWords(QSqlDatabase& db, int& stepNum)
         }
     }
 
-    QMap<QString, qint64> playabilityMap;
+    QMap<QString, double> playabilityMap;
     QString playabilityFile = Auxil::getWordsDir() +
-        Auxil::getLexiconPrefix(lexiconName) + (lexiconName == LEXICON_CSW15 ? "-Playability.bin" : "-Playability.txt");
+        Auxil::getLexiconPrefix(lexiconName) + ((lexiconName == LEXICON_CSW15 || lexiconName == LEXICON_CSW19) ? "-Playability.bin" : "-Playability.txt");
     importPlayability(playabilityFile, playabilityMap);
 
     QSqlQuery transactionQuery ("BEGIN TRANSACTION", db);
@@ -271,7 +271,7 @@ CreateDatabaseThread::insertWords(QSqlDatabase& db, int& stepNum)
 
         // Insert words with length, combinations, hooks
         foreach (const QString& word, words) {
-            qint64 playability = playabilityMap.value(word);
+            double playability = playabilityMap.value(word);
             double combinations0 = letterBag.getNumCombinations(word, 0);
             double combinations1 = letterBag.getNumCombinations(word, 1);
             double combinations2 = letterBag.getNumCombinations(word, 2);
@@ -529,7 +529,7 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
 //    QFile debugFile (definitionFilename + "-debug.txt");
 //    debugFile.open(QIODevice::WriteOnly);
 
-    if (lexiconName == LEXICON_CSW15) {   // (JGM) definitionFile is encrypted.
+    if (lexiconName == LEXICON_CSW15 || lexiconName == LEXICON_CSW19) {   // (JGM) definitionFile is encrypted.
         if (!definitionFile.open(QIODevice::ReadOnly)) {
             return;
         }
@@ -540,7 +540,7 @@ CreateDatabaseThread::updateDefinitions(QSqlDatabase& db, int& stepNum)
         if (lexiconName != LEXICON_CUSTOM)
             fileBlob->remove(0, fileBlob->indexOf('\n') + 1);
 
-        SimpleCrypt crypto(Q_UINT64_C(0x0000000000000000));
+        SimpleCrypt crypto(Auxil::getCryptHash());
         QByteArray *plaintextBlob = new QByteArray(crypto.decryptToByteArray(*fileBlob));
         delete fileBlob;
 
@@ -723,7 +723,7 @@ CreateDatabaseThread::updateDefinitionLinks(QSqlDatabase& db, int& stepNum)
         QString newDefinition;
         foreach (const QString& def, defs) {
             if (!newDefinition.isEmpty())
-                newDefinition += "\n";
+                newDefinition += " / ";
 
             alreadyReplaced.clear();
             alreadyReplaced.insert(word.toUpper());
@@ -828,8 +828,11 @@ CreateDatabaseThread::replaceDefinitionLinks(const QString& definition,
         matchedRegex = &replaceRegex;
     }
 
-    if (index < 0)
+    if (index < 0) {
+        if (createdSet)
+            delete alreadyReplaced;
         return definition;
+    }
 
     QString modified (definition);
     QString word = matchedRegex->cap(1);
@@ -927,13 +930,13 @@ CreateDatabaseThread::getSubDefinition(const QString& word, const QString&
 //---------------------------------------------------------------------------
 int
 CreateDatabaseThread::importPlayability(const QString& filename,
-    QMap<QString, qint64>& playabilityMap) const
+    QMap<QString, double>& playabilityMap) const
 {
     playabilityMap.clear();
 
     QFile file (filename);
 
-    if (lexiconName == LEXICON_CSW15) {   // (JGM) Playability file is encrypted.
+    if (lexiconName == LEXICON_CSW15 || lexiconName == LEXICON_CSW19) {   // (JGM) Playability file is encrypted.
         if (!file.open(QIODevice::ReadOnly)) {
             return 0;
         }
@@ -943,8 +946,7 @@ CreateDatabaseThread::importPlayability(const QString& filename,
       // (JGM) Discard header line if appropriate.
       if (lexiconName != LEXICON_CUSTOM)
           fileBlob->remove(0, fileBlob->indexOf('\n') + 1);
-      //TODO (JGM) Comment out decryption key when copying to published source zip.
-      SimpleCrypt crypto(Q_UINT64_C(0x0000000000000000));
+      SimpleCrypt crypto(Auxil::getCryptHash());
       QByteArray *plaintextBlob = new QByteArray(crypto.decryptToByteArray(*fileBlob));
       delete fileBlob;
 
@@ -987,7 +989,7 @@ CreateDatabaseThread::importPlayability(const QString& filename,
               continue;
           }
           bool ok = false;
-          qint64 playability = line.section(' ', 0, 0).toLongLong(&ok);
+          double playability = line.section(' ', 0, 0).toDouble(&ok);
           if (!ok) {
               continue;
           }
@@ -1028,7 +1030,7 @@ CreateDatabaseThread::importPlayability(const QString& filename,
             if (line.isEmpty() || (line.at(0) == '#'))
                 continue;
             bool ok = false;
-            qint64 playability = line.section(' ', 0, 0).toLongLong(&ok);
+            double playability = line.section(' ', 0, 0).toDouble(&ok);
             if (!ok)
                 continue;
             QString word = line.section(' ', 1, 1);

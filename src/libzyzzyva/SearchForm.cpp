@@ -3,7 +3,7 @@
 //
 // A form for searching for words, patterns, anagrams, etc.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -108,6 +108,7 @@ SearchForm::SearchForm(WordEngine* e, QWidget* parent, Qt::WindowFlags f)
     connect(resultModel, SIGNAL(wordsChanged()),
             resultView, SLOT(resizeItemsToContents()));
     resultView->setModel(resultModel);
+    resultView->resizeItemsRecursively();
 
     lexiconActivated(lexiconWidget->getCurrentLexicon());
 
@@ -269,15 +270,15 @@ SearchForm::search()
     QStringList wordList =
         wordEngine->search(lexicon, specForm->getSearchSpec(), false);
 
+    bool hasAnagramCondition = false;
+    bool hasSubanagramCondition = false;
+    bool hasProbabilityCondition = false;
+    bool hasPlayabilityCondition = false;
+    int probNumBlanks = MainSettings::getProbabilityNumBlanks();
     if (!wordList.empty()) {
 
         // Check for Anagram or Subanagram conditions, and only group by
         // alphagrams if one of them is present
-        bool hasAnagramCondition = false;
-        bool hasSubanagramCondition = false;
-        bool hasProbabilityCondition = false;
-        bool hasPlayabilityCondition = false;
-        int probNumBlanks = MainSettings::getProbabilityNumBlanks();
         QListIterator<SearchCondition> it (spec.conditions);
         while (it.hasNext()) {
             const SearchCondition& condition = it.next();
@@ -346,7 +347,7 @@ SearchForm::search()
                 wordItem.setProbabilityOrder(probOrder);
             }
             else if (hasPlayabilityCondition) {
-                qint64 playValue = wordEngine->getPlayabilityValue(
+                double playValue = wordEngine->getPlayabilityValue(
                     lexicon, wordUpper);
                 int playOrder = wordEngine->getPlayabilityOrder(
                     lexicon, wordUpper);
@@ -378,7 +379,7 @@ SearchForm::search()
             MainSettings::setWordListGroupByAnagrams(origGroupByAnagrams);
     }
 
-    updateResultTotal(wordList.size());
+    updateResultTotal(wordList.size(), resultModel->getAlphagramGroupsCount(), hasAnagramCondition);
     emit saveEnabledChanged(!wordList.empty());
     emit printEnabledChanged(!wordList.empty());
 
@@ -410,16 +411,22 @@ SearchForm::specChanged()
 //---------------------------------------------------------------------------
 //  updateResultTotal
 //
-//! Display the number of words currently in the search results.
+//! Display the number of words and anagram groups currently in the search results.
 //! @param num the number of words
 //---------------------------------------------------------------------------
 void
-SearchForm::updateResultTotal(int num)
+SearchForm::updateResultTotal(int num, int numGroups, bool grouped)
 {
     QString wordStr = QString::number(num) + " word";
     if (num != 1)
         wordStr += "s";
-    statusString = "Search found " + wordStr;
+    statusString = wordStr;
+    if (grouped) {
+        QString groupStr = QString::number(numGroups) + " anagram group";
+        if (numGroups != 1)
+            groupStr += "s";
+        statusString += (" / " + groupStr);
+    }
     emit statusChanged(statusString);
 }
 

@@ -3,7 +3,7 @@
 //
 // A class to handle the loading and searching of words.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -26,6 +26,7 @@
 #ifndef ZYZZYVA_WORD_ENGINE_H
 #define ZYZZYVA_WORD_ENGINE_H
 
+#include "MainSettings.h"
 #include "WordGraph.h"
 #include <QMap>
 #include <QMultiMap>
@@ -68,7 +69,7 @@ class WordEngine : public QObject
         bool isBackHook;
         QString lexiconSymbols;
         QString definition;
-        qint64 playability;
+        double playability;
         ValueOrder playabilityOrder;
         QMap<int, ValueOrder> blankProbabilityOrder;
     };
@@ -83,7 +84,7 @@ class WordEngine : public QObject
         QMap<QString, QMultiMap<QString, QString> > definitions;
         QMap<int, QStringList> stems;
         QMap<QString, int> numAnagramsMap;
-        QMap<QString, qint64> playabilityMap;
+        QMap<QString, double> playabilityMap;
         QMap<int, QSet<QString> > stemAlphagrams;
         mutable QMap<QString, WordInfo> wordCache;
         WordGraph* graph;
@@ -120,12 +121,12 @@ class WordEngine : public QObject
     QString getLexiconFile(const QString& lexicon) const;
     WordInfo getWordInfo(const QString& lexicon, const QString& word) const;
     QString getDefinition(const QString& lexicon, const QString& word,
-                          bool replaceLinks = true) const;
+                          bool multilineDefs = false) const;
     QString getFrontHookLetters(const QString& lexicon, const QString& word)
         const;
     QString getBackHookLetters(const QString& lexicon, const QString& word)
         const;
-    qint64 getPlayabilityValue(const QString& lexicon, const QString& word)
+    double getPlayabilityValue(const QString& lexicon, const QString& word)
         const;
     int getPlayabilityOrder(const QString& lexicon, const QString& word)
         const;
@@ -167,8 +168,8 @@ class WordEngine : public QObject
     int getNumAnagrams(const QString& lexicon, const QString& word) const;
     QStringList nonGraphSearch(const QString& lexicon,
                                const SearchSpec& spec) const;
-    void addDefinition(const QString& lexicon, const QString& word,
-                       const QString& definition);
+    void addDefinition(const QString& lexicon, const QString& word, const QString& definition,
+                       bool multilineDefs = false);
     QStringList databaseSearch(const QString& lexicon, const SearchSpec&
                                optimizedSpec, const QStringList* wordList = 0)
                                const;

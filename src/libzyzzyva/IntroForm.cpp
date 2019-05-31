@@ -3,7 +3,7 @@
 //
 // A form for displaying introductory help material.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This program is free software; you can redistribute it and/or modify
@@ -23,11 +23,10 @@
 
 #include "IntroForm.h"
 #include "Auxil.h"
-//#include <QTextBrowser>
-//#include <QVBoxLayout>
 #include <QDesktopServices>
-#include <QWebView>
 #include <QFormLayout>
+#include <QPushButton>
+#include <QTextBrowser>
 
 const QString TITLE_PREFIX = "Welcome";
 
@@ -42,39 +41,94 @@ const QString TITLE_PREFIX = "Welcome";
 IntroForm::IntroForm(QWidget* parent, Qt::WindowFlags f)
     : ActionForm(IntroFormType, parent, f)
 {
-    QHBoxLayout* mainLay = new QHBoxLayout(this);
+    QVBoxLayout* mainLay = new QVBoxLayout(this);
     Q_CHECK_PTR(mainLay);
     mainLay->setContentsMargins(11, 11, 0, 11);
 
-    view = new QWebView(this);
-    Q_CHECK_PTR(view);
-    QString mainPage = Auxil::getHelpDir() + "/index.html";
-    view->load(QUrl::fromLocalFile(mainPage));
-    view->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
-    connect(view->page(), SIGNAL(linkClicked(const QUrl&)), SLOT(linkIsClicked(const QUrl&)));
-    mainLay->addWidget(view);
-
-//    QTextBrowser* browser = new QTextBrowser(this);
-//    Q_CHECK_PTR(browser);
-//    mainVlay->addWidget(browser);
-
+// (JGM) QtWebView removed in Qt 5.6.0
+//    view = new QtWebView(this);
+//    Q_CHECK_PTR(view);
 //    QString mainPage = Auxil::getHelpDir() + "/index.html";
-//    browser->setSource(QUrl::fromLocalFile(mainPage));
-//    //QDesktopServices::openUrl(QUrl::fromLocalFile(mainPage));
+//    view->load(QUrl::fromLocalFile(mainPage));
+//    view->page()->setLinkDelegationPolicy(QWebPage::DelegateExternalLinks);
+//    connect(view->page(), SIGNAL(linkClicked(const QUrl&)), SLOT(linkIsClicked(const QUrl&)));
+//    mainLay->addWidget(view);
+
+    QHBoxLayout* buttonsLay = new QHBoxLayout();
+    Q_CHECK_PTR(buttonsLay);
+    QPushButton *welcome = new QPushButton("Welcome");
+    welcome->setStyleSheet("QPushButton {background-color: #FF69B4;}");
+    Q_CHECK_PTR(welcome);
+    QPushButton *toc = new QPushButton("Contents");
+    toc->setStyleSheet("QPushButton {background-color: #87CEFA;}");
+    Q_CHECK_PTR(toc);
+    QPushButton *back = new QPushButton();
+    Q_CHECK_PTR(back);
+    back->setIcon(QIcon(":/left-arrow-icon"));
+    QPushButton *forward = new QPushButton();
+    Q_CHECK_PTR(forward);
+    forward->setIcon(QIcon(":/right-arrow-icon"));
+    buttonsLay->addWidget(welcome);
+    buttonsLay->addWidget(toc);
+    buttonsLay->addWidget(back);
+    buttonsLay->addWidget(forward);
+    buttonsLay->addStretch(1);
+    mainLay->addLayout(buttonsLay);
+
+    browser = new QTextBrowser(this);
+    Q_CHECK_PTR(browser);
+    mainPage = Auxil::getHelpDir() + "/index.html";
+    tocPage = Auxil::getHelpDir() + "/toc.html";
+    connect(welcome, SIGNAL(clicked()), this, SLOT(goWelcome()));
+    connect(toc, SIGNAL(clicked()), this, SLOT(goTOC()));
+    connect(forward, SIGNAL(clicked()), browser, SLOT(forward()));
+    connect(back, SIGNAL(clicked()), browser, SLOT(backward()));
+    connect(browser, SIGNAL(forwardAvailable(bool)), forward, SLOT(setEnabled(bool)));
+    connect(browser, SIGNAL(backwardAvailable(bool)), back, SLOT(setEnabled(bool)));
+    browser->setOpenExternalLinks(true);
+    browser->setUndoRedoEnabled(true);
+    browser->setSource(QUrl::fromLocalFile(mainPage));
+    mainLay->addWidget(browser);
 }
 
 //---------------------------------------------------------------------------
-//  linkIsClicked
+//  goWelcome
 //
-//! Called when a delegated link is clicked.
+//! Called when the Welcome navigation button is clicked.
 //
-//! @param  The URL of the link clicked.
+//! @param  The URL of the Welcome page.
 //---------------------------------------------------------------------------
 void
-IntroForm::linkIsClicked(const QUrl& url)
+IntroForm::goWelcome()
 {
-    QDesktopServices::openUrl(url);
+    browser->home();
 }
+
+//---------------------------------------------------------------------------
+//  goTOC
+//
+//! Called when the Contents navigation button is clicked.
+//
+//! @param  The URL of the TOC page.
+//---------------------------------------------------------------------------
+void
+IntroForm::goTOC()
+{
+    browser->setSource(QUrl::fromLocalFile(tocPage));
+}
+
+////---------------------------------------------------------------------------
+////  linkIsClicked
+////
+////! Called when a delegated link is clicked.
+////
+////! @param  The URL of the link clicked.
+////---------------------------------------------------------------------------
+//void
+//IntroForm::linkIsClicked(const QUrl& url)
+//{
+//    QDesktopServices::openUrl(url);
+//}
 
 //---------------------------------------------------------------------------
 //  getIcon

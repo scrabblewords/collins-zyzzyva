@@ -1,4 +1,52 @@
 *************
+Version 5.1.1, Qt 5.12.3
+Released starting May 31, 2019
+For Windows (32 and 64 bits) and OSX
+Windows builds by Winter and Jim Miller
+OSX build by Anand Buddhdev
+
+ NEW:  CSW19 playability data, provided by John O'Laughlin.
+ NEW:  Configurable cycle length during quiz answer display.
+
+ Fixed:  Maximized window now persists between program restarts in Windows.
+
+ Tweak:  Splash improved.
+ 
+ Developer:  Improved build process.
+ Developer:  Cryptographic and other private information isolated to separate directory.
+ Developer:  Windows install broken out into 32- and 64-bit installers.
+
+
+*************
+Version 5.1.0, Qt 5.12.3
+Released starting May 3, 2019
+For Windows (32 and 64 bits) and OSX
+Windows builds by Winter and Jim Miller
+OSX build by Anand Buddhdev
+
+ NEW:  CSW19 lexicon and definitions, provided by David Sutton.
+ NEW:  Add count of anagram groups on search form status line.
+ NEW:  Added preference for toggling the display of multiple definition senses on separate lines.
+ NEW:  WordVariationDialogs, DefinitionDialogs, and AnalyzeQuizDialogs now persist independently of their parent widgets.
+ NEW:  Application exit confirmation dialog, with option to control display of it.
+
+ Fixed:  Windows BitRock install configuration now removes existing generated db files and some registry keys, forcing db regeneration on first use and reducing user confusion.
+ Fixed:  Don't start Windows always maximized in OSX.
+ Fixed:  Search results columns configured to not display now set to 0 width.
+ Fixed:  Added handling of high-DPI displays.
+
+ Tweak:  New splash.
+ Tweak:  About dialog text links changed to hyperlinks.
+ Tweak:  Enable/disable Close Tab menu item appropriately.
+ Tweak:  File/Quit -> File/Exit.
+ Tweak:  Remove Edit menu, and move some actions to different menus.
+
+ Developer:  Improved build process.
+ Developer:  Added utility projects to repo:  DawgCreator, ReverseWords, EncryptLexicon, GenerateDawgChecksum.
+ Developer:  MSVC compilation supported.
+ 
+
+*************
 Version 5.0.3
 Released around February 10, 2016
 For Windows, legacy hardware Windows, and OSX
@@ -60,7 +108,6 @@ Developer-visible changes:
 
 
 *************
-*** Collins Zyzzyva branch ***
 Version 5.0.0
 Released July 7, 2015
 OSX build by Anand Buddhdev
@@ -77,543 +124,3 @@ User-visible changes:
 Developer-visible changes:
  * Implemented simple encryption of definition and playability files.
  * Collins Zyzzyva uses the Qt 5.4.2 framework, previously Qt 4.
-
-
-*************
-Version 2.2.1
-Released 2012-08-08
-
-User-visible changes:
- * Fix Shift By Backlog cardbox rescheduling
- * Make Part of Speech search a dropdown selection
- * Help documentation for Part of Speech and Definition search
- * Other minor fixes
-
-
-Version 2.2.0
-Released 2012-08-06
-
-User-visible changes:
- * Word Judge password function
- * ESC to exit Word Judge instead of Shift-ESC
- * Part of Speech search
- * Definition search
- * Shift cardbox contents by number of days
- * Reverse sort word lists by clicking header
- * Remove cycles in word definitions
- * No prompt to save Cardbox quizzes
- * WWF word list update
- * Many other minor improvements
-
-
-Version 2.1.7
-Released 2012-05-02
-
-User-visible changes:
- * Improve icons
-
-
-Version 2.1.6
-Released 2012-01-06
-
-User-visible changes:
- * Fix Limit By Playability search condition for CSW12
- * Word definition fixes
-
-
-Version 2.1.5
-Released 2011-07-01, from /branches/2.1.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.1.5
-
-User-visible changes:
- * Account for screen size when displaying Word Judge
- * Add user preference for hyphens to denote inner hooks
- * Enlarge CSW copyright notice
- * Fix a bug when loading saved searches and quizzes containing umlauts
- * Fix a bug that caused blank lexicon names to appear in lexicon list
- * Fix multiple bugs that caused failures on 64-bit Linux
- * Word definition fixes
-
-
-Version 2.1.4
-Released 2011-05-21, from /branches/2.1.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.1.4
-
-User-visible changes:
- * Fix a bug when loading saved quizzes with an obsolete lexicon name
- * Rename judge subdirectories with obsolete lexicon names
-
-
-Version 2.1.3
-Released 2011-05-20, from /branches/2.1.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.1.3
-
-User-visible changes:
- * Add CSW12 lexicon
- * Add FISE2009 (Spanish) lexicon
- * Rename several lexicons:
-   - CSW to CSW07
-   - OWL2+LWL to OWL2
-   - OSPD4+LWL to OSPD4
-   - OWL+LWL to OWL
- * Many word definition fixes, including help from David Sutton and
-   Tapani Lindgren
- * Change inner hook character from hyphen to center dot
-
-
-Version 2.1.2
-Released 2011-02-27, from /branches/2.1.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.1.2
-
-User-visible changes:
- * Fix a Words With Friends lexicon error
- * Fix a bug when saving multi-line word definitions
-
-
-Version 2.1.1
-Released 2011-02-22, from /branches/2.1.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.1.1
-
-User-visible changes:
- * New logo created by Jeremy Hildebrand
- * Use '.' and '@' as alternatives to '?' and '*', respectively
- * Save alphagrams from a word list
- * Load quiz tile images other than just A-Z
- * Fix a bug that corrupted some long word definitions
- * Fix Help system on OS X (mostly)
- * Words With Friends lexicon
- * Many word definition fixes - thanks to Dominick Mancine for additional
-   definitions of long words
- * Various bug fixes
-
-
-Version 2.1.0
-Released 2010-03-15, from /branches/2.1.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.1.0
-
-User-visible changes:
- * Search and quiz ordering by Playability (CSW, OWL2, and OSPD4 only)
- * Specify 0, 1, or 2 blanks when calculating Probability
- * Negation of Anagram, Pattern, and Subanagram search conditions
- * Many word definition fixes - and thanks to Michael McKenna for CSW
-   long definitions
- * Italian lexicons - thanks to Hervé Bohbot and Diego de Landro
- * BOOBIES is now acceptable in OSPD4 lexicon
- * Restore Defaults button on Preferences dialog
- * Subanagram search results are now sorted with longest words first
- * Various bug fixes
-
-
-Version 2.0.5
-Released 2009-03-09, from /branches/2.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.0.5
-
-User-visible changes:
- * Word Judge now prompts for number of challenged words
- * Allow input, sorting, etc. for some characters other than A-Z.
- * Fix reading of DAWG files so they are loadable on 64-bit machines.
- * Fix some word definitions
-
-
-Version 2.0.4
-Released 2008-12-26, from /branches/2.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.0.4
-
-User-visible changes:
- * Allow quizzes to require lexicon symbols for correct responses
- * Correctly prompt to save changes when quitting Zyzzyva via the menu
- * Add 'Save As' action for quizzes and search results
- * Display only definitions by default on the Definition form
- * Fix a bug introduced in 2.0.3: Remove missed words when marking as correct
- * Do not create an extra tile if dragging when timer expires
- * Do not restore quiz question order if Restore Progress is not checked
- * Various minor bug fixes
-
-
-Version 2.0.3
-Released 2008-12-21, from /branches/2.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.0.3
-
-User-visible changes:
- * Disallow input immediately after quiz timer expires
- * Eliminate noticeable slowdown after every quiz question
- * Allow appending of words to existing saved word file
- * Restore focus to input area when switching between tabs
- * Fix some word definitions
- * Various minor bug fixes
-
-
-Version 2.0.2
-Released 2008-03-30, from /branches/2.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.0.2
-
-User-visible changes:
- * Fix Alphabetical and Random ordering of quiz questions
- * Fix adjudication of hooks with lexicon symbols during a quiz
- * Fix lexicon settings when starting a quiz from a word list
-
-
-Version 2.0.1
-Released 2008-03-28, from /branches/2.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.0.1
-
-User-visible changes:
- * Fix a problem with lost lexicon preferences and database creation
- * Fix a startup crash on Linux
-
-
-Version 2.0.0
-Released 2008-03-27, from /branches/2.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/2.0.0
-
-User-visible changes:
- * Load multiple lexicons simultaneously
- * Lexicon symbols, e.g. # for CSW-not-OWL2, % for OWL2-not-OWL, etc.
- * In Lexicon search condition
- * Highly-visible icons for "acceptable" and "unacceptable" in Word Judge
- * Mark as Correct button on the Quiz form
- * New Cardbox 0 First quiz schedule
- * Improved cardbox visibility and control
- * Detailed word information on the Definition form
- * Updated CSW definitions thanks to Barry Harridge
- * Updated ODS lexicon thanks to Herve Bohbot
- * Nice-looking Zyzzyva application icon
- * Various bug fixes
-
-
-Version 1.0.6
-Released 2007-11-20, from /branches/1.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/1.0.6
-
-User-visible changes:
- * Fix crashing on Mac OS X 10.5 (Leopard)
- * Fix main window disappearing on Windows
- * Fix some word definitions
-
-Developer visible-changes:
- * Upgrade from Qt 4.1.5 to Qt 4.3.2
-
-
-Version 1.0.5
-Released 2007-08-31, from /branches/1.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/1.0.5
-
-User-visible changes:
- * Remove inflections of GODDAM and GODDAMN from OSPD4 lexicon
- * Remove PHOCOMELIES from CSW lexicon
- * Fix several word definitions
- * Add Volost lexicon
-
-
-Version 1.0.4
-Released 2007-05-01, from /branches/1.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/1.0.4
-
-User-visible changes:
- * Updated 100% accurate CSW lexicon
-
-
-Version 1.0.3
-Released 2007-03-17, from /branches/1.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/1.0.3
-
-User-visible changes:
- * CSW lexicon
- * Cardbox Shift method of rescheduling cardbox questions
- * Fix letter-ordering bug during Anagrams With Hooks quiz
- * Fix broken search for words with no vowels
-
-
-Version 1.0.2
-Released 2007-01-27, from /branches/1.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/1.0.2
-
-User-visible changes:
- * Fix bug in Quiz From List function
-
-
-Version 1.0.1
-Released 2007-01-16, from /branches/1.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/1.0.1
-
-User-visible changes:
- * OSPD4+LWL lexicon
- * Cardbox Quiz without a search
- * Fix bug in New In OWL2 search
- * Fix incomplete word definition links
- * Other minor bug fixes
-
-
-Version 1.0.0
-Released 2006-11-26, from /branches/1.0.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/1.0.0
-
-User-visible changes:
- * Cardbox Quiz mode with automatic spaced repetition
- * New quiz orders: Random, Alphabetical, Probability
- * Display question statistics during a quiz
- * New searches: Number of Vowels, Point Value, Unique Letters, High Fives
- * Large speed improvement for most searches
- * Save button for saving quizzes and search results
- * Save search results in SuperMemo Q/A format
- * Clear Word Judge input area of stray input after 15 seconds
- * Customizable user data directory
- * Accurate OSWI word list with word definitions
- * Many word definition fixes for OWL2+LWL
- * Numerous other bug fixes
-
-Developer visible-changes:
- * Upgrade from Qt 4.1.3 to Qt 4.1.5
-
-
-Version 0.14.1
-Released 2006-06-02, from /branches/0.14.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.14.1
-
- User-visible changes:
- * Fix bug that caused crashes while loading on some Windows systems
- * Do not display main window until after connecting to the database
- * Change Word Judge "acceptable" adjudication color from blue to green
- * Disallow long input in the Word Judge
- * Various other bug fixes
-
- Developer-visible changes:
- * Upgrade from Qt 4.1.2 to Qt 4.1.3
-
-
-Version 0.14.0
-Released 2006-04-25, from /branches/0.14.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.14.0
-
- User-visible changes:
- * Use about 75% less memory than previously
- * Store word data in a database file
- * Keep track of quiz statistics (currently unused)
- * Display multiple definitions on multiple lines in word lists
- * Display probability order automatically in word lists
- * Clarify Word Judge instructions on input screen
- * Display Zyzzyva version and lexicon date on Word Judge input screen
- * Rename Probability Order condition to Limit by Probability Order
- * Change Probability Order to sort by alphagram instead of alphabetically
- * New Probability Order condition for probability order by word length
- * New Lax attribute for Probability Order conditions
- * Rename OWL2 lexicon to OWL2+LWL
- * Rename View menu to Word menu
- * Use home directory for saving/loading quizzes, word lists, etc.
- * Fix pixel-garbage bug on Mac OS X
- * Fix crash bug when using Custom lexicon on Windows
- * Fix several other bugs
-
- Developer-visible changes:
- * Upgrade from Qt 4.1.1 to Qt 4.1.2
-
-
-Version 0.13.0
-There is no version 0.13.0!
-http://en.wikipedia.org/wiki/Bruces_sketch
-
-
-Version 0.12.0
-Released 2006-03-24, from /branches/0.12.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.12.0
-
- User-visible changes:
- * Load lexicons from precompiled binary files for fast startup
- * Check lexicons against precomputed checksums for data integrity
- * Start quizzes by choosing 'Open With' on a .zzq file
- * Start quizzes by choosing 'Open With' on a word list file
- * Save quizzes with a single click
- * Warn if a quiz with unsaved progress is about to be closed
- * Save log files during full screen Word Judge
- * Welcome page on startup with links to help documentation
- * New search conditions for Type II 7s and 8s, Type III 7s and 8s
- * Group Number of Anagrams searches by alphagram, not alphabetically
- * Fix several bugs
-
- Developer-visible changes:
- * Move most code into a separate libzyzzyva shared library
- * Add some unit tests for searches
- * Upgrade from Qt 4.1.0 to Qt 4.1.1
-
-
-Version 0.11.1
-Released 2006-03-02, from /branches/0.11.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.11.1
-
- User-visible changes:
- * Fix a bug in loading searches with Probability Order conditions
-
-
-Version 0.11.0
-Released 2006-03-01, from /branches/0.11.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.11.0
-
- User-visible changes:
- * Anagrams With Hooks quiz to quiz anagrams and hooks simultaneously
- * New Probability Order search condition
- * Conflate many similar search conditions to eliminate complexity
- * Extend all numeric search conditions to ranges with Min and Max values
- * Change default search condition from Pattern Match to Anagram Match
- * Update OWL2 with errata: change CRABABBLE/CRABABBLES to
-   CRABAPPLE/CRABAPPLES, add DEVELOPPES and VIREONINES.
- * Change the Group By Wildcard preference to Group By Alphagram
- * Automatically select input area after performing a search or definition
- * Fix a keyboard focus bug in Flashcard Quiz Mode on Mac OS X
- * Fix a quiz question display bug when changing the Tile Theme
-
-
-Version 0.10.1
-Released 2006-02-08, from /branches/0.10.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.10.1
-
- User-visible changes:
- * Answers displayed in the quiz question area after ending a question
- * Default colors for Correct and Missed words have been swapped
- * Bug fix for displaying quiz questions longer than 7 letters
- * Several minor bug fixes
-
-
-Version 0.10.0
-Released 2006-02-06, from /branches/0.10.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.10.0
-
- User-visible changes:
- * Many improvements to full-screen Word Judge mode
- * Tile images can be rearranged with the mouse during a quiz
- * Flashcard quiz mode that does not require typing words
- * New button to mark missed words during a quiz
- * Search results can now be grouped according to wildcard matches
- * Make OWL2 the default lexicon
- * Display the current lexicon in the title bar and status bar
- * Make predefined lexicons OWL, OWL2, SOWPODS, ODS easily specified
- * A few last-minute OWL2 changes: add MUNCHABLES, remove WEAPONEERED,
-   change GODAMNDEST to GODDAMNDEST
- * New search condition specifically for new OWL2 words
- * New search condition to find 8s from top 7-letter stems
- * New option to end a quiz question as soon as an incorrect answer is entered
- * Fix a bug that caused extreme slowness in Word List Recall quizzes
-
- Developer-visible changes:
- * All remaining Qt3 code ported to Qt4
- * Upgrade from Qt 4.0.1 to Qt 4.1.0
-
-
-Version 0.9.6
-Released 2006-01-22, from /branches/0.9.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.9.6
-
- User-visible changes:
- * Mac OS X disk image for 10.3.9 and later
- * Full-screen Word Judge mode
- * Must Not Be in Word List search condition
- * Various word definition fixes in OWL and OWL2 lexicons
- * Bug fix for restoring window size and position between sessions
-
-
-Version 0.9.5
-Released 2006-01-15, from /branches/0.9.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.9.5
-
- User-visible changes:
- * Bug fix for Type I Eights search
-
-
-Version 0.9.4
-Released 2006-01-14, from /branches/0.9.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.9.4
-
- User-visible changes:
- * New OWL2 lexicon with definitions
- * New word list containing all new words in OWL2
- * Fix the last remaining OWL errors in the range of 10-15 letters, thanks to
-   Richard Buck and Jim Lamerand (OWL should now be 100% accurate)
- * New Protile tile themes courtesy of Thomas Conrad
- * Make quiz questions actually readable if tile images are not used
- * New font preference for quiz questions
-
-
-Version 0.9.3
-Released 2006-01-07, from /branches/0.9.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.9.3
-
- User-visible changes:
- * Splash screen on startup
- * New preference for automatically advancing to next quiz question
- * Large speed improvement for Number of Anagrams searches
- * New buttons for alphabetizing or randomizing quiz question letter order
- * Bug fix for loading word lists with lower-case words
-
-
-Version 0.9.2
-Released 2006-01-06, from /branches/0.9.x
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.9.2
-
- User-visible changes:
- * Buttons can be clicked with Enter as well as Space bar
- * Word Judge input area disallows non-alphabetic characters
- * ANTEFIXAE added to the OWL lexicon
-
-
-Version 0.9.1
-Released 2006-01-04, from /trunk
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.9.1
-
- User-visible changes:
- * Bug fix relating to unspecified font preferences
-
-
-Version 0.9.0
-Released 2006-01-04, from /trunk
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.9.0
-
- User-visible changes:
- * Toolbar with buttons for various actions
- * New search conditions to account for prefixes and suffixes
- * Preferences broken out into subsections in the preference dialog box
- * New preference for quiz background color
- * New preference for quiz question letter order
- * New preferences for quiz hints
- * New dropdown for choosing the Quiz Type when creating a quiz
- * Option to restore or discard quiz progress after loading a saved quiz
- * New Hook Quiz type
- * Quiz responses are kept in sorted order
- * Most recent quiz response is highlighted and kept visible
- * Missed quiz responses are highlighted
- * Optimized searches for extensions and patterns beginning with *
- * Status bar messages from each tab
- * Various bug fixes
-
- Developer-visible changes:
- * All code ported to Qt4, except the Q3Canvas class
- * Stronger, portable random number generation
-
-
-Version 0.8.0
-Released 2005-08-14, from /trunk
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.8.0
-
- User-visible changes:
- * Search specifications can be saved and loaded
- * Quiz specifications can be saved and loaded
- * Quizzes can be saved while in progress and loaded in a subsequent session
- * Hooks can be shown automatically in any word list
- * Parent hooks can be shown automatically in any word list
- * Definitions for 2-8 letter North American words and their inflections are
-   included
- * Some predefined searches are included
-
-
-Version 0.7.0
-Released 2005-07-06, from /trunk
-http://svn.boshvark.com/repos/projects/zyzzyva/tags/0.7.0
-
- User-visible changes:
- * Word lists can now be saved to files
- * New quizzes can now be created from word lists
- * Front Hooks and Back Hooks are new options for Must Belong search conditions
- * Tabs can now be closed with Ctrl-W or File->Close Tab
- * New font preference for input areas
- * Obviously incorrect responses to quiz questions are now disallowed
- * In Word List search condition is completely new
- * Brackets can now be used for character classes in Pattern, Anagram,
-   Subanagram search conditions

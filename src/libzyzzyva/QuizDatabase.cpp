@@ -3,7 +3,7 @@
 //
 // A class for working with database of quiz performance statistics.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -67,6 +67,7 @@ QuizDatabase::QuizDatabase(const QString& lexicon, const QString& quizType)
 
     // Get random connection name
     rng.srand(QDateTime::currentDateTime().toTime_t(), Auxil::getPid());
+//    rng.srand(QDateTime::currentDateTime().toTime_t());
     unsigned int r = rng.rand();
     dbConnectionName = "quiz" + QString::number(r);
     db = new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE",

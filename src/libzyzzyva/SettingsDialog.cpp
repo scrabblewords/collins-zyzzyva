@@ -3,7 +3,7 @@
 //
 // The settings dialog for the word study application.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -215,19 +215,13 @@ SettingsDialog::SettingsDialog(QWidget* parent, Qt::WindowFlags f)
     // directory!
     userDataDirMoveCbox->hide();
 
-    QGroupBox* displayWelcomeGbox = new QGroupBox("Welcome");
-    Q_CHECK_PTR(displayWelcomeGbox);
-    generalPrefVlay->addWidget(displayWelcomeGbox);
-    generalPrefVlay->setStretchFactor(displayWelcomeGbox, 1);
-
-    QVBoxLayout* displayWelcomeVlay = new QVBoxLayout(displayWelcomeGbox);
-    Q_CHECK_PTR(displayWelcomeVlay);
-    displayWelcomeVlay->setMargin(MARGIN);
-    displayWelcomeVlay->setSpacing(SPACING);
-
     displayWelcomeCbox = new QCheckBox("Display Welcome on startup");
     Q_CHECK_PTR(displayWelcomeCbox);
-    displayWelcomeVlay->addWidget(displayWelcomeCbox);
+    generalPrefVlay->addWidget(displayWelcomeCbox);
+
+    confirmExitCbox = new QCheckBox("Confirm application exit");
+    Q_CHECK_PTR(confirmExitCbox);
+    generalPrefVlay->addWidget(confirmExitCbox);
 
     generalPrefVlay->addStretch(2);
 
@@ -384,10 +378,24 @@ SettingsDialog::SettingsDialog(QWidget* parent, Qt::WindowFlags f)
     Q_CHECK_PTR(quizMarkMissedAfterTimerCbox);
     quizBehaviorVlay->addWidget(quizMarkMissedAfterTimerCbox);
 
+    QHBoxLayout* cycleAnswersInputHlay = new QHBoxLayout;
+    Q_CHECK_PTR(cycleAnswersInputHlay);
+    cycleAnswersInputHlay->setMargin(0);
+    quizBehaviorVlay->addLayout(cycleAnswersInputHlay);
+
     quizCycleAnswersCbox =
-        new QCheckBox("Cycle answers after ending a question");
+        new QCheckBox("After ending a question, cycle answers every:");
     Q_CHECK_PTR(quizCycleAnswersCbox);
-    quizBehaviorVlay->addWidget(quizCycleAnswersCbox);
+    connect(quizCycleAnswersCbox, SIGNAL(toggled(bool)),
+            SLOT(cycleAnswersInputCboxToggled(bool)));
+    cycleAnswersInputHlay->addWidget(quizCycleAnswersCbox);
+
+    quizCycleAnswersPeriodSbox = new QSpinBox;
+    Q_CHECK_PTR(quizCycleAnswersPeriodSbox);
+    quizCycleAnswersPeriodSbox->setMinimum(500);
+    quizCycleAnswersPeriodSbox->setMaximum(10000);
+    quizCycleAnswersPeriodSbox->setSuffix(" milliseconds");
+    cycleAnswersInputHlay->addWidget(quizCycleAnswersPeriodSbox);
 
     QHBoxLayout* timeoutDisableInputHlay = new QHBoxLayout;
     Q_CHECK_PTR(timeoutDisableInputHlay);
@@ -779,6 +787,10 @@ SettingsDialog::SettingsDialog(QWidget* parent, Qt::WindowFlags f)
     Q_CHECK_PTR(showDefinitionCbox);
     wordListDisplayVlay->addWidget(showDefinitionCbox);
 
+    showOneSensePerLineCbox = new QCheckBox("Show each definition sense on a separate line");
+    Q_CHECK_PTR(showOneSensePerLineCbox);
+    wordListDisplayVlay->addWidget(showOneSensePerLineCbox);
+
     lowerCaseWildcardsCbox =
         new QCheckBox("Use lower-case for wildcard matches");
     Q_CHECK_PTR(lowerCaseWildcardsCbox);
@@ -909,6 +921,7 @@ SettingsDialog::refreshSettings()
     userDataDirLine->setText(origUserDataDir);
 
     displayWelcomeCbox->setChecked(MainSettings::getDisplayWelcome());
+    confirmExitCbox->setChecked(MainSettings::getConfirmExit());
 
     fillThemeCombo();
     bool useTileTheme = MainSettings::getUseTileTheme();
@@ -961,6 +974,7 @@ SettingsDialog::refreshSettings()
     quizMarkMissedAfterTimerCbox->setChecked(
         MainSettings::getQuizMarkMissedAfterTimerExpires());
     quizCycleAnswersCbox->setChecked(MainSettings::getQuizCycleAnswers());
+    quizCycleAnswersPeriodSbox->setValue(MainSettings::getQuizCycleAnswersPeriodMillisecs());
     quizTimeoutDisableInputCbox->setChecked(
         MainSettings::getQuizTimeoutDisableInput());
     quizTimeoutDisableInputSbox->setValue(
@@ -1034,6 +1048,7 @@ SettingsDialog::refreshSettings()
     useHookParentHyphensCbox->setChecked(
         MainSettings::getWordListUseHookParentHyphens());
     showDefinitionCbox->setChecked(MainSettings::getWordListShowDefinitions());
+    showOneSensePerLineCbox->setChecked(MainSettings::getWordListShowOneSensePerLine());
     lowerCaseWildcardsCbox->setChecked(
         MainSettings::getWordListLowerCaseWildcards());
     showHookParentsCboxToggled(showHookParents);
@@ -1064,6 +1079,7 @@ SettingsDialog::writeSettings()
     MainSettings::setDefaultLexicon(defaultLexicon);
     MainSettings::setAutoImportFile(autoImportCustomLine->text());
     MainSettings::setDisplayWelcome(displayWelcomeCbox->isChecked());
+    MainSettings::setConfirmExit(confirmExitCbox->isChecked());
     MainSettings::setUserDataDir(userDataDirLine->text());
     MainSettings::setUseTileTheme(themeCbox->isChecked());
     MainSettings::setTileTheme(themeCombo->currentText());
@@ -1087,6 +1103,7 @@ SettingsDialog::writeSettings()
     MainSettings::setQuizMarkMissedAfterTimerExpires(
         quizMarkMissedAfterTimerCbox->isChecked());
     MainSettings::setQuizCycleAnswers(quizCycleAnswersCbox->isChecked());
+    MainSettings::setQuizCycleAnswersPeriodMillisecs(quizCycleAnswersPeriodSbox->value());
     MainSettings::setQuizTimeoutDisableInput(
         quizTimeoutDisableInputCbox->isChecked());
     MainSettings::setQuizTimeoutDisableInputMillisecs(
@@ -1124,6 +1141,7 @@ SettingsDialog::writeSettings()
     MainSettings::setWordListUseHookParentHyphens(
         useHookParentHyphensCbox->isChecked());
     MainSettings::setWordListShowDefinitions(showDefinitionCbox->isChecked());
+    MainSettings::setWordListShowOneSensePerLine(showOneSensePerLineCbox->isChecked());
     MainSettings::setWordListLowerCaseWildcards(
         lowerCaseWildcardsCbox->isChecked());
     MainSettings::setWordListUseLexiconStyles(lexiconStyleCbox->isChecked());
@@ -1388,6 +1406,20 @@ SettingsDialog::chooseQuizBackgroundColorButtonClicked()
         quizBackgroundColorLine->setPalette(palette);
         quizBackgroundColor = color;
     }
+}
+
+//---------------------------------------------------------------------------
+//  cycleAnswersInputCboxToggled
+//
+//! Slot called when the Cycle Answers check box is
+//! toggled.  Enable or disable the duration spin box.
+//
+//! @param on true if the check box is on, false if it is off
+//---------------------------------------------------------------------------
+void
+SettingsDialog::cycleAnswersInputCboxToggled(bool on)
+{
+    quizCycleAnswersPeriodSbox->setEnabled(on);
 }
 
 //---------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 //
 // The main window for the word study application.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -69,7 +69,7 @@
 
 MainWindow* MainWindow::instance = 0;
 
-const QString APPLICATION_TITLE = "Collins Zyzzyva 5.0.3";
+const QString APPLICATION_TITLE = "Collins Zyzzyva 5.1.1";
 
 const QString IMPORT_FAILURE_TITLE = "Load Failed";
 const QString IMPORT_COMPLETE_TITLE = "Load Complete";
@@ -82,6 +82,8 @@ const QString SETTINGS_GEOMETRY_WIDTH = "/width";
 const QString SETTINGS_GEOMETRY_HEIGHT = "/height";
 
 const int DETAILS_FONT_MIN_POINTS = 6;
+
+const QColor SPLASH_MESSAGE_COLOR = QColor("#fff7fa09");
 
 using namespace Defs;
 
@@ -99,13 +101,14 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
       aboutDialog(new AboutDialog(this))//,
       //helpDialog(new HelpDialog(QString(), this))
 {
-    setSplashMessage("Creating interface...");
+    setSplashMessage("Creating interface...", SPLASH_MESSAGE_COLOR);
     //printf("%d\n", qApp->cursorFlashTime());
     // (JGM) Hack to properly display the cursor on Windows (7-specific?) when cursor blink is turned
     // off.  Qt 5.4/5.5 thinks the value is -2ms instead of 0ms, causing inconsistent cursor display
     // across different GUI events.  Blinkophiles won't notice a 2ms difference in the blink rate when
     // using this application.
-    qApp->setCursorFlashTime(qApp->cursorFlashTime() + 2);
+    // (JGM) As of Qt 5.6.0, hack is no longer needed.
+    //qApp->setCursorFlashTime(qApp->cursorFlashTime() + 2);
     //printf("%d\n", qApp->cursorFlashTime());
 
     // File Menu
@@ -138,12 +141,12 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
 
     fileMenu->addSeparator();
 
-    // New Introduction
-    QAction* newIntroAction = new QAction("&Welcome", this);
-    Q_CHECK_PTR(newIntroAction);
-    newIntroAction->setIcon(QIcon(":/help-icon"));
-    connect(newIntroAction, SIGNAL(triggered()), SLOT(newIntroForm()));
-    fileMenu->addAction(newIntroAction);
+    // New Search
+    QAction* newSearchAction = new QAction("&Search", this);
+    Q_CHECK_PTR(newSearchAction);
+    newSearchAction->setIcon(QIcon(":/search-icon"));
+    connect(newSearchAction, SIGNAL(triggered()), SLOT(newSearchForm()));
+    fileMenu->addAction(newSearchAction);
 
     // New Quiz
     QAction* newQuizAction = new QAction("Qui&z...", this);
@@ -151,13 +154,6 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
     newQuizAction->setIcon(QIcon(":/quiz-icon"));
     connect(newQuizAction, SIGNAL(triggered()), SLOT(newQuizFormInteractive()));
     fileMenu->addAction(newQuizAction);
-
-    // New Search
-    QAction* newSearchAction = new QAction("&Search", this);
-    Q_CHECK_PTR(newSearchAction);
-    newSearchAction->setIcon(QIcon(":/search-icon"));
-    connect(newSearchAction, SIGNAL(triggered()), SLOT(newSearchForm()));
-    fileMenu->addAction(newSearchAction);
 
     // New Cardbox
     QAction* newCardboxAction = new QAction("&Cardbox", this);
@@ -202,28 +198,20 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
     fileMenu->addSeparator();
 
     // Close Tab
-    QAction* closeTabAction = new QAction("&Close Tab", this);
+    closeTabAction = new QAction("&Close Tab", this);
     Q_CHECK_PTR(closeTabAction);
-    closeTabAction->setShortcut(tr("Ctrl+W"));
+    closeTabAction->setEnabled(false);
+    closeTabAction->setShortcut(QString("Ctrl+W"));
     connect(closeTabAction, SIGNAL(triggered()), SLOT(closeCurrentTab()));
     fileMenu->addAction(closeTabAction);
 
     // Quit
-    QAction* quitAction = new QAction("&Quit", this);
+    QAction* quitAction = new QAction("&Exit", this);
     Q_CHECK_PTR(quitAction);
+    quitAction->setEnabled(true);
+    quitAction->setShortcut(QString("Ctrl+Q"));
     connect(quitAction, SIGNAL(triggered()), SLOT(close()));
     fileMenu->addAction(quitAction);
-
-    // Edit Menu
-    QMenu* editMenu = menuBar()->addMenu("&Edit");
-    Q_CHECK_PTR(editMenu);
-
-    // Preferences
-    QAction* editPrefsAction = new QAction("&Preferences", this);
-    Q_CHECK_PTR(editPrefsAction);
-    editPrefsAction->setIcon(QIcon(":/preferences-icon"));
-    connect(editPrefsAction, SIGNAL(triggered()), SLOT(editSettings()));
-    editMenu->addAction(editPrefsAction);
 
     // Word Menu
     QMenu* wordMenu = menuBar()->addMenu("&Word");
@@ -321,6 +309,13 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
             SLOT(rescheduleCardboxRequested()));
     toolsMenu->addAction(rescheduleCardboxAction);
 
+    // Preferences
+    QAction* editPrefsAction = new QAction("&Preferences", this);
+    Q_CHECK_PTR(editPrefsAction);
+    editPrefsAction->setIcon(QIcon(":/preferences-icon"));
+    connect(editPrefsAction, SIGNAL(triggered()), SLOT(editSettings()));
+    toolsMenu->addAction(editPrefsAction);
+
     // Help Menu
     QMenu* helpMenu = menuBar()->addMenu("&Help");
     Q_CHECK_PTR(helpMenu);
@@ -329,7 +324,6 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
     QAction* helpAction = new QAction("&Help", this);
     Q_CHECK_PTR(helpAction);
     helpAction->setIcon(QIcon(":/help-icon"));
-    //connect(helpAction, SIGNAL(triggered()), SLOT(displayHelp()));
     // Start using "Welcome" dialog solely for providing help!
     connect(helpAction, SIGNAL(triggered()), SLOT(newIntroForm()));
     helpMenu->addAction(helpAction);
@@ -354,14 +348,14 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
     connect(toolbarSaveAsAction, SIGNAL(triggered()), SLOT(doSaveAction()));
     toolbar->addAction(toolbarSaveAsAction);
     toolbar->addSeparator();
-    QAction* toolbarQuizAction = new QAction("Quiz", this);
-    copyQActionPartial(newQuizAction, toolbarQuizAction);
-    connect(toolbarQuizAction, SIGNAL(triggered()), SLOT(newQuizFormInteractive()));
-    toolbar->addAction(toolbarQuizAction);
     QAction* toolbarSearchAction = new QAction("Search", this);
     copyQActionPartial(newSearchAction, toolbarSearchAction);
     connect(toolbarSearchAction, SIGNAL(triggered()), SLOT(newSearchForm()));
     toolbar->addAction(toolbarSearchAction);
+    QAction* toolbarQuizAction = new QAction("Quiz", this);
+    copyQActionPartial(newQuizAction, toolbarQuizAction);
+    connect(toolbarQuizAction, SIGNAL(triggered()), SLOT(newQuizFormInteractive()));
+    toolbar->addAction(toolbarQuizAction);
     QAction* toolbarCardboxAction = new QAction("Cardbox", this);
     copyQActionPartial(newCardboxAction, toolbarCardboxAction);
     connect(toolbarCardboxAction, SIGNAL(triggered()), SLOT(newCardboxForm()));
@@ -384,9 +378,9 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
     copyQActionPartial(editPrefsAction, toolbarEditPrefsAction);
     connect(toolbarEditPrefsAction, SIGNAL(triggered()), SLOT(editSettings()));
     toolbar->addAction(toolbarEditPrefsAction);
+    toolbar->addSeparator();
     QAction* toolbarHelpAction = new QAction("Help", this);
     copyQActionPartial(helpAction, toolbarHelpAction);
-    //connect(toolbarHelpAction, SIGNAL(triggered()), SLOT(displayHelp()));
     // Start using "Welcome" dialog solely for providing help!
     connect(toolbarHelpAction, SIGNAL(triggered()), SLOT(newIntroForm()));
     toolbar->addAction(toolbarHelpAction);
@@ -426,11 +420,11 @@ MainWindow::MainWindow(QWidget* parent, QSplashScreen* splash, Qt::WindowFlags f
 
     fixTrolltechConfig();
 
-    setSplashMessage("Reading settings...");
+    setSplashMessage("Reading settings...", SPLASH_MESSAGE_COLOR);
     readSettings(true);
     updateSettings();
 
-    setSplashMessage("Creating data files...");
+    setSplashMessage("Creating data files...", SPLASH_MESSAGE_COLOR);
     makeUserDirs();
 
     setWindowTitle(APPLICATION_TITLE);
@@ -493,7 +487,7 @@ MainWindow::tryAutoImport()
     if (!MainSettings::getUseAutoImport())
         return;
 
-    setSplashMessage("Loading lexicons...");
+    setSplashMessage("Loading lexicons...", SPLASH_MESSAGE_COLOR);
 
     // If no auto import lexicons are set, prompt the user with a lexicon
     // selection dialog
@@ -1089,7 +1083,7 @@ MainWindow::displayHelp()
     args << QLatin1String("-collectionFile")
         << (Auxil::getHelpDir() + QLatin1String("/zyzzyva.qhc"))
         << QLatin1String("-showUrl")
-        << QLatin1String("qthelp://twilightcenturycomputing.com/5.0.3/index.html")
+        << QLatin1String("qthelp://twilightcenturycomputing.com/5.1.1/index.html")
         << QLatin1String("-enableRemoteControl");
     process->start(QLatin1String("assistant"), args);
     if (!process->waitForStarted())
@@ -1163,6 +1157,7 @@ MainWindow::closeCurrentTab()
         messageLabel->setText(QString());
         detailsLabel->setText(QString());
         closeButton->hide();
+        closeTabAction->setEnabled(false);
     }
 }
 
@@ -1316,7 +1311,7 @@ MainWindow::tryConnectToDatabase(const QString& lexicon)
     if (wordEngine->databaseIsConnected(lexicon) && (lexicon != LEXICON_CUSTOM))
         return DbNoError;
 
-    setSplashMessage(QString("Connecting to %1 database...").arg(lexicon));
+    setSplashMessage(QString("Connecting to %1 database...").arg(lexicon), SPLASH_MESSAGE_COLOR);
 
     QString dbFilename = Auxil::getDatabaseFilename(lexicon);
     QFile dbFile (dbFilename);
@@ -1326,6 +1321,7 @@ MainWindow::tryConnectToDatabase(const QString& lexicon)
     if (dbFile.exists()) {
         Rand rng;
         rng.srand(QDateTime::currentDateTime().toTime_t(), Auxil::getPid());
+//        rng.srand(QDateTime::currentDateTime().toTime_t());
         unsigned int r = rng.rand();
         QString dbConnectionName = "MainWindow_" + lexicon + "_" +
             QString::number(r);
@@ -1471,7 +1467,7 @@ MainWindow::rebuildDatabase(const QString& lexicon)
     }
     else {
         definitionFilename = Auxil::getWordsDir() +
-            Auxil::getLexiconPrefix(lexicon) + (lexicon == LEXICON_CSW15 ? ".bin" : ".txt");
+            Auxil::getLexiconPrefix(lexicon) + ((lexicon == LEXICON_CSW15 || lexicon == LEXICON_CSW19) ? ".bin" : ".txt");
     }
 
     QFileInfo fileInfo (dbFilename);
@@ -1627,6 +1623,33 @@ MainWindow::rescheduleCardbox(const QStringList& words,
 void
 MainWindow::closeEvent(QCloseEvent* event)
 {
+    QMessageBox* msgBox = new QMessageBox(QMessageBox::Question, QCoreApplication::applicationName(), tr("Really exit?\n"),
+                                          QMessageBox::StandardButton::NoButton, this);
+    Q_CHECK_PTR(msgBox);
+    QCheckBox* neverShowCbox = new QCheckBox("Don't show this again");
+    Q_CHECK_PTR(neverShowCbox);
+    msgBox->setCheckBox(neverShowCbox);
+    QPushButton* yesButton = msgBox->addButton(tr("Yes"), QMessageBox::YesRole);
+    Q_CHECK_PTR(yesButton);
+    QPushButton* noButton = msgBox->addButton(tr("No"), QMessageBox::NoRole);
+    Q_CHECK_PTR(noButton);
+    QPushButton* cancelButton = msgBox->addButton(tr("Cancel"), QMessageBox::RejectRole);
+    Q_CHECK_PTR(cancelButton);
+    msgBox->setDefaultButton(yesButton);
+    msgBox->setEscapeButton(cancelButton);
+
+    if (MainSettings::getConfirmExit()) {
+        msgBox->exec();
+        if (msgBox->clickedButton() == yesButton || msgBox->clickedButton() == noButton)
+            if (neverShowCbox->isChecked())
+                MainSettings::setConfirmExit(false);
+        if (msgBox->clickedButton() != yesButton) {
+            event->ignore();
+            delete msgBox;
+            return;
+        }
+    }
+
     // Look for unsaved quizzes
     int count = tabStack->count();
     for (int i = 0; i < count; ++i) {
@@ -1639,6 +1662,7 @@ MainWindow::closeEvent(QCloseEvent* event)
                 bool ok = quizForm->promptToSaveChanges();
                 if (!ok) {
                     event->ignore();
+                    delete msgBox;
                     return;
                 }
             }
@@ -1646,7 +1670,6 @@ MainWindow::closeEvent(QCloseEvent* event)
     }
 
     writeSettings();
-    event->accept();
 }
 
 //---------------------------------------------------------------------------
@@ -1773,7 +1796,7 @@ MainWindow::readSettings(bool useGeometry)
             searchForm->getView()->resizeItemsRecursively();
         }
     }
-    //! TODO (JGM) Add an interface to combine this with the same function in
+    //! TODO (JGM) Add an interface/function to combine this with the same code in
     //! WordTableView::resizeItemsRecursively.
     QListIterator<WordVariationDialog*> it(wordVariationDialogs);
     WordVariationDialog* current;
@@ -1832,6 +1855,8 @@ MainWindow::newTab(ActionForm* form)
     tabStack->setCurrentWidget(form);
     closeButton->show();
     currentTabChanged(0);
+    if (tabStack->count() == 1)
+        closeTabAction->setEnabled(true);
 }
 
 //---------------------------------------------------------------------------
@@ -1983,11 +2008,11 @@ MainWindow::importChecksums(const QString& filename)
 //! @param message the message
 //---------------------------------------------------------------------------
 void
-MainWindow::setSplashMessage(const QString& message)
+MainWindow::setSplashMessage(const QString& message, const QColor& color)
 {
     //qDebug("Splash message: |%s|", message.toUtf8().constData());
     if (splashScreen)
-        splashScreen->showMessage(message, Qt::AlignHCenter | Qt::AlignBottom);
+        splashScreen->showMessage(message, Qt::AlignHCenter | Qt::AlignBottom, color);
     else
         messageLabel->setText(message);
 
@@ -2039,7 +2064,7 @@ MainWindow::updateSettings()
     if (prevVersion == currVersion)
         return;
 
-    // Add default CSW15 lexicon styles in 2.1.3
+    // Add default CSW19 lexicon styles in 2.1.3
     if (Auxil::lessThanVersion(prevVersion, "2.1.3") &&
        ((currVersion == "2.1.3") ||
         Auxil::lessThanVersion("2.1.3", currVersion)))
@@ -2048,8 +2073,8 @@ MainWindow::updateSettings()
         LexiconStyle addStyle;
         QList<LexiconStyle> addStyles;
 
-        addStyle.lexicon = Defs::LEXICON_CSW15;
-        addStyle.compareLexicon = Defs::LEXICON_CSW12;
+        addStyle.lexicon = Defs::LEXICON_CSW19;
+        addStyle.compareLexicon = Defs::LEXICON_CSW15;
         addStyle.inCompareLexicon = false;
         addStyle.symbol = "+";
         addStyles.append(addStyle);
@@ -2225,13 +2250,14 @@ MainWindow::importLexicon(const QString& lexicon)
         prefixMap[LEXICON_VOLOST] = "/Antarctic/Volost";
         prefixMap[LEXICON_CSW12] = "/British/CSW12";
         prefixMap[LEXICON_CSW15] = "/British/CSW15";
+        prefixMap[LEXICON_CSW19] = "/British/CSW19";
 
         if (prefixMap.contains(lexicon)) {
             QString prefix = Auxil::getWordsDir() + prefixMap.value(lexicon);
             importFile =        prefix + ".dwg";
             reverseImportFile = prefix + "-R.dwg";
             checksumFile =      prefix + "-Checksums.txt";
-            playabilityFile =   prefix + (lexicon == LEXICON_CSW15 ? "-Playability.bin" : "-Playability.txt");
+            playabilityFile =   prefix + ((lexicon == LEXICON_CSW15 || lexicon == LEXICON_CSW19) ? "-Playability.bin" : "-Playability.txt");
         }
     }
 
@@ -2239,7 +2265,7 @@ MainWindow::importLexicon(const QString& lexicon)
         return false;
 
     QString splashMessage = "Loading " + lexicon + " lexicon...";
-    setSplashMessage(splashMessage);
+    setSplashMessage(splashMessage, SPLASH_MESSAGE_COLOR);
 
     if (dawg) {
         quint16 expectedForwardChecksum = 0;
@@ -2294,7 +2320,7 @@ MainWindow::importText(const QString& lexicon, const QString& file)
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    if (lexicon == LEXICON_CSW15)
+    if ((lexicon == LEXICON_CSW15 || lexicon == LEXICON_CSW19))
         imported = wordEngine->importBinaryFile(lexicon, file, true);
     else
         imported = wordEngine->importTextFile(lexicon, file, true);

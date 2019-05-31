@@ -3,7 +3,7 @@
 //
 // The main settings for the word study application.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -53,6 +53,7 @@ const QString SETTINGS_IMPORT_LEXICONS = "autoimport_lexicons";
 const QString SETTINGS_DEFAULT_LEXICON = "default_lexicon";
 const QString SETTINGS_IMPORT_FILE = "autoimport_file";
 const QString SETTINGS_DISPLAY_WELCOME = "display_welcome";
+const QString SETTINGS_CONFIRM_EXIT = "confirm_exit";
 const QString SETTINGS_USER_DATA_DIR = "user_data_dir";
 const QString SETTINGS_FONT_MAIN = "font";
 const QString SETTINGS_FONT_WORD_LISTS = "font_word_lists";
@@ -73,6 +74,7 @@ const QString SETTINGS_SHOW_HOOK_PARENTS = "wordlist_show_hook_parents";
 const QString SETTINGS_USE_HOOK_PARENT_HYPHENS
     = "wordlist_use_hook_parent_hyphens";
 const QString SETTINGS_SHOW_DEFINITIONS = "wordlist_show_definitions";
+const QString SETTINGS_SHOW_ONE_SENSE_PER_LINE = "wordlist_show_one_sense_per_line";
 const QString SETTINGS_LOWER_CASE_WILDCARDS = "wordlist_lower_case_wildcards";
 const QString SETTINGS_USE_LEXICON_STYLES = "wordlist_use_lexicon_styles";
 const QString SETTINGS_LEXICON_STYLES = "wordlist_lexicon_styles";
@@ -95,6 +97,7 @@ const QString SETTINGS_QUIZ_MARK_MISSED_AFTER_INCORRECT
 const QString SETTINGS_QUIZ_MARK_MISSED_AFTER_TIMER_EXPIRES
     = "quiz_mark_missed_after_timer_expires";
 const QString SETTINGS_QUIZ_CYCLE_ANSWERS = "quiz_cycle_answers";
+const QString SETTINGS_QUIZ_CYCLE_ANSWERS_PERIOD_MSECS = "quiz_cycle_answers_period_msecs";
 const QString SETTINGS_QUIZ_TIMEOUT_DISABLE_INPUT = "quiz_timeout_disable_input";
 const QString SETTINGS_QUIZ_TIMEOUT_DISABLE_INPUT_MSECS
     = "quiz_timeout_disable_input_msecs";
@@ -106,8 +109,9 @@ const QString SETTINGS_LETTER_DISTRIBUTION = "letter_distribution";
 const QString SETTINGS_JUDGE_SAVE_LOG = "judge_save_log";
 
 const bool    DEFAULT_AUTO_IMPORT = true;
-const QString DEFAULT_DEFAULT_LEXICON = Defs::LEXICON_CSW15;
+const QString DEFAULT_DEFAULT_LEXICON = Defs::LEXICON_CSW19;
 const bool    DEFAULT_DISPLAY_WELCOME = true;
+const bool    DEFAULT_CONFIRM_EXIT = true;
 const QString DEFAULT_USER_DATA_DIR = Auxil::getHomeDir() + "/.collinszyzzyva";
 const bool    DEFAULT_USE_TILE_THEME = true;
 const QString DEFAULT_TILE_THEME = "tan-with-border";
@@ -124,6 +128,7 @@ const bool    DEFAULT_QUIZ_AUTO_END_AFTER_INCORRECT = false;
 const bool    DEFAULT_QUIZ_MARK_MISSED_AFTER_INCORRECT = true;
 const bool    DEFAULT_QUIZ_MARK_MISSED_AFTER_TIMER_EXPIRES = false;
 const bool    DEFAULT_QUIZ_CYCLE_ANSWERS = true;
+const int     DEFAULT_QUIZ_CYCLE_ANSWERS_PERIOD_MSECS = 2000;
 const bool    DEFAULT_QUIZ_TIMEOUT_DISABLE_INPUT = true;
 const int     DEFAULT_QUIZ_TIMEOUT_DISABLE_INPUT_MSECS = 750;
 const bool    DEFAULT_QUIZ_RECORD_STATS = true;
@@ -140,11 +145,12 @@ const bool    DEFAULT_SHOW_HOOKS = true;
 const bool    DEFAULT_SHOW_HOOK_PARENTS = true;
 const bool    DEFAULT_USE_HOOK_PARENT_HYPHENS = false;
 const bool    DEFAULT_SHOW_DEFINITIONS = true;
+const bool    DEFAULT_SHOW_ONE_SENSE_PER_LINE = true;
 const bool    DEFAULT_LOWER_CASE_WILDCARDS = false;
 const bool    DEFAULT_USE_LEXICON_STYLES = true;
 const QString DEFAULT_LEXICON_STYLES = QString(
     "%1 and not %2: symbol +")
-    .arg(Defs::LEXICON_CSW15).arg(Defs::LEXICON_CSW12);
+    .arg(Defs::LEXICON_CSW19).arg(Defs::LEXICON_CSW15);
 const QString DEFAULT_LETTER_DISTRIBUTION = "A:9 B:2 C:2 D:4 E:12 F:2 G:3 "
     "H:2 I:9 J:1 K:1 L:4 M:2 N:6 O:8 P:2 Q:1 R:6 S:4 T:6 U:4 V:2 W:2 X:1 "
     "Y:2 Z:1 _:2";
@@ -166,11 +172,12 @@ MainSettings::readSettings()
     // Get desktop geometry and validate position, size settings to make sure
     // the window will appear on-screen
     // XXX: This may have problems with virtual desktops, need to test
-    QRect srect = qApp->desktop()->availableGeometry();
     QPoint pos = settings.value(SETTINGS_MAIN_WINDOW_POS, defaultPos).toPoint();
     QSize size = settings.value(SETTINGS_MAIN_WINDOW_SIZE, defaultSize).toSize();
 
+#if !defined(Q_OS_WIN)
     // Validate and correct window position
+    QRect srect = qApp->desktop()->availableGeometry();
     if ((pos.x() < 0) || (pos.y() < 0) ||
         (pos.x() > srect.width()) || (pos.y() > srect.height()))
     {
@@ -183,6 +190,7 @@ MainSettings::readSettings()
     {
         size = defaultSize;
     }
+#endif
 
     instance->mainWindowPos = pos;
     instance->mainWindowSize = size;
@@ -223,6 +231,10 @@ MainSettings::readSettings()
     instance->displayWelcome
         = settings.value(SETTINGS_DISPLAY_WELCOME,
                          DEFAULT_DISPLAY_WELCOME).toBool();
+
+    instance->confirmExit
+        = settings.value(SETTINGS_CONFIRM_EXIT,
+                         DEFAULT_CONFIRM_EXIT).toBool();
 
     instance->userDataDir = QDir::cleanPath(
         settings.value(SETTINGS_USER_DATA_DIR,
@@ -276,6 +288,9 @@ MainSettings::readSettings()
     instance->quizCycleAnswers
         = settings.value(SETTINGS_QUIZ_CYCLE_ANSWERS,
                          DEFAULT_QUIZ_CYCLE_ANSWERS).toBool();
+    instance->quizCycleAnswersPeriodMillisecs
+        = settings.value(SETTINGS_QUIZ_CYCLE_ANSWERS_PERIOD_MSECS,
+                         DEFAULT_QUIZ_CYCLE_ANSWERS_PERIOD_MSECS).toInt();
     instance->quizTimeoutDisableInput
         = settings.value(SETTINGS_QUIZ_TIMEOUT_DISABLE_INPUT,
                          DEFAULT_QUIZ_TIMEOUT_DISABLE_INPUT).toBool();
@@ -342,6 +357,9 @@ MainSettings::readSettings()
     instance->wordListShowDefinitions
         = settings.value(SETTINGS_SHOW_DEFINITIONS,
                          DEFAULT_SHOW_DEFINITIONS).toBool();
+    instance->wordListShowOneSensePerLine
+        = settings.value(SETTINGS_SHOW_ONE_SENSE_PER_LINE,
+                         DEFAULT_SHOW_ONE_SENSE_PER_LINE).toBool();
     instance->wordListLowerCaseWildcards
         = settings.value(SETTINGS_LOWER_CASE_WILDCARDS,
                          DEFAULT_LOWER_CASE_WILDCARDS).toBool();
@@ -379,6 +397,7 @@ MainSettings::writeSettings()
     settings.setValue(SETTINGS_DEFAULT_LEXICON, instance->defaultLexicon);
     settings.setValue(SETTINGS_IMPORT_FILE, instance->autoImportFile);
     settings.setValue(SETTINGS_DISPLAY_WELCOME, instance->displayWelcome);
+    settings.setValue(SETTINGS_CONFIRM_EXIT, instance->confirmExit);
     settings.setValue(SETTINGS_USER_DATA_DIR, instance->userDataDir);
     settings.setValue(SETTINGS_USE_TILE_THEME, instance->useTileTheme);
     settings.setValue(SETTINGS_TILE_THEME, instance->tileTheme);
@@ -407,6 +426,8 @@ MainSettings::writeSettings()
                       instance->quizMarkMissedAfterTimerExpires);
     settings.setValue(SETTINGS_QUIZ_CYCLE_ANSWERS,
                       instance->quizCycleAnswers);
+    settings.setValue(SETTINGS_QUIZ_CYCLE_ANSWERS_PERIOD_MSECS,
+                      instance->quizCycleAnswersPeriodMillisecs);
     settings.setValue(SETTINGS_QUIZ_TIMEOUT_DISABLE_INPUT,
                       instance->quizTimeoutDisableInput);
     settings.setValue(SETTINGS_QUIZ_TIMEOUT_DISABLE_INPUT_MSECS,
@@ -457,6 +478,8 @@ MainSettings::writeSettings()
                       instance->wordListUseHookParentHyphens);
     settings.setValue(SETTINGS_SHOW_DEFINITIONS,
                       instance->wordListShowDefinitions);
+    settings.setValue(SETTINGS_SHOW_ONE_SENSE_PER_LINE,
+                      instance->wordListShowOneSensePerLine);
     settings.setValue(SETTINGS_LOWER_CASE_WILDCARDS,
                       instance->wordListLowerCaseWildcards);
     settings.setValue(SETTINGS_USE_LEXICON_STYLES,
@@ -495,6 +518,7 @@ MainSettings::restoreDefaults(const QString& group)
         instance->autoImportLexicons = QStringList(DEFAULT_DEFAULT_LEXICON);
         instance->autoImportFile = QString();
         instance->displayWelcome = DEFAULT_DISPLAY_WELCOME;
+        instance->confirmExit = DEFAULT_CONFIRM_EXIT;
         instance->userDataDir = DEFAULT_USER_DATA_DIR;
     }
 
@@ -521,6 +545,8 @@ MainSettings::restoreDefaults(const QString& group)
         instance->quizMarkMissedAfterTimerExpires =
             DEFAULT_QUIZ_MARK_MISSED_AFTER_TIMER_EXPIRES;
         instance->quizCycleAnswers = DEFAULT_QUIZ_CYCLE_ANSWERS;
+        instance->quizCycleAnswersPeriodMillisecs =
+            DEFAULT_QUIZ_CYCLE_ANSWERS_PERIOD_MSECS;
         instance->quizTimeoutDisableInput =
             DEFAULT_QUIZ_TIMEOUT_DISABLE_INPUT;
         instance->quizTimeoutDisableInputMillisecs =
@@ -564,6 +590,7 @@ MainSettings::restoreDefaults(const QString& group)
         instance->wordListUseHookParentHyphens =
             DEFAULT_USE_HOOK_PARENT_HYPHENS;
         instance->wordListShowDefinitions = DEFAULT_SHOW_DEFINITIONS;
+        instance->wordListShowOneSensePerLine = DEFAULT_SHOW_ONE_SENSE_PER_LINE;
         instance->wordListLowerCaseWildcards = DEFAULT_LOWER_CASE_WILDCARDS;
         instance->wordListUseLexiconStyles = DEFAULT_USE_LEXICON_STYLES;
         instance->setWordListLexiconStyles(DEFAULT_LEXICON_STYLES);

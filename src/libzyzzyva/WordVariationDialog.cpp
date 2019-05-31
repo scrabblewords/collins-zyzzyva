@@ -3,7 +3,7 @@
 //
 // A dialog for displaying variations of a word, such as hooks, anagrams, etc.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -91,6 +91,7 @@ WordVariationDialog::WordVariationDialog(WordEngine* we, const QString& lex,
     connect(topModel, SIGNAL(wordsChanged()),
             topView, SLOT(resizeItemsToContents()));
     topView->setModel(topModel);
+    topView->resizeItemsRecursively();
 
     // Only add the middle list if necessary
     if (numLists > 1) {
@@ -108,6 +109,7 @@ WordVariationDialog::WordVariationDialog(WordEngine* we, const QString& lex,
         connect(middleModel, SIGNAL(wordsChanged()),
                 middleView, SLOT(resizeItemsToContents()));
         middleView->setModel(middleModel);
+        middleView->resizeItemsRecursively();
     }
 
     // Only add the bottom list if necessary
@@ -126,6 +128,7 @@ WordVariationDialog::WordVariationDialog(WordEngine* we, const QString& lex,
         connect(bottomModel, SIGNAL(wordsChanged()),
                 bottomView, SLOT(resizeItemsToContents()));
         bottomView->setModel(bottomModel);
+        bottomView->resizeItemsRecursively();
     }
 
     QHBoxLayout* buttonHlay = new QHBoxLayout;

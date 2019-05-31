@@ -1,0 +1,6 @@
+Drag the Zyzzyva app into your /Applications folder. If you have an older
+version of Zyzzyva installed, just select the option to replace it.
+
+If you had a previous version of Zyzzyva, then your default lexicon will still
+be CSW15. You'll have to change your default lexicon to CSW19 by editing the
+"Load lexicons" option in preferences.

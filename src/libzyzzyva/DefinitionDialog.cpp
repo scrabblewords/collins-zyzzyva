@@ -3,7 +3,7 @@
 //
 // The dialog for word definitions.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -81,7 +81,7 @@ DefinitionDialog::DefinitionDialog(WordEngine* e, const QString& lexicon,
 
     setWindowTitle(DIALOG_CAPTION_PREFIX + wordAcceptable);
 
-    QString definition = engine->getDefinition(lexicon, word);
+    QString definition = engine->getDefinition(lexicon, word, MainSettings::getWordListShowOneSensePerLine());
     if (definition.isEmpty()) {
         definition = acceptable ? EMPTY_DEFINITION :
             QString("<font color=\"red\">Unacceptable</font>");

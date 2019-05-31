@@ -4,7 +4,7 @@
 // A random number generator based on George Marsaglia's algorithms found
 // on this web page:  http://www.ciphersbyritter.com/NEWS4/RANDC.HTM
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -38,8 +38,10 @@ class Rand
     };
 
     public:
-    Rand(int a = MarsagliaMwc, unsigned int z0 = 362436069,
-         unsigned int w0 = 521288629)
+//    Rand(int a = MarsagliaMwc, unsigned int z0 = 362436069,
+//         unsigned int w0 = 521288629)
+    Rand(int a = MarsagliaMwc, unsigned int z0 = Z0_INIT,
+         unsigned int w0 = W0_INIT)
         : algorithm(Algorithm(a)), z(z0), w(w0) { }
     ~Rand() { }
 
@@ -59,6 +61,10 @@ class Rand
     Algorithm algorithm;
     unsigned int z;
     unsigned int w;
+
+    public:
+    static const unsigned int Z0_INIT = 362436069;
+    static const unsigned int W0_INIT = 521288629;
 };
 
 #endif // ZYZZYVA_RAND_H

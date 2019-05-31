@@ -5,7 +5,7 @@
 // does nothing special.  It only exists so objects of this class can be
 // distinguished from other QLineEdit objects when applying font settings.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.

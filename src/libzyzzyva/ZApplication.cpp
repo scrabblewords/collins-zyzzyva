@@ -3,7 +3,7 @@
 //
 // A class derived from QApplication.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2006-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -28,7 +28,7 @@
 
 #include <QMessageBox>
 
-#if not defined Z_LINUX
+#ifndef Z_LINUX
 
 //---------------------------------------------------------------------------
 //  keyPressEvent

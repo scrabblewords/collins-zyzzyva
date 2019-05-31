@@ -3,7 +3,7 @@
 //
 // An enumeration of word variation types.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.

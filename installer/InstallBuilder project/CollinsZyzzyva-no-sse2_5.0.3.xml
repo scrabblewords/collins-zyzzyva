@@ -364,7 +364,7 @@
     <enableTimestamp>1</enableTimestamp>
     <outputDirectory>F:/jim/Desktop/!!DESKTOPSAVE</outputDirectory>
     <startMenuGroupName>Collins Zyzzyva ${product_version}</startMenuGroupName>
-    <summary>${product_fullname} is a word study program written by Michael Thelen and Jim Miller.</summary>
+    <summary>${product_fullname} is a word study program written by Michael Thelen and JG Miller.</summary>
     <uninstallerName></uninstallerName>
     <vendor>Twilight Century Computing</vendor>
     <parameterList>

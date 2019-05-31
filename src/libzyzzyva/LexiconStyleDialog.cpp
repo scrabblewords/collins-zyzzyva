@@ -4,7 +4,7 @@
 // A dialog for selecting specialized display styles for words that belong to
 // a particular combination of lexicons.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.

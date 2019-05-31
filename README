@@ -1,13 +1,14 @@
-Collins Zyzzyva is free software, released under the GNU General Public License.
-Please see COPYING and LICENSE for details.  Collins Zyzzyva is written by
-Michael W Thelen <mthelen@gmail.com> and Jim Miller <jg.millirem@gmail.com>.
+Collins Zyzzyva is free software, released under the GNU General Public
+License.  Please see COPYING and LICENSE for details.  Collins Zyzzyva is
+written by Michael W Thelen <mthelen@gmail.com>, and updated by JG Miller
+<jg.millirem@gmail.com>, Winter <winterene@gmail.com>, and Anand Buddhdev
+<aabdnn@gmail.com>.
 
 The latest version of Collins Zyzzyva can always be found at
 http://www.collinsdictionary.com/scrabble/scrabble-tools
-and the source code for Collins Zyzzyva is found at https://goo.gl/8queyr
 
-If you are building Collins Zyzzyva from source code, you will need the Qt5 library,
-available from https://www.qt.io/download-open-source
+If you are building Collins Zyzzyva from source code, you will need the Qt5
+library, available from https://www.qt.io/download-open-source
 
 After Qt5 is installed, the following steps should be sufficient to
 build Collins Zyzzyva:
@@ -16,5 +17,4 @@ build Collins Zyzzyva:
     make
 
 On Mac OS X, instead of running qmake and make directly, you should run
-installer/create-macx-bundle.sh instead.  This will create an executable
-bundle under installer/macosx.
+installer/create-macos.sh instead.

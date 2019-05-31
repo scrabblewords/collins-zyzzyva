@@ -3,7 +3,7 @@
 //
 // A dialog for prompting the user for a quiz.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -89,6 +89,7 @@ AnalyzeQuizDialog::AnalyzeQuizDialog(QuizEngine* qe, WordEngine* we, QWidget*
     connect(missedModel, SIGNAL(wordsChanged()),
             missedView, SLOT(resizeItemsToContents()));
     missedView->setModel(missedModel);
+    missedView->resizeItemsRecursively();
 
     QHBoxLayout* precisionHlay = new QHBoxLayout;
     Q_CHECK_PTR(precisionHlay);
@@ -114,6 +115,7 @@ AnalyzeQuizDialog::AnalyzeQuizDialog(QuizEngine* qe, WordEngine* we, QWidget*
     connect(incorrectModel, SIGNAL(wordsChanged()),
             incorrectView, SLOT(resizeItemsToContents()));
     incorrectView->setModel(incorrectModel);
+    incorrectView->resizeItemsRecursively();
 
     QHBoxLayout* buttonHlay = new QHBoxLayout;
     buttonHlay->setSpacing(SPACING);

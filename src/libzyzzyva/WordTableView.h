@@ -3,7 +3,7 @@
 //
 // A class derived from QTableView, used to display word lists.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -41,6 +41,7 @@ class WordTableView : public QTreeView
     WordTableView(WordEngine* e, QWidget* parent = 0);
     virtual ~WordTableView() { }
     void resizeItemsRecursively();
+    void setColumnsVisibility();
 
     public slots:
     virtual void resizeItemsToContents();

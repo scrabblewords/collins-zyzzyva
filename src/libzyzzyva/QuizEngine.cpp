@@ -4,7 +4,7 @@
 // The engine for generating quizzes and keeping track of the user's
 // performance on each quiz.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -148,6 +148,7 @@ QuizEngine::newQuiz(const QuizSpec& spec)
                 unsigned int seed2 = spec.getRandomSeed2();
                 if (!seed2)
                     seed2 = Auxil::getPid();
+//                    seed2 = Rand::W0_INIT;
                 rng.setAlgorithm(spec.getRandomAlgorithm());
                 rng.srand(seed, seed2);
                 quizSpec.setRandomSeed(seed);
@@ -209,7 +210,7 @@ QuizEngine::newQuiz(const QuizSpec& spec)
                         bestValue = bestPlayValue.value(question);
                     }
 
-                    int value = wordEngine->getPlayabilityValue(lexicon, word);
+                    double value = wordEngine->getPlayabilityValue(lexicon, word);
                     if (!bestValue || (value > bestValue)) {
                         valueQuestions[bestValue].remove(question);
                         if (valueQuestions[bestValue].isEmpty())

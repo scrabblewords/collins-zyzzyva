@@ -3,7 +3,7 @@
 //
 // Auxiliary functions.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2005-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -50,6 +50,7 @@ namespace Auxil {
     QString getUserWordsDir();
     QString getUserDir();
     QString getUserConfigDir();
+    qulonglong getCryptHash();
     QString getLexiconPrefix(const QString& lexicon);
     QString getDatabaseFilename(const QString& lexicon);
     QString dialogWordWrap(const QString& str);

@@ -3,7 +3,7 @@
 //
 // A form for searching for words, patterns, anagrams, etc.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -61,7 +61,7 @@ class SearchForm : public ActionForm
 
     public slots:
     void search();
-    void updateResultTotal(int num);
+    void updateResultTotal(int num, int numGroups, bool grouped);
     void lexiconActivated(const QString& lexicon);
     void specChanged();
 

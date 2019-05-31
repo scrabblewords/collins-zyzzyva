@@ -3,7 +3,7 @@
 #
 # Build configuration file for Zyzzyva using qmake.
 #
-# Copyright 2016 Twilight Century Computing.
+# Copyright 2015-2016 Twilight Century Computing.
 # Copyright 2005-2012 North American SCRABBLE Players Association.
 #
 # This file is part of Zyzzyva.
@@ -26,4 +26,10 @@
 TEMPLATE = subdirs
 SUBDIRS = src
 CONFIG += qt thread warn_on assistant
-QT += sql xml network widgets gui webkit webkitwidgets printsupport
+QT += sql xml network widgets gui printsupport
+
+copydata.commands = $(COPY_DIR) $$PWD/data $$OUT_PWD/bin
+first.depends = $(first) copydata
+export(first.depends)
+export(copydata.commands)
+QMAKE_EXTRA_TARGETS += first copydata

@@ -3,7 +3,7 @@
 //
 // The main window for the word study application.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -113,7 +113,7 @@ class MainWindow : public QMainWindow
     virtual void closeEvent(QCloseEvent* event);
 
     private:
-    void setSplashMessage(const QString& message);
+    void setSplashMessage(const QString& message, const QColor& color = Qt::black);
     void fixTrolltechConfig();
     void updateSettings();
     void makeUserDirs();
@@ -155,6 +155,7 @@ class MainWindow : public QMainWindow
     QAction*     saveAction;
     QAction*     saveAsAction;
     QAction*     printAction;
+    QAction*     closeTabAction;
     QAction*     toolbarSaveAction;
     QAction*     toolbarSaveAsAction;
     QAction*     toolbarPrintAction;

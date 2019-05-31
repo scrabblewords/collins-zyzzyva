@@ -3,7 +3,7 @@
 //
 // A form for quizzing the user.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -133,7 +133,7 @@ QuizForm::QuizForm(WordEngine* we, QWidget* parent, Qt::WindowFlags f)
     unsavedChanges(false), cardboxQuiz(false),
     questionMarkedStatus(QuestionNotMarked), db(0),
     // FIXME: This dialog should be nonmodal!
-    analyzeDialog(new AnalyzeQuizDialog(quizEngine, we, this,
+    analyzeDialog(new AnalyzeQuizDialog(quizEngine, we, MainWindow::getInstance(),
                                         Qt::WindowMinMaxButtonsHint | Qt::WindowCloseButtonHint))
 {
     QFont titleFont = qApp->font();
@@ -220,6 +220,7 @@ QuizForm::QuizForm(WordEngine* we, QWidget* parent, Qt::WindowFlags f)
     connect(responseModel, SIGNAL(wordsChanged()),
             responseView, SLOT(resizeItemsToContents()));
     responseView->setModel(responseModel);
+    responseView->resizeItemsRecursively();
 
     // Correct status
     QHBoxLayout* correctStatusHlay = new QHBoxLayout;
@@ -1648,7 +1649,7 @@ QuizForm::startDisplayingCorrectAnswers()
     currentDisplayAnswer = -1;
     displayNextCorrectAnswer();
     if (responseModel->rowCount() > 1)
-        displayAnswerTimer->start(5000);
+        displayAnswerTimer->start(MainSettings::getQuizCycleAnswersPeriodMillisecs());
 }
 
 //---------------------------------------------------------------------------

@@ -3,7 +3,7 @@
 //
 // A widget for specifying a lexicon style.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -62,6 +62,7 @@ LexiconStyleWidget::LexiconStyleWidget(QWidget* parent, Qt::WindowFlags f)
     QStringList validLexicons;
     validLexicons.append(LEXICON_CSW12);
     validLexicons.append(LEXICON_CSW15);
+    validLexicons.append(LEXICON_CSW19);
     validLexicons.append(LEXICON_CUSTOM);
     validLexicons.append(LEXICON_VOLOST);
     qSort(validLexicons.begin(), validLexicons.end(),
@@ -70,7 +71,7 @@ LexiconStyleWidget::LexiconStyleWidget(QWidget* parent, Qt::WindowFlags f)
     QString defaultLexicon = MainSettings::getDefaultLexicon();
     int defaultIndex = validLexicons.indexOf(defaultLexicon);
     if (defaultIndex < 0)
-        defaultIndex = validLexicons.indexOf(LEXICON_CSW15);
+        defaultIndex = validLexicons.indexOf(LEXICON_CSW19);
 
     lexiconCombo = new QComboBox;
     Q_CHECK_PTR(lexiconCombo);

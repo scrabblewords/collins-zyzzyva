@@ -3,7 +3,7 @@
 //
 // The main Zyzzyva program.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2004-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -23,8 +23,10 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 //---------------------------------------------------------------------------
 
+#include "MainSettings.h"
 #include "MainWindow.h"
 #include "ZApplication.h"
+#include <QDesktopWidget>
 #include <QFile>
 #include <QObject>
 #include <QPixmap>
@@ -38,10 +40,13 @@ const QString SETTINGS_APPLICATION_NAME = "Collins Zyzzyva";
 
 int main(int argc, char** argv)
 {
-    ZApplication app(argc, argv);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    // JGM Testing
+    //app.setStyleSheet("* {background-color: red}");
     QCoreApplication::setOrganizationName(SETTINGS_ORGANIZATION_NAME);
     QCoreApplication::setOrganizationDomain(SETTINGS_DOMAIN_NAME);
     QCoreApplication::setApplicationName(SETTINGS_APPLICATION_NAME);
+    ZApplication app(argc, argv);
 
     QPixmap pixmap (":/zyzzyva-splash");
     QSplashScreen* splash = new QSplashScreen(pixmap);
@@ -53,11 +58,20 @@ int main(int argc, char** argv)
     window->tryAutoImport();
     window->tryConnectToDatabases();
 
-    window->show();
-    //TODO (JGM) Following line causes display problem for OSX, according to Anand.
-    window->setWindowState(Qt::WindowMaximized);
+#if defined(Q_OS_WIN)
+    QRect srect = qApp->desktop()->availableGeometry();
+    if ((MainSettings::getMainWindowPos().x() < 0) || (MainSettings::getMainWindowPos().y() < 0) ||
+        (MainSettings::getMainWindowPos().x() > srect.width()) ||
+        (MainSettings::getMainWindowPos().y() > srect.height()) ||
+        (MainSettings::getMainWindowSize().width() < 0) || (MainSettings::getMainWindowSize().height() < 0) ||
+        (MainSettings::getMainWindowSize().width() > srect.width()) ||
+        (MainSettings::getMainWindowSize().height() > srect.height()))
+        window->setWindowState(Qt::WindowMaximized);
+#endif
+
     splash->finish(window);
     delete splash;
+    window->show();
 
     // Now that the splash screen is gone, process any database errors
     window->processDatabaseErrors();
@@ -71,7 +85,7 @@ int main(int argc, char** argv)
         window->processArguments(args);
     }
 
-#if not defined Z_LINUX
+#ifndef Z_LINUX
     // Handle file open requests
     QStringList files = app.getFileOpenRequests();
     foreach (const QString& file, files) {
@@ -85,3 +99,4 @@ int main(int argc, char** argv)
 
     return app.exec();
 }
+

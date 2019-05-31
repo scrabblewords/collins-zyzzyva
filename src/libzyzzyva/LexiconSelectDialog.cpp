@@ -3,7 +3,7 @@
 //
 // A dialog for selecting the lexicons to be loaded and used.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
@@ -84,12 +84,13 @@ LexiconSelectDialog::LexiconSelectDialog(QWidget* parent, Qt::WindowFlags f)
 
     QLabel* dateHeaderLabel = new QLabel;
     Q_CHECK_PTR(dateHeaderLabel);
-    dateHeaderLabel->setText("Date");
+    dateHeaderLabel->setText("Valid Date");
     mainGlay->addWidget(dateHeaderLabel, 0, 4, Qt::AlignHCenter);
 
     QStringList validLexicons;
     validLexicons.append(LEXICON_CSW12);
     validLexicons.append(LEXICON_CSW15);
+    validLexicons.append(LEXICON_CSW19);
     validLexicons.append(LEXICON_VOLOST);
     validLexicons.append(LEXICON_CUSTOM);
 

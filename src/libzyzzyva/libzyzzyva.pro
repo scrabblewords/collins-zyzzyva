@@ -3,7 +3,7 @@
 #
 # Build configuration file for Zyzzyva using qmake.
 #
-# Copyright 2016 Twilight Century Computing.
+# Copyright 2015-2016 Twilight Century Computing.
 # Copyright 2005-2012 North American SCRABBLE Players Association.
 #
 # This file is part of Zyzzyva.
@@ -24,9 +24,10 @@
 #---------------------------------------------------------------------------
 
 TEMPLATE = lib
-TARGET = zyzzyva
+TARGET = zyzzyva5
 CONFIG += qt thread warn_on assistant
-QT += sql xml network widgets gui webkit webkitwidgets printsupport
+#win32-msvc*:CONFIG += staticlib
+QT += sql xml network widgets gui printsupport
 
 ROOT = ../..
 DESTDIR = $$ROOT/bin
@@ -35,14 +36,14 @@ OBJECTS_DIR = build/obj
 INCLUDEPATH += build/moc
 DEPENDPATH += build/moc
 
-include($$ROOT/zyzzyva.pri)
+#include($$ROOT/zyzzyva.pri)
 
-unix {
-    VERSION = $$system(cat $$ROOT/VERSION)
-}
-win32 {
-    VERSION = $$system(type ..\..\VERSION)
-}
+#unix {
+#    VERSION = $$system(cat $$ROOT/VERSION)
+#}
+#win32 {
+#    VERSION = $$system(type ..\..\VERSION)
+#}
 
 # Source files
 SOURCES = \

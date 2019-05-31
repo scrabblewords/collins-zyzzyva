@@ -4,7 +4,7 @@
 // A file for temporary hacks.  If any source files actually include this
 // file, something is wrong.
 //
-// Copyright 2016 Twilight Century Computing.
+// Copyright 2015-2016 Twilight Century Computing.
 // Copyright 2008-2012 North American SCRABBLE Players Association.
 //
 // This file is part of Zyzzyva.
